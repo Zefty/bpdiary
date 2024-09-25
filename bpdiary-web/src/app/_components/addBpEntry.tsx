@@ -7,13 +7,15 @@ import {
   CardHeader,
   CardTitle,
 } from "~/app/_components/shadcn/card";
-import { Input } from "~/app/_components/shadcn/input";
 import { Label } from "~/app/_components/shadcn/label";
 import { LogBp } from "~/server/actions/server-actions";
+import { Textarea } from "./shadcn/textarea";
+import { DateTimePicker } from "./dateTimePicker";
+import NumberPicker from "./numberPicker";
 
 export default async function AddBpEntry() {
   return (
-    <Card className="my-20 w-[500px] border-0 shadow-none">
+    <Card className="my-10 w-[500px] border-0 shadow-none">
       <CardHeader>
         <CardTitle>Log Measurement</CardTitle>
         <CardDescription>Log new blood pressure measurement.</CardDescription>
@@ -21,28 +23,36 @@ export default async function AddBpEntry() {
       <CardContent>
         <form id="logBpForm" action={LogBp}>
           <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Date</Label>
-              <Input id="name" placeholder="Name of your project" />
+            <div className="flex flex-row items-center">
+              <Label htmlFor="name" className="grow">
+                Date
+              </Label>
+              <DateTimePicker defaultDate={new Date()} />
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Blood Pressure</Label>
             </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Systolic</Label>
-              <Input id="name" placeholder="Name of your project" />
+            <div className="flex flex-row items-center">
+              <Label htmlFor="name" className="grow">
+                Systolic
+              </Label>
+              <NumberPicker />
             </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Diastolic</Label>
-              <Input id="name" placeholder="Name of your project" />
+            <div className="flex flex-row items-center">
+              <Label htmlFor="name" className="grow">
+                Diastolic
+              </Label>
+              <NumberPicker />
             </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Pulse</Label>
-              <Input id="name" placeholder="Name of your project" />
+            <div className="flex flex-row items-center">
+              <Label htmlFor="name" className="grow">
+                Pulse
+              </Label>
+              <NumberPicker />
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Notes</Label>
-              <Input id="name" placeholder="Name of your project" />
+              <Textarea id="name" placeholder="Add some notes here ..." />
             </div>
           </div>
         </form>

@@ -19,7 +19,7 @@ import {
 
 export function NavBar() {
   return (
-    <div className="absolute inset-x-0 bottom-0 z-50 flex h-20 justify-center">
+    <div className="fixed inset-x-0 bottom-0 z-50 flex h-20 justify-center border bg-white shadow-sm">
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
