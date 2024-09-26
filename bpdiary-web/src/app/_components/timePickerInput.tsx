@@ -1,7 +1,7 @@
 import { Input } from "~/app/_components/shadcn/input";
 
 import { cn } from "~/lib/utils";
-import React from "react";
+import React, { useImperativeHandle, useRef } from "react";
 import {
   Period,
   TimePickerType,
@@ -9,6 +9,12 @@ import {
   getDateByType,
   setDateByType,
 } from "./timePickerUtils";
+
+export interface TimePickerInputRefs {
+  value: string;
+  reset: () => void;
+  focus: () => void;
+}
 
 export interface TimePickerInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -21,7 +27,7 @@ export interface TimePickerInputProps
 }
 
 const TimePickerInput = React.forwardRef<
-  HTMLInputElement,
+  TimePickerInputRefs,
   TimePickerInputProps
 >(
   (
@@ -43,6 +49,7 @@ const TimePickerInput = React.forwardRef<
     },
     ref,
   ) => {
+    const inputRef = useRef<HTMLInputElement>(null);
     const [flag, setFlag] = React.useState<boolean>(false);
     const [prevIntKey, setPrevIntKey] = React.useState<string>("0");
 
@@ -63,6 +70,16 @@ const TimePickerInput = React.forwardRef<
     const calculatedValue = React.useMemo(() => {
       return getDateByType(date, picker);
     }, [date, picker]);
+
+    useImperativeHandle(
+      ref,
+      () => ({
+        value: calculatedValue,
+        reset: () => setDate(new Date()),
+        focus: () => inputRef.current?.focus(),
+      }),
+      [],
+    );
 
     const calculateNewValue = (key: string) => {
       /*
@@ -102,7 +119,7 @@ const TimePickerInput = React.forwardRef<
 
     return (
       <Input
-        ref={ref}
+        ref={inputRef}
         id={id || picker}
         name={name || picker}
         className={cn(

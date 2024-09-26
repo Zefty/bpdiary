@@ -1,17 +1,24 @@
 "use client";
 
-import * as React from "react";
-import { add, format } from "date-fns";
-
 import { TimePicker } from "./timePicker";
-import { DatePicker } from "./datePicker";
+import { DatePicker, DatePickerRefs } from "./datePicker";
+import { forwardRef, useRef } from "react";
 
-export function DateTimePicker({ defaultDate }: { defaultDate?: Date }) {
-  return (
-    <DatePicker defaultDate={defaultDate}>
-      <div className="border-t border-border p-3">
-        <TimePicker />
-      </div>
-    </DatePicker>
-  );
+export interface DateTimePickerRefs extends DatePickerRefs {}
+
+export interface DateTimePickerProps {
+  name?: string;
+  defaultDate?: Date;
 }
+
+export const DateTimePicker = forwardRef<DatePickerRefs, DateTimePickerProps>(
+  ({ name, defaultDate }, ref) => {
+    return (
+      <DatePicker name={name} defaultDate={defaultDate} ref={ref}>
+        <div className="border-t border-border p-3">
+          <TimePicker />
+        </div>
+      </DatePicker>
+    );
+  },
+);
