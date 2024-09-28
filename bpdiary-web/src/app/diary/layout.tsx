@@ -6,7 +6,7 @@ export default function DiaryLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section>
+    <section className="flex h-screen flex-col">
       {children}
       <NavBar />
     </section>

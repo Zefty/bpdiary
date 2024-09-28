@@ -19,7 +19,7 @@ import {
 
 export function NavBar() {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 flex h-20 justify-center border bg-white shadow-sm">
+    <div className="sticky inset-x-0 bottom-0 z-50 mt-auto flex h-20 justify-center border bg-white shadow-sm">
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
@@ -53,7 +53,7 @@ export function NavBar() {
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link href="/diary" legacyBehavior passHref>
+            <Link href="/diary/history" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 <div className="flex flex-col items-center">
                   <BookHeart />
