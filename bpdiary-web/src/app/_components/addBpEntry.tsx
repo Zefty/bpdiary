@@ -51,6 +51,7 @@ export default function AddBpEntry() {
         <form
           id="logBpForm"
           action={async (formData: FormData) => {
+            sessionStorage.removeItem("scrollPosition");
             const success = await LogBp(formData);
             if (success) resetForm();
           }}

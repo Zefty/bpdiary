@@ -1,4 +1,4 @@
-import { NavBar } from "../_components/navBar";
+import Footer from "../_components/footer";
 
 export default function DiaryLayout({
   children,
@@ -6,9 +6,9 @@ export default function DiaryLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="flex h-screen flex-col">
+    <section className="flex h-screen w-screen flex-col">
       {children}
-      <NavBar />
+      <Footer />
     </section>
   );
 }

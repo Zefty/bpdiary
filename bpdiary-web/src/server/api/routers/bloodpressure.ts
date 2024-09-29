@@ -7,7 +7,7 @@ import {
 } from "~/server/api/trpc";
 import { bloodPressure } from "~/server/db/schema";
 import { BpLog } from "../shared/types";
-import { asc, count, eq, sql } from "drizzle-orm";
+import { and, desc, count, eq, gt, sql } from "drizzle-orm";
 
 export const bloodPressureRouter = createTRPCRouter({
   log: protectedProcedure.input(BpLog).mutation(async ({ ctx, input }) => {
@@ -53,5 +53,29 @@ export const bloodPressureRouter = createTRPCRouter({
           .from(bloodPressure)
           .where(eq(bloodPressure.loggedByUserId, ctx.session.user.id))
       )[0];
+    }),
+  getInfiniteDiary: protectedProcedure
+    .input(
+      z.object({
+        limit: z.number().min(1).max(100).nullish(),
+        cursor: z.number().nullish(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const data = await ctx.db
+        .select()
+        .from(bloodPressure)
+        .where(
+          and(
+            eq(bloodPressure.loggedByUserId, ctx.session.user.id),
+            input.cursor ? gt(bloodPressure.id, input.cursor) : undefined,
+          ),
+        )
+        .orderBy(desc(bloodPressure.id))
+        .limit(input.limit ?? 5);
+      return {
+        data,
+        nextCursor: data.length ? data[data.length - 1]?.id : null,
+      };
     }),
 });

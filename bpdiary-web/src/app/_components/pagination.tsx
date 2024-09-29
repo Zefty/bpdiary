@@ -23,7 +23,7 @@ export function PaginationDiary({
   const showThirdPaginationLink = maxPages > 2;
 
   return (
-    <Pagination className="inset-x-0">
+    <Pagination>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious href={`/diary/history?page=${prevPage}`} />
