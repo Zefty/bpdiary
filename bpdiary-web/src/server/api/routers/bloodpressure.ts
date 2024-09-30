@@ -7,7 +7,7 @@ import {
 } from "~/server/api/trpc";
 import { bloodPressure } from "~/server/db/schema";
 import { BpLog } from "../shared/types";
-import { and, desc, count, eq, gt, sql } from "drizzle-orm";
+import { and, desc, count, eq, lt, sql } from "drizzle-orm";
 
 export const bloodPressureRouter = createTRPCRouter({
   log: protectedProcedure.input(BpLog).mutation(async ({ ctx, input }) => {
@@ -33,7 +33,7 @@ export const bloodPressureRouter = createTRPCRouter({
         .select()
         .from(bloodPressure)
         .where(eq(bloodPressure.loggedByUserId, ctx.session.user.id))
-        .orderBy(asc(bloodPressure.id))
+        .orderBy(desc(bloodPressure.id))
         .limit(input.limit)
         .offset(input.page * input.limit - input.limit);
     }),
@@ -68,7 +68,7 @@ export const bloodPressureRouter = createTRPCRouter({
         .where(
           and(
             eq(bloodPressure.loggedByUserId, ctx.session.user.id),
-            input.cursor ? gt(bloodPressure.id, input.cursor) : undefined,
+            input.cursor ? lt(bloodPressure.id, input.cursor) : undefined,
           ),
         )
         .orderBy(desc(bloodPressure.id))

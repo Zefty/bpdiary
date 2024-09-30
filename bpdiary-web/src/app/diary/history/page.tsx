@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import BpEntryHistory from "~/app/_components/bpEntryHistory";
+import BpDiaryHistory from "~/app/_components/bpDiaryHistory";
 import { ScrollArea } from "~/app/_components/shadcn/scroll-area";
 import { api, HydrateClient } from "~/trpc/server";
 
@@ -18,7 +18,7 @@ export default async function History({
   await api.bloodPressure.getInfiniteDiary.prefetchInfinite({});
   return (
     <HydrateClient>
-      <BpEntryHistory />
+      <BpDiaryHistory />
       {/* <PaginationDiary currentPage={page} maxPages={maxPages?.pages} /> */}
     </HydrateClient>
   );
