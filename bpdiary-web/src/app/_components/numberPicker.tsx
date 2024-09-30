@@ -20,12 +20,13 @@ export interface NumberPickerProps {
   id?: string;
   name?: string;
   type?: string;
+  defaultValue?: number | null;
 }
 
 export const NumberPicker = forwardRef<NumberPickerRefs, NumberPickerProps>(
-  ({ className, id, name, type }, ref) => {
+  ({ className, id, name, type, defaultValue }, ref) => {
     const inputRef = useRef<HTMLInputElement>(null);
-    const [value, setValue] = useState<number>(0);
+    const [value, setValue] = useState<number>(defaultValue ?? 0);
     useImperativeHandle(
       ref,
       () => ({

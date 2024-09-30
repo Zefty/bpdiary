@@ -8,4 +8,7 @@ export const BpLog = z.object({
   notes: z.string().optional(),
 });
 
+export const BpLogWithId = BpLog.extend({ id: z.number().int() });
+
 export type BpLog = z.infer<typeof BpLog>;
+export type BpLogWithId = z.infer<typeof BpLogWithId>;

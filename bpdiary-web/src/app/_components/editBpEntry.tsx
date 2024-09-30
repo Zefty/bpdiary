@@ -1,22 +1,27 @@
 "use client";
 
 import { Button } from "~/app/_components/shadcn/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/app/_components/shadcn/card";
+import { Input } from "~/app/_components/shadcn/input";
 import { Label } from "~/app/_components/shadcn/label";
-import { LogBp } from "~/server/actions/server-actions";
-import { Textarea } from "./shadcn/textarea";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "~/app/_components/shadcn/sheet";
+import { EditBp } from "~/server/actions/server-actions";
 import { DateTimePicker, DateTimePickerRefs } from "./dateTimePicker";
 import { NumberPicker, NumberPickerRefs } from "./numberPicker";
-import { useRef } from "react";
+import { Textarea } from "./shadcn/textarea";
+import { useContext, useRef } from "react";
+import { EditBpEntryContext } from "./bpDiaryHistory";
 
-export default function AddBpEntry() {
+export default function EditBpEntry() {
+  const editBpEntryContext = useContext(EditBpEntryContext);
   const dateTimePickerRef = useRef<DateTimePickerRefs>(null);
   const systolicRef = useRef<NumberPickerRefs>(null);
   const diastolicRef = useRef<NumberPickerRefs>(null);
@@ -40,20 +45,23 @@ export default function AddBpEntry() {
       notesRef.current.value = "";
     }
   };
-
+  const bpEntryData = editBpEntryContext?.bpEntryData;
+  const editBpWithId = EditBp.bind(null, bpEntryData?.id);
   return (
-    <Card className="my-10 w-[500px] border-0 shadow-none">
-      <CardHeader>
-        <CardTitle>Log Measurement</CardTitle>
-        <CardDescription>Log new blood pressure measurement.</CardDescription>
-      </CardHeader>
-      <CardContent>
+    <Sheet
+      open={editBpEntryContext?.openEditBpEntry}
+      onOpenChange={editBpEntryContext?.setOpenEditBpEntry}
+    >
+      <SheetContent side="bottom" className="flex flex-col items-center">
+        <SheetTitle>Edit Measurement</SheetTitle>
+        <SheetDescription>Edit blood pressure measurement.</SheetDescription>
         <form
-          id="logBpForm"
+          className="w-[500px]"
+          id="editBpForm"
           action={async (formData: FormData) => {
-            sessionStorage.removeItem("scrollPosition");
-            const success = await LogBp(formData);
-            if (success) resetForm();
+            const success = await editBpWithId(formData);
+            console.log(success);
+            // if (success) resetForm();
           }}
         >
           <div className="grid w-full items-center gap-4">
@@ -63,7 +71,7 @@ export default function AddBpEntry() {
               </Label>
               <DateTimePicker
                 name="datetime"
-                defaultDate={new Date()}
+                defaultDate={bpEntryData?.createdAt ?? new Date()}
                 ref={dateTimePickerRef}
               />
             </div>
@@ -74,19 +82,31 @@ export default function AddBpEntry() {
               <Label htmlFor="name" className="grow">
                 Systolic
               </Label>
-              <NumberPicker name="systolic" ref={systolicRef} />
+              <NumberPicker
+                name="systolic"
+                ref={systolicRef}
+                defaultValue={bpEntryData?.systolic}
+              />
             </div>
             <div className="flex flex-row items-center">
               <Label htmlFor="name" className="grow">
                 Diastolic
               </Label>
-              <NumberPicker name="diastolic" ref={diastolicRef} />
+              <NumberPicker
+                name="diastolic"
+                ref={diastolicRef}
+                defaultValue={bpEntryData?.diastolic}
+              />
             </div>
             <div className="flex flex-row items-center">
               <Label htmlFor="name" className="grow">
                 Pulse
               </Label>
-              <NumberPicker name="pulse" ref={pulseRef} />
+              <NumberPicker
+                name="pulse"
+                ref={pulseRef}
+                defaultValue={bpEntryData?.pulse}
+              />
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Notes</Label>
@@ -94,24 +114,19 @@ export default function AddBpEntry() {
                 name="notes"
                 placeholder="Add some notes here ..."
                 ref={notesRef}
+                defaultValue={bpEntryData?.notes ?? ""}
               />
             </div>
           </div>
         </form>
-      </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button
-          variant="outline"
-          type="reset"
-          form="logBpForm"
-          onClick={resetForm}
-        >
-          Clear
-        </Button>
-        <Button type="submit" form="logBpForm">
-          Log
-        </Button>
-      </CardFooter>
-    </Card>
+        <SheetFooter>
+          <SheetClose asChild>
+            <Button type="submit" form="editBpForm">
+              Save changes
+            </Button>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
 }

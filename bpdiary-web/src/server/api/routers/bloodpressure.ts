@@ -6,7 +6,7 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 import { bloodPressure } from "~/server/db/schema";
-import { BpLog } from "../shared/types";
+import { BpLog, BpLogWithId } from "../shared/types";
 import { and, desc, count, eq, lt, sql } from "drizzle-orm";
 
 export const bloodPressureRouter = createTRPCRouter({
@@ -21,6 +21,26 @@ export const bloodPressureRouter = createTRPCRouter({
       notes: input.notes,
     });
   }),
+  editLog: protectedProcedure
+    .input(BpLogWithId)
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db
+        .update(bloodPressure)
+        .set({
+          createdAt: input.datetime,
+          updatedAt: new Date(),
+          systolic: input.systolic,
+          diastolic: input.diastolic,
+          pulse: input.pulse,
+          notes: input.notes,
+        })
+        .where(
+          and(
+            eq(bloodPressure.id, input.id),
+            eq(bloodPressure.loggedByUserId, ctx.session.user.id),
+          ),
+        );
+    }),
   getPaginatedDiary: protectedProcedure
     .input(
       z.object({

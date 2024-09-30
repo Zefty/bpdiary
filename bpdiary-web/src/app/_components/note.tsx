@@ -36,9 +36,9 @@ export default function Note({ note }: { note?: string | null }) {
 
   return (
     <div>
-      <p ref={ref} className={`${!isShowingMore && "line-clamp-1"}`}>
+      <div ref={ref} className={`${!isShowingMore && "line-clamp-1"}`}>
         {note}
-      </p>
+      </div>
       {isTruncated && (
         <button onClick={toggleIsShowingMore}>
           {isShowingMore ? "Show less" : "Show more"}

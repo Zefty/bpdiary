@@ -19,3 +19,20 @@ export async function LogBp(formData: FormData) {
     return false;
   }
 }
+
+export async function EditBp(entryId: number | undefined, formData: FormData) {
+  console.log("Editing BP entry");
+  console.log(entryId);
+  console.log(formData);
+
+  try {
+    if (entryId === undefined) throw new Error("Entry ID is undefined");
+    const bpLog = parseData(preprocessFormData(formData, BpLog), BpLog);
+    await api.bloodPressure.editLog({ ...bpLog, id: entryId });
+    revalidatePath("/diary/history");
+    return true;
+  } catch (error) {
+    console.error("Failed to parse data", error);
+    return false;
+  }
+}
