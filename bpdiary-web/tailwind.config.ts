@@ -6,6 +6,9 @@ export default {
     content: ["./src/**/*.tsx"],
   theme: {
   	extend: {
+		fontSize: {
+			xxs: ["0.5rem", { lineHeight: "1rem" }],
+		},
   		fontFamily: {
   			sans: ["var(--font-geist-sans)", ...fontFamily.sans]
   		},

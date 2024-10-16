@@ -6,8 +6,10 @@ export default function DiaryLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="flex h-screen w-screen flex-col">
-      {children}
+    <section className="flex flex-col h-screen max-h-screen">
+      <div className="flex-1">
+        {children}
+      </div>
       <Footer />
     </section>
   );

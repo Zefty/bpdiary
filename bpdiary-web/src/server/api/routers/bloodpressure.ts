@@ -7,7 +7,7 @@ import {
 } from "~/server/api/trpc";
 import { bloodPressure } from "~/server/db/schema";
 import { BpLog, BpLogWithId } from "../shared/types";
-import { and, desc, count, eq, lt, sql } from "drizzle-orm";
+import { and, desc, count, eq, lt, sql, asc, gte } from "drizzle-orm";
 
 export const bloodPressureRouter = createTRPCRouter({
   log: protectedProcedure.input(BpLog).mutation(async ({ ctx, input }) => {
@@ -98,4 +98,16 @@ export const bloodPressureRouter = createTRPCRouter({
         nextCursor: data.length ? data[data.length - 1]?.id : null,
       };
     }),
+  getMonthlyDiary: protectedProcedure.query(async ({ ctx }) => {
+    const now = new Date();
+
+    return await ctx.db
+      .select()
+      .from(bloodPressure)
+      .where(and(
+        eq(bloodPressure.loggedByUserId, ctx.session.user.id),
+        gte(bloodPressure.createdAt, new Date(now.getFullYear(), now.getMonth(), 1)),
+      ))
+      .orderBy(asc(bloodPressure.createdAt))
+  }),
 });

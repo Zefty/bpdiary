@@ -61,9 +61,8 @@ export default function BpDiaryHistory({
         setBpEntryData,
       }}
     >
-      \
       <ScrollArea
-        className="h-full"
+        className="h-full max-h-screen overflow-y-auto"
         ref={viewPortRef}
         onScrollCapture={(event) => {
           sessionStorage.setItem(
