@@ -33,17 +33,16 @@ export default function Note({ note }: { note?: string | null }) {
     useTruncatedElement({
       ref,
     });
-
   return (
     <div>
-      <div ref={ref} className={`${!isShowingMore && "line-clamp-1"}`}>
+      <div ref={ref} className={`${!isShowingMore && "line-clamp-1"} ${note ? "" : "h-5"}`}>
         {note}
       </div>
-      {isTruncated && (
+      {/* {isTruncated && (
         <button onClick={toggleIsShowingMore}>
           {isShowingMore ? "Show less" : "Show more"}
         </button>
-      )}
+      )} */}
     </div>
   );
 }

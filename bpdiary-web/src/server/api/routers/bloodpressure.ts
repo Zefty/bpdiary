@@ -8,6 +8,7 @@ import {
 import { bloodPressure } from "~/server/db/schema";
 import { BpLog, BpLogWithId } from "../shared/types";
 import { and, desc, count, eq, lt, sql, asc, gte } from "drizzle-orm";
+import { addDays, endOfMonth, startOfMonth, subDays } from "date-fns";
 
 export const bloodPressureRouter = createTRPCRouter({
   log: protectedProcedure.input(BpLog).mutation(async ({ ctx, input }) => {
@@ -98,16 +99,78 @@ export const bloodPressureRouter = createTRPCRouter({
         nextCursor: data.length ? data[data.length - 1]?.id : null,
       };
     }),
-  getMonthlyDiary: protectedProcedure.query(async ({ ctx }) => {
-    const now = new Date();
+  getMonthlyDiary: protectedProcedure
+    .input(
+      z.object({
+        year: z.number().int(),
+        month: z.number().int(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.db
+        .select()
+        .from(bloodPressure)
+        .where(
+          and(
+            eq(bloodPressure.loggedByUserId, ctx.session.user.id),
+            gte(bloodPressure.createdAt, new Date(input.year, input.month, 1)),
+          ),
+        )
+        .orderBy(asc(bloodPressure.createdAt));
+    }),
+  getMonthlyRollingDiary: protectedProcedure
+    .input(
+      z.object({
+        date: z.date(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const som = startOfMonth(input.date);
+      const eom = endOfMonth(som)
 
-    return await ctx.db
-      .select()
-      .from(bloodPressure)
-      .where(and(
-        eq(bloodPressure.loggedByUserId, ctx.session.user.id),
-        gte(bloodPressure.createdAt, new Date(now.getFullYear(), now.getMonth(), 1)),
-      ))
-      .orderBy(asc(bloodPressure.createdAt))
-  }),
+      const start = subDays(som, som.getDay());
+      const end = addDays(eom, 6 - eom.getDay());
+
+      return await ctx.db
+        .select()
+        .from(bloodPressure)
+        .where(
+          and(
+            eq(bloodPressure.loggedByUserId, ctx.session.user.id),
+            gte(bloodPressure.createdAt, start),
+            lt(bloodPressure.createdAt, end),
+          ),
+        )
+        .orderBy(desc(bloodPressure.createdAt));
+    }),
+  getMonthlyPaginatedDiary: protectedProcedure
+    .input(
+      z.object({
+        cursor: z.object({
+          year: z.number().int(),
+          month: z.number().int(),
+        }),
+        direction: z.enum(["forward", "backward"]).nullish(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const data = await ctx.db
+        .select()
+        .from(bloodPressure)
+        .where(
+          and(
+            eq(bloodPressure.loggedByUserId, ctx.session.user.id),
+            gte(
+              bloodPressure.createdAt,
+              new Date(input.cursor.year, input.cursor.month, 1),
+            ),
+          ),
+        )
+        .orderBy(asc(bloodPressure.createdAt));
+      return {
+        data,
+        // nextCursor: {year: input.cursor.year, month: input.cursor.month + 1},
+        // previousCursor: {year: input.cursor.year, month: input.cursor.month - 1},
+      };
+    }),
 });

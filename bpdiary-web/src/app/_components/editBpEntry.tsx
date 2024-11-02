@@ -52,7 +52,7 @@ export default function EditBpEntry() {
       open={editBpEntryContext?.openEditBpEntry}
       onOpenChange={editBpEntryContext?.setOpenEditBpEntry}
     >
-      <SheetContent side="bottom" className="flex flex-col items-center">
+      <SheetContent side="right" className="sm:max-w-[750px] flex flex-col items-center">
         <SheetTitle>Edit Measurement</SheetTitle>
         <SheetDescription>Edit blood pressure measurement.</SheetDescription>
         <form

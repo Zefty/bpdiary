@@ -109,3 +109,7 @@ export interface EditBpEntryContext {
 export const EditBpEntryContext = createContext<EditBpEntryContext | undefined>(
   undefined,
 );
+
+export const UseEditBpEntry = () => {
+  return React.useContext(EditBpEntryContext);
+};
