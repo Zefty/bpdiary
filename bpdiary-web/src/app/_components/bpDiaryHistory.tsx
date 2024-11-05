@@ -61,7 +61,6 @@ export default function BpDiaryHistory({
         setBpEntryData,
       }}
     >
-      \
       <ScrollArea
         className="h-full"
         ref={viewPortRef}

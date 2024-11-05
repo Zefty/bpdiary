@@ -6,6 +6,14 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const DateMonthShortFormat = new Intl.DateTimeFormat("us", {
+  month: "short",
+});
+
+export const DateMonthLongFormat = new Intl.DateTimeFormat("us", {
+  month: "long",
+});
+
 export function parseData<T extends z.ZodTypeAny>(data: unknown, schema: T) {
   return schema.parse(data) as z.infer<T>;
 }

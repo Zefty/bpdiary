@@ -7,7 +7,8 @@ import {
 } from "~/server/api/trpc";
 import { bloodPressure } from "~/server/db/schema";
 import { BpLog, BpLogWithId } from "../shared/types";
-import { and, desc, count, eq, lt, sql } from "drizzle-orm";
+import { and, desc, count, eq, lt, sql, asc, between, avg } from "drizzle-orm";
+import { date } from "drizzle-orm/pg-core";
 
 export const bloodPressureRouter = createTRPCRouter({
   log: protectedProcedure.input(BpLog).mutation(async ({ ctx, input }) => {
@@ -98,4 +99,263 @@ export const bloodPressureRouter = createTRPCRouter({
         nextCursor: data.length ? data[data.length - 1]?.id : null,
       };
     }),
+  getPastSevenDaysDiary: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.db
+      .select({
+        createdAtDate: sql`${bloodPressure.createdAt}::DATE`
+          .mapWith((value: Date) => new Date(value))
+          .as("createdAtDate"),
+        avgSystolic: sql<number>`AVG(${bloodPressure.systolic})`,
+        avgDiastolic: sql<number>`AVG(${bloodPressure.diastolic})`,
+        avgPulse: sql<number>`AVG(${bloodPressure.pulse})`,
+      })
+      .from(bloodPressure)
+      .where(
+        and(
+          eq(bloodPressure.loggedByUserId, ctx.session.user.id),
+          sql`${bloodPressure.createdAt} >= CURRENT_DATE - 6`,
+        ),
+      )
+      .groupBy(
+        sql`${bloodPressure.createdAt}::DATE`.mapWith(
+          (value: Date) => new Date(value),
+        ),
+        bloodPressure.loggedByUserId,
+      )
+      .orderBy(
+        asc(
+          sql`${bloodPressure.createdAt}::DATE`.mapWith(
+            (value: Date) => new Date(value),
+          ),
+        ),
+      );
+  }),
+  getPastMonthDiary: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.db
+      .select({
+        createdAtDate: sql`${bloodPressure.createdAt}::DATE`
+          .mapWith((value: Date) => new Date(value))
+          .as("createdAtDate"),
+        avgSystolic: sql<number>`AVG(${bloodPressure.systolic})`,
+        avgDiastolic: sql<number>`AVG(${bloodPressure.diastolic})`,
+        avgPulse: sql<number>`AVG(${bloodPressure.pulse})`,
+      })
+      .from(bloodPressure)
+      .where(
+        and(
+          eq(bloodPressure.loggedByUserId, ctx.session.user.id),
+          sql`${bloodPressure.createdAt} >= CURRENT_DATE - 30`,
+        ),
+      )
+      .groupBy(
+        sql`${bloodPressure.createdAt}::DATE`.mapWith(
+          (value: Date) => new Date(value),
+        ),
+        bloodPressure.loggedByUserId,
+      )
+      .orderBy(
+        asc(
+          sql`${bloodPressure.createdAt}::DATE`.mapWith(
+            (value: Date) => new Date(value),
+          ),
+        ),
+      );
+  }),
+  getPastYearDiary: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.db
+      .select({
+        createdAtDate: sql`${bloodPressure.createdAt}::DATE`
+          .mapWith((value: Date) => new Date(value))
+          .as("createdAtDate"),
+        avgSystolic: sql<number>`AVG(${bloodPressure.systolic})`,
+        avgDiastolic: sql<number>`AVG(${bloodPressure.diastolic})`,
+        avgPulse: sql<number>`AVG(${bloodPressure.pulse})`,
+      })
+      .from(bloodPressure)
+      .where(
+        and(
+          eq(bloodPressure.loggedByUserId, ctx.session.user.id),
+          sql`${bloodPressure.createdAt} >= CURRENT_DATE - 365`,
+        ),
+      )
+      .groupBy(
+        sql`${bloodPressure.createdAt}::DATE`.mapWith(
+          (value: Date) => new Date(value),
+        ),
+        bloodPressure.loggedByUserId,
+      )
+      .orderBy(
+        asc(
+          sql`${bloodPressure.createdAt}::DATE`.mapWith(
+            (value: Date) => new Date(value),
+          ),
+        ),
+      );
+  }),
+  getThisWeekDiary: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.db
+      .select({
+        createdAtDate: sql`${bloodPressure.createdAt}::DATE`
+          .mapWith((value: Date) => new Date(value))
+          .as("createdAtDate"),
+        avgSystolic: sql<number>`AVG(${bloodPressure.systolic})`,
+        avgDiastolic: sql<number>`AVG(${bloodPressure.diastolic})`,
+        avgPulse: sql<number>`AVG(${bloodPressure.pulse})`,
+      })
+      .from(bloodPressure)
+      .where(
+        and(
+          eq(bloodPressure.loggedByUserId, ctx.session.user.id),
+          sql`${bloodPressure.createdAt} >= date_trunc('week', CURRENT_DATE)`,
+        ),
+      )
+      .groupBy(
+        sql`${bloodPressure.createdAt}::DATE`.mapWith(
+          (value: Date) => new Date(value),
+        ),
+        bloodPressure.loggedByUserId,
+      )
+      .orderBy(
+        asc(
+          sql`${bloodPressure.createdAt}::DATE`.mapWith(
+            (value: Date) => new Date(value),
+          ),
+        ),
+      );
+  }),
+  getThisMonthDiary: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.db
+      .select({
+        createdAtDate: sql`${bloodPressure.createdAt}::DATE`
+          .mapWith((value: Date) => new Date(value))
+          .as("createdAtDate"),
+        avgSystolic: sql<number>`AVG(${bloodPressure.systolic})`,
+        avgDiastolic: sql<number>`AVG(${bloodPressure.diastolic})`,
+        avgPulse: sql<number>`AVG(${bloodPressure.pulse})`,
+      })
+      .from(bloodPressure)
+      .where(
+        and(
+          eq(bloodPressure.loggedByUserId, ctx.session.user.id),
+          sql`${bloodPressure.createdAt} >= date_trunc('month', CURRENT_DATE)`,
+        ),
+      )
+      .groupBy(
+        sql`${bloodPressure.createdAt}::DATE`.mapWith(
+          (value: Date) => new Date(value),
+        ),
+        bloodPressure.loggedByUserId,
+      )
+      .orderBy(
+        asc(
+          sql`${bloodPressure.createdAt}::DATE`.mapWith(
+            (value: Date) => new Date(value),
+          ),
+        ),
+      );
+  }),
+  getThisYearDiary: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.db
+      .select({
+        createdAtDate: sql`${bloodPressure.createdAt}::DATE`
+          .mapWith((value: Date) => new Date(value))
+          .as("createdAtDate"),
+        avgSystolic: sql<number>`AVG(${bloodPressure.systolic})`,
+        avgDiastolic: sql<number>`AVG(${bloodPressure.diastolic})`,
+        avgPulse: sql<number>`AVG(${bloodPressure.pulse})`,
+      })
+      .from(bloodPressure)
+      .where(
+        and(
+          eq(bloodPressure.loggedByUserId, ctx.session.user.id),
+          sql`${bloodPressure.createdAt} >= date_trunc('year', CURRENT_DATE)`,
+        ),
+      )
+      .groupBy(
+        sql`${bloodPressure.createdAt}::DATE`.mapWith(
+          (value: Date) => new Date(value),
+        ),
+        bloodPressure.loggedByUserId,
+      )
+      .orderBy(
+        asc(
+          sql`${bloodPressure.createdAt}::DATE`.mapWith(
+            (value: Date) => new Date(value),
+          ),
+        ),
+      );
+  }),
+  getWholeDiary: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.db
+      .select({
+        createdAtDate: sql`${bloodPressure.createdAt}::DATE`
+          .mapWith((value: Date) => new Date(value))
+          .as("createdAtDate"),
+        avgSystolic: sql<number>`AVG(${bloodPressure.systolic})`,
+        avgDiastolic: sql<number>`AVG(${bloodPressure.diastolic})`,
+        avgPulse: sql<number>`AVG(${bloodPressure.pulse})`,
+      })
+      .from(bloodPressure)
+      .where(and(eq(bloodPressure.loggedByUserId, ctx.session.user.id)))
+      .groupBy(
+        sql`${bloodPressure.createdAt}::DATE`.mapWith(
+          (value: Date) => new Date(value),
+        ),
+        bloodPressure.loggedByUserId,
+      )
+      .orderBy(
+        asc(
+          sql`${bloodPressure.createdAt}::DATE`.mapWith(
+            (value: Date) => new Date(value),
+          ),
+        ),
+      );
+  }),
+  getAverageBpPerDayOfWeek: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.db
+      .select({
+        dayOfWeek: sql`EXTRACT(DOW FROM ${bloodPressure.createdAt})`
+          .mapWith(Number)
+          .as("dayOfWeek"),
+        avgSystolic: sql<number>`AVG(${bloodPressure.systolic})`,
+        avgDiastolic: sql<number>`AVG(${bloodPressure.diastolic})`,
+        avgPulse: sql<number>`AVG(${bloodPressure.pulse})`,
+      })
+      .from(bloodPressure)
+      .where(eq(bloodPressure.loggedByUserId, ctx.session.user.id))
+      .groupBy(
+        sql`EXTRACT(DOW FROM ${bloodPressure.createdAt})`.mapWith(Number),
+        bloodPressure.loggedByUserId,
+      )
+      .orderBy(
+        asc(sql`EXTRACT(DOW FROM ${bloodPressure.createdAt})`.mapWith(Number)),
+      );
+  }),
+  getIsBpRecordedMonthly: protectedProcedure.query(async ({ ctx }) => {
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+    return await ctx.db
+      .select({
+        createdAt: bloodPressure.createdAt,
+      })
+      .from(bloodPressure)
+      .where(
+        and(
+          eq(bloodPressure.loggedByUserId, ctx.session.user.id),
+          between(bloodPressure.createdAt, startOfMonth, endOfMonth),
+        ),
+      );
+  }),
+  getAverageMeasurements: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.db
+      .select({
+        avgSystolic: avg(bloodPressure.systolic),
+        avgDiastolic: avg(bloodPressure.diastolic),
+        avgPulse: avg(bloodPressure.pulse),
+      })
+      .from(bloodPressure)
+      .where(and(eq(bloodPressure.loggedByUserId, ctx.session.user.id)));
+  }),
 });

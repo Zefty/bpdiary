@@ -16,12 +16,22 @@ if ! [ -x "$(command -v docker)" ]; then
   exit 1
 fi
 
-if [ "$( docker container inspect -f '{{.State.Status}}' $DB_CONTAINER_NAME )" = "running" ]; then
+if [[ "$(docker ps 2>&1)" =~ "error during connect" ]]; then
+  echo "Docker daemon is not running. Trying to start Docker."
+  "C:\Program Files\Docker\Docker\Docker Desktop.exe"
+  echo -n "Waiting for Docker to start..."
+  while [[ "$(docker ps 2>&1)" =~ "error during connect" ]]; do 
+    echo -n "."
+    sleep 1
+  done
+fi
+
+if [[ "$(docker container inspect -f '{{.State.Status}}' $DB_CONTAINER_NAME )" =~ "running" ]]; then
   echo "Database container '$DB_CONTAINER_NAME' already running"
   exit 0
 fi
 
-if [ "$( docker container inspect -f '{{.State.Status}}' $DB_CONTAINER_NAME )" = "exited" ]; then
+if [[ "$(docker container inspect -f '{{.State.Status}}' $DB_CONTAINER_NAME )" =~ "exited" ]]; then
   docker start "$DB_CONTAINER_NAME"
   echo "Existing database container '$DB_CONTAINER_NAME' started"
   exit 0
