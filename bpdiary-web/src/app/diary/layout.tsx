@@ -9,17 +9,13 @@ export default function DiaryLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="flex h-screen max-h-screen flex-col">
-      <SidebarProvider>
-        <BpSidebar />
-        <main className="">
-          <Header />
-          <SidebarTrigger />
-          <Footer />
-        </main>
-      </SidebarProvider>
-      {/* <div className="flex-1">{children}</div> */}
-      
-    </section>
+    <SidebarProvider>
+      <BpSidebar />
+      <section className="w-full flex h-screen max-h-screen flex-col">
+        <Header />
+        <div className="flex-1">{children}</div>
+        <Footer />
+      </section>
+    </SidebarProvider>
   );
 }
