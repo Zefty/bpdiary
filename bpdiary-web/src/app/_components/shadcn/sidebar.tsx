@@ -18,7 +18,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/app/_components/shadcn/tooltip"
-import { useXLScreen } from "../hooks/useXLScreen"
+import { useIsTablet } from "../hooks/use-tablet"
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -34,7 +34,7 @@ type SidebarContext = {
   openMobile: boolean
   setOpenMobile: (open: boolean) => void
   isMobile: boolean
-  isXLScreen: boolean
+  isTablet: boolean
   toggleSidebar: () => void
 }
 
@@ -70,7 +70,7 @@ const SidebarProvider = React.forwardRef<
     ref
   ) => {
     const isMobile = useIsMobile()
-    const isXLScreen = useXLScreen()
+    const isTablet = useIsTablet()
     const [openMobile, setOpenMobile] = React.useState(false)
 
     // This is the internal state of the sidebar.
@@ -127,10 +127,10 @@ const SidebarProvider = React.forwardRef<
         isMobile,
         openMobile,
         setOpenMobile,
-        isXLScreen,
+        isTablet,
         toggleSidebar,
       }),
-      [state, open, setOpen, isMobile, openMobile, setOpenMobile, isXLScreen, toggleSidebar]
+      [state, open, setOpen, isMobile, openMobile, setOpenMobile, isTablet, toggleSidebar]
     )
 
     return (
@@ -179,10 +179,10 @@ const Sidebar = React.forwardRef<
     },
     ref
   ) => {
-    const { isMobile, isXLScreen, state, openMobile, setOpenMobile } = useSidebar()
+    const { isMobile, isTablet, state, openMobile, setOpenMobile } = useSidebar()
 
-    console.log(isXLScreen)
-    const finalState = isXLScreen ? "collapsed" : state
+    console.log(isTablet)
+    const finalState = isTablet ? "collapsed" : state
 
     if (collapsible === "none") {
       return (
