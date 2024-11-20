@@ -1,4 +1,4 @@
-import { User2, ChevronUp, ChevronDown, Home, Calendar, Inbox, Search, Settings, HeartPulse } from "lucide-react";
+import { User2, ChevronUp, ChevronDown, Home, Calendar, Inbox, Search, Settings, HeartPulse, ChartLine } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -12,31 +12,27 @@ import {
   SidebarMenuItem,
 } from "~/app/_components/shadcn/sidebar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./shadcn/dropdown-menu";
+import Link from "next/link";
 
 const items = [
   {
     title: "Home",
-    url: "#",
+    url: "/diary",
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
     title: "Calendar",
-    url: "#",
+    url: "/diary/history",
     icon: Calendar,
   },
   {
-    title: "Search",
-    url: "#",
-    icon: Search,
+    title: "Charts",
+    url: "/diary/charts",
+    icon: ChartLine,
   },
   {
     title: "Settings",
-    url: "#",
+    url: "/diary/settings",
     icon: Settings,
   },
 ]
@@ -53,7 +49,6 @@ export function BpSidebar() {
                   <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                     <HeartPulse />
                   </div>
-
                   Select Workspace
                   <ChevronDown className="ml-auto" />
                 </SidebarMenuButton>
@@ -78,10 +73,10 @@ export function BpSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
