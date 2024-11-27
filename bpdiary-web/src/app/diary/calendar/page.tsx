@@ -1,12 +1,11 @@
 import { addMonths, startOfMonth, subMonths } from "date-fns";
 import { notFound } from "next/navigation";
-import BpDiaryHistory from "~/app/_components/dailyDiaryHistory";
-import { CalendarHistory } from "~/app/_components/calendarHistory";
-import { CalendarHistoryContextProvider, RollingDiaryHistoryDataContextProvider } from "~/app/_components/diaryHistoryContexts";
 import { api, HydrateClient } from "~/trpc/server";
-import BpHistory from "~/app/_components/history";
+import BpCalendarView from "~/app/_components/bpCalendarView";
+import { BpCalendarContextProvider } from "~/app/_components/contexts/bpCaldendarContext";
+import { BpDataContextProvider } from "~/app/_components/contexts/bpDataContext";
 
-export default async function History({
+export default async function Calendar({
   searchParams,
 }: {
   searchParams: Record<string, string | string[] | undefined>;
@@ -48,12 +47,12 @@ export default async function History({
   // );
   return (
     <HydrateClient>
-      <CalendarHistoryContextProvider initialDate={today}>
-        <RollingDiaryHistoryDataContextProvider>
-          <BpHistory />
+      <BpCalendarContextProvider initialDate={today}>
+        <BpDataContextProvider>
+          <BpCalendarView />
           {/* <PaginationDiary currentPage={page} maxPages={maxPages?.pages} /> */}
-        </RollingDiaryHistoryDataContextProvider>
-      </CalendarHistoryContextProvider>
+        </BpDataContextProvider>
+      </BpCalendarContextProvider>
     </HydrateClient>
   );
 }

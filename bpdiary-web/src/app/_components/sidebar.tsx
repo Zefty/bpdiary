@@ -13,6 +13,7 @@ import {
 } from "~/app/_components/shadcn/sidebar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./shadcn/dropdown-menu";
 import Link from "next/link";
+import { getServerAuthSession } from "~/server/auth";
 
 const items = [
   {
@@ -22,7 +23,7 @@ const items = [
   },
   {
     title: "Calendar",
-    url: "/diary/history",
+    url: "/diary/calendar",
     icon: Calendar,
   },
   {
@@ -37,7 +38,8 @@ const items = [
   },
 ]
 
-export function BpSidebar() {
+export async function BpSidebar() {
+  const session = await getServerAuthSession();
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -90,7 +92,7 @@ export function BpSidebar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
-                  <User2 /> Username
+                  <User2 /> {session?.user?.name}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>

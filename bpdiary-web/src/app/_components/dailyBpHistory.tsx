@@ -3,26 +3,19 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 import { api, type RouterOutputs } from "~/trpc/react";
 import { ScrollArea } from "./shadcn/scroll-area";
-import DiaryEntryCard from "./diaryEntryCard";
 import EditBpEntry from "./editBpEntry";
 import { EditBpEntryContext } from "./bpDiaryHistory";
-import {
-  useCalendarHistory,
-  useRollingDiaryHistoryData,
-} from "./diaryHistoryContexts";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "./shadcn/card";
 import DailyDiaryHistoryCard from "./dailyDiaryHistoryCard";
+import { useBpDataContext } from "./contexts/bpDataContext";
+import { HeartPulse } from "lucide-react";
+import { useBpCalendarContext } from "./contexts/bpCaldendarContext";
+import { format } from "date-fns";
 
 type BloodPressureDiary = RouterOutputs["bloodPressure"]["getMonthlyDiary"];
 
-export default function DailyDiaryHistory() {
-  const dataContext = useRollingDiaryHistoryData();
+export default function DailyBpHistory() {
+  const calendarContext = useBpCalendarContext();
+  const dataContext = useBpDataContext();
   const displayHistory =
     (dataContext?.dataFilteredBySelectedDate?.length ?? 0) > 0;
 
@@ -58,10 +51,13 @@ export default function DailyDiaryHistory() {
         }}
       >
         {displayHistory ? (
-          <div className="flex flex-col items-center gap-2">
-            <h1 className="m-8 text-2xl font-semibold leading-none tracking-tight">
-              Measurements Today ❤️
-            </h1>
+          <div className="flex flex-col items-center gap-3 py-3">
+            <div className="h-10 flex items-center gap-3">
+              <h1 className="text-2xl font-semibold leading-none tracking-tight">
+                {format(calendarContext.selectedDate, "E, LLL d")}
+              </h1>
+              <HeartPulse />
+            </div>
             <EditBpEntry />
             <DailyDiaryHistoryCard />
           </div>

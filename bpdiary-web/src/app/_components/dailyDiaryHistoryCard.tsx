@@ -14,16 +14,14 @@ import Note from "./note";
 import { Button } from "./shadcn/button";
 import { Fragment, useContext } from "react";
 import { EditBpEntryContext, UseEditBpEntry } from "./bpDiaryHistory";
-import {
-  useCalendarHistory,
-  useRollingDiaryHistoryData,
-} from "./diaryHistoryContexts";
 import { Separator } from "./shadcn/separator";
+import { useBpCalendarContext } from "./contexts/bpCaldendarContext";
+import { useBpDataContext } from "./contexts/bpDataContext";
 
 export default function DailyDiaryHistoryCard() {
-  const calendarContext = useCalendarHistory();
+  const calendarContext = useBpCalendarContext();
+  const dataContext = useBpDataContext();
   const editBpEntryContext = UseEditBpEntry();
-  const dataContext = useRollingDiaryHistoryData();
   const data = dataContext?.dataFilteredBySelectedDate ?? [];
   return (
     data.length > 0 && (

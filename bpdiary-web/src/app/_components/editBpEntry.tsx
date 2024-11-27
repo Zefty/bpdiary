@@ -85,7 +85,7 @@ export default function EditBpEntry() {
               <NumberPicker
                 name="systolic"
                 ref={systolicRef}
-                defaultValue={bpEntryData?.systolic}
+                initialValue={bpEntryData?.systolic}
               />
             </div>
             <div className="flex flex-row items-center">
@@ -95,7 +95,7 @@ export default function EditBpEntry() {
               <NumberPicker
                 name="diastolic"
                 ref={diastolicRef}
-                defaultValue={bpEntryData?.diastolic}
+                initialValue={bpEntryData?.diastolic}
               />
             </div>
             <div className="flex flex-row items-center">
@@ -105,7 +105,7 @@ export default function EditBpEntry() {
               <NumberPicker
                 name="pulse"
                 ref={pulseRef}
-                defaultValue={bpEntryData?.pulse}
+                initialValue={bpEntryData?.pulse}
               />
             </div>
             <div className="flex flex-col space-y-1.5">
