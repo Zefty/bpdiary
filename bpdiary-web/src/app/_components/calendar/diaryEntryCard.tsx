@@ -8,12 +8,12 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./shadcn/card";
+} from "../shadcn/card";
 import { Gauge, HeartPulse, Pencil } from "lucide-react";
-import Note from "./note";
-import { Button } from "./shadcn/button";
+import Note from "../custom-inputs/note";
+import { Button } from "../shadcn/button";
 import { useContext } from "react";
-import { EditBpEntryContext } from "./bpDiaryHistory";
+import { EditBpEntryContext } from "../bpDiaryHistory";
 
 type BloodPressureDiary =
   RouterOutputs["bloodPressure"]["getInfiniteDiary"]["data"][0];

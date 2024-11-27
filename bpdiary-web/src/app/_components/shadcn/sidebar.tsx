@@ -5,7 +5,7 @@ import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
 import { Menu, PanelLeft } from "lucide-react"
 
-import { useIsMobile } from "~/app/_components/hooks/use-mobile"
+import { useIsMobile } from "~/app/_hooks/use-mobile"
 import { cn } from "~/lib/utils"
 import { Button } from "~/app/_components/shadcn/button"
 import { Input } from "~/app/_components/shadcn/input"
@@ -18,7 +18,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/app/_components/shadcn/tooltip"
-import { useIsTablet } from "../hooks/use-tablet"
+import { useIsTablet } from "../../_hooks/use-tablet"
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7

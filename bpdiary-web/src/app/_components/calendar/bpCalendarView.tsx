@@ -2,7 +2,7 @@
 import { BpCalendar } from "./bpCalendar";
 import DailyBpHistory from "./dailyBpHistory";
 import BpCalendarHeader from "./bpCalendarHeader";
-import { useScreenOrientation } from "./screenOrientation";
+import { useScreenOrientation } from "../../_hooks/screenOrientation";
 
 export default function BpCalendarView() {
   const screen = useScreenOrientation();

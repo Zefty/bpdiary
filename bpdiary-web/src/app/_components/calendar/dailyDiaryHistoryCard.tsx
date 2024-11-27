@@ -8,20 +8,20 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./shadcn/card";
+} from "../shadcn/card";
 import { ChevronRight, Gauge, HeartPulse, Pencil } from "lucide-react";
-import Note from "./note";
-import { Button } from "./shadcn/button";
+import Note from "../custom-inputs/note";
+import { Button } from "../shadcn/button";
 import { Fragment, useContext } from "react";
-import { EditBpEntryContext, UseEditBpEntry } from "./bpDiaryHistory";
-import { Separator } from "./shadcn/separator";
-import { useBpCalendarContext } from "./contexts/bpCaldendarContext";
-import { useBpDataContext } from "./contexts/bpDataContext";
+import { Separator } from "../shadcn/separator";
+import { useBpCalendarContext } from "../../_contexts/bpCaldendarContext";
+import { useBpDataContext } from "../../_contexts/bpDataContext";
+import { UseBpEntryContext } from "~/app/_contexts/bpEntryContext";
 
 export default function DailyDiaryHistoryCard() {
   const calendarContext = useBpCalendarContext();
   const dataContext = useBpDataContext();
-  const editBpEntryContext = UseEditBpEntry();
+  const bpEntryContext = UseBpEntryContext();
   const data = dataContext?.dataFilteredBySelectedDate ?? [];
   return (
     data.length > 0 && (
@@ -32,10 +32,10 @@ export default function DailyDiaryHistoryCard() {
               <div
                 className="group px-6 pt-6 hover:bg-accent"
                 onClick={() => {
-                  if (editBpEntryContext) {
-                    editBpEntryContext.setBpEntryData(entry);
-                    editBpEntryContext.setOpenEditBpEntry(
-                      !editBpEntryContext.openEditBpEntry,
+                  if (bpEntryContext) {
+                    bpEntryContext.setBpEntryData(entry);
+                    bpEntryContext.setOpenSheet(
+                      !bpEntryContext.openSheet,
                     );
                   }
                 }}

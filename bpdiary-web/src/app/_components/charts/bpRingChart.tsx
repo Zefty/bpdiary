@@ -21,7 +21,7 @@ import {
 import { ChartConfig, ChartContainer } from "~/app/_components/shadcn/chart"
 import { DateMonthLongFormat } from "~/lib/utils"
 import { api } from "~/trpc/react"
-import { Button } from "./shadcn/button"
+import { Button } from "../shadcn/button"
 
 export const description = "A radial chart with text"
 

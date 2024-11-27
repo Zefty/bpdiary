@@ -2,14 +2,15 @@
 
 import React, { useLayoutEffect, useRef, useState } from "react";
 import { api, type RouterOutputs } from "~/trpc/react";
-import { ScrollArea } from "./shadcn/scroll-area";
-import EditBpEntry from "./editBpEntry";
-import { EditBpEntryContext } from "./bpDiaryHistory";
+import { ScrollArea } from "../shadcn/scroll-area";
+import { EditBpEntryContext } from "../bpDiaryHistory";
 import DailyDiaryHistoryCard from "./dailyDiaryHistoryCard";
-import { useBpDataContext } from "./contexts/bpDataContext";
+import { useBpDataContext } from "../../_contexts/bpDataContext";
 import { HeartPulse } from "lucide-react";
-import { useBpCalendarContext } from "./contexts/bpCaldendarContext";
+import { useBpCalendarContext } from "../../_contexts/bpCaldendarContext";
 import { format } from "date-fns";
+import EditBpEntry from "../entry/editBpEntry";
+import { BpEntryContextProvider } from "~/app/_contexts/bpEntryContext";
 
 type BloodPressureDiary = RouterOutputs["bloodPressure"]["getMonthlyDiary"];
 
@@ -18,11 +19,7 @@ export default function DailyBpHistory() {
   const dataContext = useBpDataContext();
   const displayHistory =
     (dataContext?.dataFilteredBySelectedDate?.length ?? 0) > 0;
-
   const viewPortRef = useRef<HTMLDivElement>(null);
-
-  const [openEditBpEntry, setOpenEditBpEntry] = useState(false);
-  const [bpEntryData, setBpEntryData] = useState<BloodPressureDiary[0]>();
 
   useLayoutEffect(() => {
     if (viewPortRef.current) {
@@ -32,14 +29,7 @@ export default function DailyBpHistory() {
   });
 
   return (
-    <EditBpEntryContext.Provider
-      value={{
-        openEditBpEntry,
-        setOpenEditBpEntry,
-        bpEntryData,
-        setBpEntryData,
-      }}
-    >
+    <BpEntryContextProvider>
       <ScrollArea
         className="h-full max-h-screen overflow-y-auto"
         ref={viewPortRef}
@@ -69,6 +59,6 @@ export default function DailyBpHistory() {
           </div>
         )}
       </ScrollArea>
-    </EditBpEntryContext.Provider>
+    </BpEntryContextProvider>
   );
 }

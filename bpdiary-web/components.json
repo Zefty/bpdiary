@@ -15,6 +15,6 @@
     "utils": "~/lib/utils",
     "ui": "~/app/_components/shadcn",
     "lib": "~/lib",
-    "hooks": "~/app/_components/hooks"
+    "hooks": "~/app/_hooks"
   }
 }

@@ -1,13 +1,11 @@
-import AddBpEntry from "~/app/_components/addBpEntry";
-import BackPageButton from "~/app/_components/backPageButton";
+import AddBpEntry from "~/app/_components/add/addBpEntry";
+import BackPageButton from "~/app/_components/add/backPageButton";
 
 export default async function AddEntry() {
   return (
-    <div className="flex w-full flex-col">
-      <BackPageButton className="m-3"/>
-      <div className="flex justify-center">
-        <AddBpEntry />
-      </div>
+    <div className="flex justify-center w-full ">
+      <BackPageButton className="my-16"/>
+      <AddBpEntry />
     </div>
   );
 }

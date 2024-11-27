@@ -19,8 +19,8 @@ import {
 } from "~/app/_components/shadcn/chart";
 import { DateMonthShortFormat } from "~/lib/utils";
 import { api, RouterOutputs } from "~/trpc/react";
-import { Switch } from "./shadcn/switch";
-import { Label } from "./shadcn/label";
+import { Switch } from "../shadcn/switch";
+import { Label } from "../shadcn/label";
 import { useState } from "react";
 
 export const description = "A linear line chart";

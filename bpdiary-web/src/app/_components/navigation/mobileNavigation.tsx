@@ -1,8 +1,8 @@
 import { BookHeart, ChartLine, ChevronsUpIcon, CircleUser, HeartPulseIcon, LayoutDashboard, MountainIcon, SquarePlus } from "lucide-react";
-import { Button } from "./shadcn/button";
+import { Button } from "../shadcn/button";
 import Link, { type LinkProps } from "next/link";
 import { cva } from "class-variance-authority";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./shadcn/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../shadcn/dropdown-menu";
 import { cn } from "~/lib/utils";
 
 export default async function MobileNavigation() {

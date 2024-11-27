@@ -8,9 +8,9 @@ import { Calendar } from "~/app/_components/shadcn/calendar";
 import { ChevronLeft, ChevronRight, Gauge, HeartPulse } from "lucide-react";
 import { cn } from "~/lib/utils";
 import { addMonths, format, isSameDay, subMonths } from "date-fns";
-import { useBpCalendarContext } from "./contexts/bpCaldendarContext";
-import { useBpDataContext } from "./contexts/bpDataContext";
-import { Button } from "./shadcn/button";
+import { useBpCalendarContext } from "../../_contexts/bpCaldendarContext";
+import { useBpDataContext } from "../../_contexts/bpDataContext";
+import { Button } from "../shadcn/button";
 
 export function BpCalendar() {
   const calendarContext = useBpCalendarContext();

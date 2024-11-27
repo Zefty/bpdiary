@@ -1,7 +1,7 @@
-import BpBarChart from "~/app/_components/bpBarChart";
-import { BpInfoChart } from "~/app/_components/bpInfoChart";
-import BpLineChart from "~/app/_components/bpLineChart";
-import { BpRingChart } from "~/app/_components/bpRingChart";
+import BpBarChart from "~/app/_components/charts/bpBarChart";
+import { BpInfoChart } from "~/app/_components/charts/bpInfoChart";
+import BpLineChart from "~/app/_components/charts/bpLineChart";
+import { BpRingChart } from "~/app/_components/charts/bpRingChart";
 import { api, HydrateClient } from "~/trpc/server";
 
 export default async function Charts() {
