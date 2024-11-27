@@ -359,7 +359,6 @@ export const bloodPressureRouter = createTRPCRouter({
       .from(bloodPressure)
       .where(and(eq(bloodPressure.loggedByUserId, ctx.session.user.id)));
   }),
-    }),
   getMonthlyDiary: protectedProcedure
     .input(
       z.object({
