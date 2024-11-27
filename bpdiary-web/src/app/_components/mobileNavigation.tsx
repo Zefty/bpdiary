@@ -9,7 +9,7 @@ export default async function MobileNavigation() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="link" size="icon" className="sm:hidden h-full focus-visible:ring-0 focus-visible:ring-offset-0">
+                <Button variant="link" size="icon" className="xs:hidden h-full focus-visible:ring-0 focus-visible:ring-offset-0">
                     <ChevronsUpIcon className="h-6 w-6" />
                     <span className="sr-only">Toggle navigation menu</span>
                 </Button>
