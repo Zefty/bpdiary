@@ -74,19 +74,19 @@ export default function AddBpEntry() {
               <Label htmlFor="name" className="grow">
                 Systolic
               </Label>
-              <NumberPicker name="systolic" ref={systolicRef} />
+              <NumberPicker name="systolic" ref={systolicRef} onNextFocus={() => diastolicRef.current?.focus()}/>
             </div>
             <div className="flex flex-row items-center">
               <Label htmlFor="name" className="grow">
                 Diastolic
               </Label>
-              <NumberPicker name="diastolic" ref={diastolicRef} />
+              <NumberPicker name="diastolic" ref={diastolicRef} onNextFocus={() => pulseRef.current?.focus()}/>
             </div>
             <div className="flex flex-row items-center">
               <Label htmlFor="name" className="grow">
                 Pulse
               </Label>
-              <NumberPicker name="pulse" ref={pulseRef} />
+              <NumberPicker name="pulse" ref={pulseRef} onNextFocus={() => notesRef.current?.focus()}/>
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Notes</Label>

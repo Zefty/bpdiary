@@ -1,4 +1,7 @@
 import Footer from "../_components/footer";
+import Header from "../_components/bpCalendarHeader";
+import { SidebarProvider, SidebarTrigger } from "../_components/shadcn/sidebar";
+import { BpSidebar } from "../_components/sidebar";
 
 export default function DiaryLayout({
   children,
@@ -6,9 +9,12 @@ export default function DiaryLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="flex h-screen w-screen flex-col">
-      {children}
-      <Footer />
-    </section>
+    <SidebarProvider>
+      <BpSidebar />
+      <section className="flex flex-col w-full h-screen max-h-screen">
+        <div className="flex-1">{children}</div>
+        {/* <Footer /> */}
+      </section>
+    </SidebarProvider>
   );
 }

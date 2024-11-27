@@ -61,9 +61,8 @@ export default function BpDiaryHistory({
         setBpEntryData,
       }}
     >
-      \
       <ScrollArea
-        className="h-full"
+        className="h-full max-h-screen overflow-y-auto"
         ref={viewPortRef}
         onScrollCapture={(event) => {
           sessionStorage.setItem(
@@ -110,3 +109,7 @@ export interface EditBpEntryContext {
 export const EditBpEntryContext = createContext<EditBpEntryContext | undefined>(
   undefined,
 );
+
+export const UseEditBpEntry = () => {
+  return React.useContext(EditBpEntryContext);
+};
