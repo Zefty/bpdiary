@@ -6,12 +6,14 @@ import { BpEntryBase, BpEntryBaseRefs } from "./bpEntryBase";
 import React, { useRef } from "react";
 import { UseBpEntryContext } from "~/app/_contexts/bpEntryContext";
 import { SheetClose, SheetDescription, SheetTitle } from "../shadcn/sheet";
+import { useServerAction } from "~/app/_hooks/useServerAction";
 
 export default function EditBpEntry() {
   const bpEntryBaseRef = useRef<BpEntryBaseRefs>(null);
   const context = UseBpEntryContext();
   const bpEntryData = context.bpEntryData;
   const EditBpWithId = EditBp.bind(null, bpEntryData?.id);
+  const [EditBpWithIdAction, isEditing] = useServerAction(EditBpWithId);
   return (
     <BpEntryBase
       ref={bpEntryBaseRef}
@@ -24,7 +26,7 @@ export default function EditBpEntry() {
         </div>
       }
       sheetFooter={
-        <div className="flex w-full justify-between">
+        <fieldset className="flex w-full justify-between" disabled={isEditing}>
           <Button
             variant="outline"
             type="reset"
@@ -33,17 +35,17 @@ export default function EditBpEntry() {
           >
             Clear
           </Button>
-          <SheetClose asChild>
-            <Button type="submit" form="bp-entry-base-form">
-              Save changes
-            </Button>
-          </SheetClose>
-        </div>
+          <Button type="submit" form="bp-entry-base-form">
+            Save changes
+          </Button>
+        </fieldset>
       }
       bpEntryData={context.bpEntryData}
       addOrUpdateEntryAction={async (formData: FormData) => {
-        return await EditBpWithId(formData);
+        const res = await EditBpWithIdAction(formData);
+        if (res?.message === "success") bpEntryBaseRef.current?.resetForm();
       }}
+      isSubmitting={isEditing}
     />
   );
 }

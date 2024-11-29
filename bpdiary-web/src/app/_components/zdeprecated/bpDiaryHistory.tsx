@@ -9,8 +9,8 @@ import React, {
 } from "react";
 import { useInView } from "react-intersection-observer";
 import { api, type RouterOutputs } from "~/trpc/react";
-import { ScrollArea } from "./shadcn/scroll-area";
-import DiaryEntryCard from "./calendar/diaryEntryCard";
+import { ScrollArea } from "../shadcn/scroll-area";
+import DiaryEntryCard from "../calendar/diaryEntryCard";
 import EditBpEntry from "./editBpEntry";
 
 type BloodPressureDiary = RouterOutputs["bloodPressure"]["getInfiniteDiary"];

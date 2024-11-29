@@ -13,10 +13,10 @@ export async function LogBp(formData: FormData) {
     const bpLog = parseData(preprocessFormData(formData, BpLog), BpLog);
     await api.bloodPressure.log(bpLog);
     revalidatePath("/diary/history");
-    return true;
+    return { message: "success" };
   } catch (error) {
     console.error("Failed to parse data", error);
-    return false;
+    return { message: "failed" };
   }
 }
 
@@ -30,9 +30,9 @@ export async function EditBp(entryId: number | undefined, formData: FormData) {
     const bpLog = parseData(preprocessFormData(formData, BpLog), BpLog);
     await api.bloodPressure.editLog({ ...bpLog, id: entryId });
     revalidatePath("/diary/history");
-    return true;
+    return { message: "success" };
   } catch (error) {
     console.error("Failed to parse data", error);
-    return false;
+    return { message: "failed" };
   }
 }

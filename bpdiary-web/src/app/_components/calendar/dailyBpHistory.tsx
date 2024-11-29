@@ -3,7 +3,6 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 import { api, type RouterOutputs } from "~/trpc/react";
 import { ScrollArea } from "../shadcn/scroll-area";
-import { EditBpEntryContext } from "../bpDiaryHistory";
 import DailyDiaryHistoryCard from "./dailyDiaryHistoryCard";
 import { useBpDataContext } from "../../_contexts/bpDataContext";
 import { HeartPulse } from "lucide-react";
@@ -11,8 +10,6 @@ import { useBpCalendarContext } from "../../_contexts/bpCaldendarContext";
 import { format } from "date-fns";
 import EditBpEntry from "../entry/editBpEntry";
 import { BpEntryContextProvider } from "~/app/_contexts/bpEntryContext";
-
-type BloodPressureDiary = RouterOutputs["bloodPressure"]["getMonthlyDiary"];
 
 export default function DailyBpHistory() {
   const calendarContext = useBpCalendarContext();

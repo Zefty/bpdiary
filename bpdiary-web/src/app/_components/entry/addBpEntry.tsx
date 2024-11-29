@@ -2,27 +2,32 @@
 
 import { Button } from "~/app/_components/shadcn/button";
 import { LogBp } from "~/server/actions/server-actions";
-import React, { useRef } from "react";
+import { useRef, useTransition } from "react";
 import { UseBpEntryContext } from "~/app/_contexts/bpEntryContext";
 import { SheetDescription, SheetTitle } from "../shadcn/sheet";
 import { BpEntryBase, BpEntryBaseRefs } from "./bpEntryBase";
+import { useServerAction } from "~/app/_hooks/useServerAction";
 
 export default function AddBpEntry() {
   const bpEntryBaseRef = useRef<BpEntryBaseRefs>(null);
   const context = UseBpEntryContext();
+  const [LogBpAction, isLogging] = useServerAction(LogBp);
+
   return (
     <BpEntryBase
       ref={bpEntryBaseRef}
       openSheet={context.openSheet}
       setOpenSheet={context.setOpenSheet}
       sheetHeader={
-        <div className="flex flex-col w-full justify-items-center">
+        <div className="flex w-full flex-col justify-items-center">
           <SheetTitle>Log Measurement</SheetTitle>
-          <SheetDescription>Log new blood pressure measurement.</SheetDescription>
+          <SheetDescription>
+            Log new blood pressure measurement.
+          </SheetDescription>
         </div>
       }
       sheetFooter={
-        <div className="flex w-full justify-between">
+        <fieldset className="flex w-full justify-between" disabled={isLogging}>
           <Button
             variant="outline"
             type="reset"
@@ -34,13 +39,15 @@ export default function AddBpEntry() {
           <Button type="submit" form="bp-entry-base-form">
             Log
           </Button>
-        </div>
+        </fieldset>
       }
       bpEntryData={context.bpEntryData}
       addOrUpdateEntryAction={async (formData: FormData) => {
         sessionStorage.removeItem("scrollPosition");
-        return await LogBp(formData);
+        const res = await LogBpAction(formData);
+        if (res?.message === "success") bpEntryBaseRef.current?.resetForm();
       }}
+      isSubmitting={isLogging}
     />
   );
 }
