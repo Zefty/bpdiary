@@ -1,5 +1,6 @@
 import { SidebarProvider } from "../_components/shadcn/sidebar";
 import { BpSidebar } from "../_components/navigation/sidebar";
+import { Toaster } from "../_components/shadcn/toaster";
 
 export default function DiaryLayout({
   children,
@@ -8,6 +9,7 @@ export default function DiaryLayout({
 }) {
   return (
     <SidebarProvider>
+      <Toaster />
       <BpSidebar />
       <section className="flex flex-col w-full h-screen max-h-screen">
         <div className="flex-1">{children}</div>

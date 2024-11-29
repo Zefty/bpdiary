@@ -4,16 +4,19 @@ import { Button } from "~/app/_components/shadcn/button";
 import { EditBp } from "~/server/actions/server-actions";
 import { BpEntryBase, BpEntryBaseRefs } from "./bpEntryBase";
 import React, { useRef } from "react";
-import { UseBpEntryContext } from "~/app/_contexts/bpEntryContext";
+import { useBpEntryContext } from "~/app/_contexts/bpEntryContext";
 import { SheetClose, SheetDescription, SheetTitle } from "../shadcn/sheet";
 import { useServerAction } from "~/app/_hooks/useServerAction";
+import { useToast } from "~/app/_hooks/use-toast";
 
 export default function EditBpEntry() {
   const bpEntryBaseRef = useRef<BpEntryBaseRefs>(null);
-  const context = UseBpEntryContext();
+  const context = useBpEntryContext();
   const bpEntryData = context.bpEntryData;
   const EditBpWithId = EditBp.bind(null, bpEntryData?.id);
   const [EditBpWithIdAction, isEditing] = useServerAction(EditBpWithId);
+  const { toast } = useToast();
+  
   return (
     <BpEntryBase
       ref={bpEntryBaseRef}
@@ -43,7 +46,13 @@ export default function EditBpEntry() {
       bpEntryData={context.bpEntryData}
       addOrUpdateEntryAction={async (formData: FormData) => {
         const res = await EditBpWithIdAction(formData);
-        if (res?.message === "success") bpEntryBaseRef.current?.resetForm();
+        if (res?.message === "success") {
+          bpEntryBaseRef.current?.resetForm();
+          context.setOpenSheet(!context.openSheet);
+          toast({
+            title: "Edited entry!",
+          })
+        }
       }}
       isSubmitting={isEditing}
     />

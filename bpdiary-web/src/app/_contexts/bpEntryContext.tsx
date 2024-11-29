@@ -44,6 +44,6 @@ export const BpEntryContextProvider: React.FC<
   );
 };
 
-export const UseBpEntryContext = () => {
+export const useBpEntryContext = () => {
   return useContext(BpEntryContext);
 };

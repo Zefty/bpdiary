@@ -16,12 +16,12 @@ import { Fragment, useContext } from "react";
 import { Separator } from "../shadcn/separator";
 import { useBpCalendarContext } from "../../_contexts/bpCaldendarContext";
 import { useBpDataContext } from "../../_contexts/bpDataContext";
-import { UseBpEntryContext } from "~/app/_contexts/bpEntryContext";
+import { useBpEntryContext } from "~/app/_contexts/bpEntryContext";
 
 export default function DailyDiaryHistoryCard() {
   const calendarContext = useBpCalendarContext();
   const dataContext = useBpDataContext();
-  const bpEntryContext = UseBpEntryContext();
+  const bpEntryContext = useBpEntryContext();
   const data = dataContext?.dataFilteredBySelectedDate ?? [];
   return (
     data.length > 0 && (

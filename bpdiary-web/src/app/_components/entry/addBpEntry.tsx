@@ -3,15 +3,17 @@
 import { Button } from "~/app/_components/shadcn/button";
 import { LogBp } from "~/server/actions/server-actions";
 import { useRef, useTransition } from "react";
-import { UseBpEntryContext } from "~/app/_contexts/bpEntryContext";
+import { useBpEntryContext } from "~/app/_contexts/bpEntryContext";
 import { SheetDescription, SheetTitle } from "../shadcn/sheet";
 import { BpEntryBase, BpEntryBaseRefs } from "./bpEntryBase";
 import { useServerAction } from "~/app/_hooks/useServerAction";
+import { useToast } from "~/app/_hooks/use-toast";
 
 export default function AddBpEntry() {
   const bpEntryBaseRef = useRef<BpEntryBaseRefs>(null);
-  const context = UseBpEntryContext();
+  const context = useBpEntryContext();
   const [LogBpAction, isLogging] = useServerAction(LogBp);
+  const { toast } = useToast();
 
   return (
     <BpEntryBase
@@ -45,7 +47,13 @@ export default function AddBpEntry() {
       addOrUpdateEntryAction={async (formData: FormData) => {
         sessionStorage.removeItem("scrollPosition");
         const res = await LogBpAction(formData);
-        if (res?.message === "success") bpEntryBaseRef.current?.resetForm();
+        if (res?.message === "success") {
+          bpEntryBaseRef.current?.resetForm();
+          context.setOpenSheet(!context.openSheet)
+          toast({
+            title: "Logged new blood pressure measurement!"
+          })
+        }
       }}
       isSubmitting={isLogging}
     />
