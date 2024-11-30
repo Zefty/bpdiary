@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
 import { VariantProps, cva } from "class-variance-authority"
 import { Menu, PanelLeft } from "lucide-react"
 
@@ -10,7 +11,7 @@ import { cn } from "~/lib/utils"
 import { Button } from "~/app/_components/shadcn/button"
 import { Input } from "~/app/_components/shadcn/input"
 import { Separator } from "~/app/_components/shadcn/separator"
-import { Sheet, SheetContent } from "~/app/_components/shadcn/sheet"
+import { Sheet, SheetContent, SheetDescription, SheetTitle } from "~/app/_components/shadcn/sheet"
 import { Skeleton } from "~/app/_components/shadcn/skeleton"
 import {
   Tooltip,
@@ -213,6 +214,10 @@ const Sidebar = React.forwardRef<
             }
             side={side}
           >
+            <VisuallyHidden.Root>
+              <SheetTitle>sidebar</SheetTitle>
+              <SheetDescription>sidebar</SheetDescription>
+            </VisuallyHidden.Root>
             <div className="flex h-full w-full flex-col">{children}</div>
           </SheetContent>
         </Sheet>
