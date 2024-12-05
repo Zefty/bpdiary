@@ -51,6 +51,12 @@ export const authOptions: NextAuthOptions = {
         id: user.id,
       },
     }),
+    async redirect({ url, baseUrl }) {
+      console.log(url, baseUrl)
+      return url.startsWith(baseUrl)
+      ? Promise.resolve(url.includes('/diary') ? baseUrl : `${baseUrl}/diary`)
+      : Promise.resolve(baseUrl)
+    }
   },
   adapter: DrizzleAdapter(db, {
     usersTable: users,

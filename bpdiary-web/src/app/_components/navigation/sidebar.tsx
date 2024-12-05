@@ -1,4 +1,17 @@
-import { User2, ChevronUp, ChevronDown, Home, Calendar, Inbox, Search, Settings, HeartPulse, ChartLine } from "lucide-react";
+import {
+  User2,
+  ChevronUp,
+  ChevronDown,
+  Home,
+  Calendar,
+  Inbox,
+  Search,
+  Settings,
+  HeartPulse,
+  ChartLine,
+  LogOut,
+  CreditCard,
+} from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -11,7 +24,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "~/app/_components/shadcn/sidebar";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../shadcn/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../shadcn/dropdown-menu";
 import Link from "next/link";
 import { getServerAuthSession } from "~/server/auth";
 
@@ -36,7 +54,7 @@ const items = [
     url: "/diary/settings",
     icon: Settings,
   },
-]
+];
 
 export async function BpSidebar() {
   const session = await getServerAuthSession();
@@ -44,32 +62,17 @@ export async function BpSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton size="lg">
-                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                    <HeartPulse />
-                  </div>
-                  Select Workspace
-                  <ChevronDown className="ml-auto" />
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-[--radix-popper-anchor-width]">
-                <DropdownMenuItem>
-                  <span>Acme Inc</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <span>Acme Corp.</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+          <SidebarMenuItem className="flex items-center gap-3">
+            <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+              <HeartPulse />
+            </div>
+            Bp Diary
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          {/* <SidebarGroupLabel>Application</SidebarGroupLabel> */}
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -100,15 +103,24 @@ export async function BpSidebar() {
                 side="top"
                 className="w-[--radix-popper-anchor-width]"
               >
-                <DropdownMenuItem>
-                  <span>Account</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <span>Billing</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <span>Sign out</span>
-                </DropdownMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="/diary/settings">
+                    <Settings />
+                    <span>Settings</span>
+                  </Link>
+                </SidebarMenuButton>
+                <SidebarMenuButton asChild>
+                  <Link href="/diary/billing">
+                    <CreditCard />
+                    <span>Billing</span>
+                  </Link>
+                </SidebarMenuButton>
+                <SidebarMenuButton asChild>
+                  <Link href="/api/auth/signout">
+                    <LogOut />
+                    <span>Sign out</span>
+                  </Link>
+                </SidebarMenuButton>
               </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenuItem>
