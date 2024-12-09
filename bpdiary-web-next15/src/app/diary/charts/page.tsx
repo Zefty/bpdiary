@@ -22,13 +22,13 @@ export default async function Charts() {
                 <div className="m-8 text-2xl font-semibold leading-none tracking-tight">Charts</div>
                 <div className="w-full flex-1 flex flex-row flex-wrap px-20 gap-10">
                     <div className="flex-1 mb-20">
-                        <BpLineChart />
+                        {/* <BpLineChart /> */}
                     </div>
                     {/* <BpBarChart /> */}
                     <div className="flex-1 mb-20">
                         <div className="w-[400px] h-full flex flex-col justify-between">
-                            <BpRingChart />
-                            <BpInfoChart />
+                            {/* <BpRingChart />
+                            <BpInfoChart /> */}
                         </div>
                     </div>
                 </div>

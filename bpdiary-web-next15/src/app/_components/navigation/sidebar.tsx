@@ -31,7 +31,7 @@ import {
   DropdownMenuTrigger,
 } from "../shadcn/dropdown-menu";
 import Link from "next/link";
-import { getServerAuthSession } from "~/server/auth";
+import { auth } from "~/server/auth";
 
 const items = [
   {
@@ -57,13 +57,13 @@ const items = [
 ];
 
 export async function BpSidebar() {
-  const session = await getServerAuthSession();
+  const session = await auth();
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem className="flex items-center gap-3">
-            <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+            <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
               <HeartPulse />
             </div>
             Bp Diary

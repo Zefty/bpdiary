@@ -127,3 +127,20 @@ export const verificationTokens = createTable(
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   })
 );
+
+export const bloodPressure = createTable("blood_pressure", {
+  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+  loggedByUserId: varchar("logged_by_user_id", { length: 255 })
+    .notNull()
+    .references(() => users.id),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+    () => new Date(),
+  ),
+  systolic: integer("systolic"),
+  diastolic: integer("diastolic"),
+  pulse: integer("pulse"),
+  notes: text("notes"),
+});
