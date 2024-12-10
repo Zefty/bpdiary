@@ -14,8 +14,8 @@ import { BpEntryContextProvider } from "~/app/_contexts/bpEntryContext";
 export default function DailyBpHistory() {
   const calendarContext = useBpCalendarContext();
   const dataContext = useBpDataContext();
-  const displayHistory =
-    (dataContext?.dataFilteredBySelectedDate?.length ?? 0) > 0;
+  const noMeasurements =
+    (dataContext?.dataFilteredBySelectedDate?.length ?? 0) === 0;
   const viewPortRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -37,24 +37,21 @@ export default function DailyBpHistory() {
           );
         }}
       >
-        {displayHistory ? (
-          <div className="flex flex-col items-center gap-3 py-3">
-            <div className="h-10 flex items-center gap-3">
-              <h1 className="text-2xl font-semibold leading-none tracking-tight">
-                {format(calendarContext.selectedDate, "E, LLL d")}
-              </h1>
-              <HeartPulse />
-            </div>
-            <EditBpEntry />
-            <DailyDiaryHistoryCard />
+        <div className="flex h-full flex-col items-center gap-3 py-3">
+          <div className="flex h-10 items-center gap-3">
+            <h1 className="text-2xl font-semibold leading-none tracking-tight">
+              {format(calendarContext.selectedDate, "E, LLL d")}
+            </h1>
+            <HeartPulse />
           </div>
-        ) : (
-          <div className="h-full flex flex-col justify-center">
-            <h1 className="m-auto text-2xl font-semibold leading-none tracking-tight text-muted-foreground">
+          {noMeasurements && (
+            <h1 className="text-muted-foreground m-auto text-2xl font-semibold leading-none tracking-tight">
               No Measurements ...
             </h1>
-          </div>
-        )}
+          )}
+          <EditBpEntry />
+          <DailyDiaryHistoryCard />
+        </div>
       </ScrollArea>
     </BpEntryContextProvider>
   );
