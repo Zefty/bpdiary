@@ -66,8 +66,8 @@ export async function BpSidebar() {
             <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-lg">
               <HeartPulse />
             </div>
-            <span className="text-3xl font-bold group-data-[collapsible=icon]:hidden">
-              BP&nbsp;Diary
+            <span className="whitespace-nowrap text-3xl font-bold group-data-[collapsible=icon]:hidden">
+              BP Diary
             </span>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -81,7 +81,7 @@ export async function BpSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    className="pl-4 h-12 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4"
+                    className="pl-4 h-12 gap-3 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4"
                   >
                     <Link href={item.url}>
                       <item.icon />
@@ -101,9 +101,9 @@ export async function BpSidebar() {
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className="pl-4 h-12 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4">
+                <SidebarMenuButton className="pl-4 h-12 gap-3 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4">
                   <User2/>
-                  <span className="group-data-[collapsible=icon]:hidden">{session?.user?.name}</span>
+                  <span className="whitespace-nowrap group-data-[collapsible=icon]:hidden">{session?.user?.name}</span>
                   <ChevronUp className="ml-auto group-data-[collapsible=icon]:hidden" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
