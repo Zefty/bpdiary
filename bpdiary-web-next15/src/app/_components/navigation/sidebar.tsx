@@ -81,11 +81,11 @@ export async function BpSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    className="h-12 group-data-[collapsible=icon]:!size-12"
+                    className="pl-4 h-12 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4"
                   >
                     <Link href={item.url}>
                       <item.icon />
-                      <span className="group-data-[collapsible=icon]:hidden">
+                      <span className="text-sm group-data-[collapsible=icon]:hidden">
                         {item.title}
                       </span>
                     </Link>
@@ -101,8 +101,8 @@ export async function BpSidebar() {
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className="h-12 group-data-[collapsible=icon]:!size-12">
-                  <User2 />
+                <SidebarMenuButton className="pl-4 h-12 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4">
+                  <User2/>
                   <span className="group-data-[collapsible=icon]:hidden">{session?.user?.name}</span>
                   <ChevronUp className="ml-auto group-data-[collapsible=icon]:hidden" />
                 </SidebarMenuButton>
@@ -111,19 +111,19 @@ export async function BpSidebar() {
                 side="top"
                 className="w-[--radix-popper-anchor-width]"
               >
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton asChild className="pl-4 h-12 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4">
                   <Link href="/diary/settings">
                     <Settings />
                     <span>Settings</span>
                   </Link>
                 </SidebarMenuButton>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton asChild className="pl-4 h-12 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4">
                   <Link href="/diary/billing">
                     <CreditCard />
                     <span>Billing</span>
                   </Link>
                 </SidebarMenuButton>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton asChild className="pl-4 h-12 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4">
                   <Link href="/api/auth/signout">
                     <LogOut />
                     <span>Sign out</span>
