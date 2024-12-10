@@ -60,13 +60,15 @@ export async function BpSidebar() {
   const session = await auth();
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader>
-        <SidebarMenu>
+      <SidebarHeader className="p-[6px]">
+        <SidebarMenu className="p-[6px]">
           <SidebarMenuItem className="flex items-center gap-3">
-            <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+            <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-lg">
               <HeartPulse />
             </div>
-            Bp Diary
+            <span className="text-3xl font-bold group-data-[collapsible=icon]:hidden">
+              BP&nbsp;Diary
+            </span>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
@@ -77,10 +79,15 @@ export async function BpSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton
+                    asChild
+                    className="h-12 group-data-[collapsible=icon]:!size-12"
+                  >
                     <Link href={item.url}>
                       <item.icon />
-                      <span>{item.title}</span>
+                      <span className="group-data-[collapsible=icon]:hidden">
+                        {item.title}
+                      </span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -94,9 +101,10 @@ export async function BpSidebar() {
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton>
-                  <User2 /> {session?.user?.name}
-                  <ChevronUp className="ml-auto" />
+                <SidebarMenuButton className="h-12 group-data-[collapsible=icon]:!size-12">
+                  <User2 />
+                  <span className="group-data-[collapsible=icon]:hidden">{session?.user?.name}</span>
+                  <ChevronUp className="ml-auto group-data-[collapsible=icon]:hidden" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
