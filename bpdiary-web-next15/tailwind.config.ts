@@ -67,7 +67,8 @@ export default {
   			}
   		},
   		screens: {
-  			xs: '360px'
+  			xxs: '360px',
+			xs: '540px'
   		}
   	}
   },

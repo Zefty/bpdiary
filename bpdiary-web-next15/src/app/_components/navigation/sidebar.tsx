@@ -11,6 +11,7 @@ import {
   ChartLine,
   LogOut,
   CreditCard,
+  Sun,
 } from "lucide-react";
 import {
   Sidebar,
@@ -32,6 +33,9 @@ import {
 } from "../shadcn/dropdown-menu";
 import Link from "next/link";
 import { auth } from "~/server/auth";
+import { Button } from "../shadcn/button";
+import { Separator } from "../shadcn/separator";
+import ThemeToggle from "./themeToggle";
 
 const items = [
   {
@@ -58,7 +62,7 @@ export async function BpSidebar() {
       <SidebarHeader className="p-[6px]">
         <SidebarMenu className="p-[6px]">
           <SidebarMenuItem className="flex items-center gap-3">
-            <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-lg">
+            <div className="flex aspect-square size-10 items-center justify-center rounded-lg bg-primary text-sidebar-primary-foreground">
               <HeartPulse />
             </div>
             <span className="whitespace-nowrap text-3xl font-bold group-data-[collapsible=icon]:hidden">
@@ -75,7 +79,7 @@ export async function BpSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    className="pl-4 h-12 gap-3 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4"
+                    className="h-12 gap-3 pl-4 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4"
                   >
                     <Link href={item.url}>
                       <item.icon />
@@ -95,29 +99,47 @@ export async function BpSidebar() {
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className="pl-4 h-12 gap-3 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4">
-                  <User2/>
-                  <span className="whitespace-nowrap group-data-[collapsible=icon]:hidden">{session?.user?.name}</span>
+                <SidebarMenuButton className="h-12 gap-3 pl-4 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4">
+                  <User2 />
+                  <span className="whitespace-nowrap group-data-[collapsible=icon]:hidden">
+                    {session?.user?.name}
+                  </span>
                   <ChevronUp className="ml-auto group-data-[collapsible=icon]:hidden" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 side="top"
-                className="w-[--radix-popper-anchor-width]"
+                className="bg-sidebar w-[--radix-popper-anchor-width] min-w-[230px]"
+                align="start"
               >
-                <SidebarMenuButton asChild className="pl-4 h-12 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4">
+                <SidebarMenuButton
+                  asChild
+                  className="h-12 pl-4 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4"
+                >
                   <Link href="/diary/settings">
                     <Settings />
                     <span>Settings</span>
                   </Link>
                 </SidebarMenuButton>
-                <SidebarMenuButton asChild className="pl-4 h-12 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4">
+                <SidebarMenuButton
+                  asChild
+                  className="h-12 pl-4 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4"
+                >
                   <Link href="/diary/billing">
                     <CreditCard />
                     <span>Billing</span>
                   </Link>
                 </SidebarMenuButton>
-                <SidebarMenuButton asChild className="pl-4 h-12 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4">
+                {/* <SidebarMenuButton className="h-12 pl-4 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4">
+                  <Sun />
+                  <span>Appearance</span>
+                </SidebarMenuButton> */}
+                <ThemeToggle />
+                <Separator className="m-auto my-1 w-[calc(100%-1rem)]" />
+                <SidebarMenuButton
+                  asChild
+                  className="h-12 pl-4 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4"
+                >
                   <Link href="/api/auth/signout">
                     <LogOut />
                     <span>Sign out</span>

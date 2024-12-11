@@ -25,7 +25,7 @@ export default function DailyDiaryHistoryCard() {
   const data = dataContext?.dataFilteredBySelectedDate ?? [];
   return (
     data.length > 0 && (
-      <Card className="w-3/4">
+      <Card className="bg-sidebar w-3/4">
         <CardContent className="flex w-full flex-col p-0">
           {data?.map((entry) => (
             <Fragment key={entry.id}>

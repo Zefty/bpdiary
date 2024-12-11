@@ -15,7 +15,7 @@ export default function AddBpEntryButton() {
       }}
     >
       <CirclePlus className="h-4 w-4" />
-      New Reading
+      <span className="hidden xxs:flex">New Reading</span>
     </Button>
   );
 }
