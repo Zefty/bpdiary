@@ -49,17 +49,12 @@ const items = [
     url: "/diary/charts",
     icon: ChartLine,
   },
-  {
-    title: "Settings",
-    url: "/diary/settings",
-    icon: Settings,
-  },
 ];
 
 export async function BpSidebar() {
   const session = await auth();
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" variant="floating">
       <SidebarHeader className="p-[6px]">
         <SidebarMenu className="p-[6px]">
           <SidebarMenuItem className="flex items-center gap-3">
@@ -74,7 +69,6 @@ export async function BpSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          {/* <SidebarGroupLabel>Application</SidebarGroupLabel> */}
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (

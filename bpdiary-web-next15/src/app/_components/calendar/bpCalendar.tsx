@@ -17,10 +17,10 @@ export function BpCalendar() {
       selected={calendarContext.selectedDate}
       onSelect={calendarContext.setSelectedDate}
       classNames={{
-        [UI.Root]: "min-w-[360px] h-full p-2 rounded-md border",
+        [UI.Root]: "h-full p-2 rounded-md border",
         [UI.MonthCaption]: "hidden",
 
-        [UI.MonthGrid]: "h-full",
+        [UI.MonthGrid]: "h-full mt-2",
         [UI.Months]: "flex flex-col h-full",
         [UI.Month]: "flex flex-col h-full",
 

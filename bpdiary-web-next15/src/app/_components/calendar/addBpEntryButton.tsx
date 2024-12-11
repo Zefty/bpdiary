@@ -1,3 +1,4 @@
+"use client";
 import { CirclePlus } from "lucide-react";
 import { useBpEntryContext } from "~/app/_contexts/bpEntryContext";
 import { Button } from "../shadcn/button";
