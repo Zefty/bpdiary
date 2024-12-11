@@ -39,16 +39,19 @@ const chartConfig = {
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
+type ChartTypes = keyof typeof chartConfig;
 
 const TIMEFRAMES = ["W", "M", "YTD", "Y", "All"] as const;
-type Timeframes = typeof TIMEFRAMES[number];
+type Timeframes = (typeof TIMEFRAMES)[number];
 
 type DiaryData = RouterOutputs["bloodPressure"]["getPastSevenDaysDiary"];
 
 export default function BpLineChart() {
-  const [systolicVisible, setSystolicVisible] = useState(true);
-  const [diastolicVisible, setDiastolicVisible] = useState(true);
-  const [pulseVisible, setPulseVisible] = useState(true);
+  const initialVisibility = Object.keys(chartConfig).reduce((acc, val) => {
+    acc[val as ChartTypes] = true;
+    return acc;
+  }, {} as { [Key in keyof typeof chartConfig]: boolean });
+  const [visibility, setVisibility] = useState(initialVisibility);
   const [timeframe, setTimeframe] = useState<Timeframes>("W");
 
   const dataPastSevenDays = api.bloodPressure.getPastSevenDaysDiary.useQuery();
@@ -72,7 +75,7 @@ export default function BpLineChart() {
   }));
 
   return (
-    <Card className="w-full h-full">
+    <Card className="h-full w-full">
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>Blood Pressure 7 Day History</CardTitle>
@@ -87,11 +90,9 @@ export default function BpLineChart() {
                 className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-6 sm:py-6"
                 onClick={() => setTimeframe(chart)}
               >
-                <span className="text-xs text-muted-foreground">
-                  {chart}
-                </span>
+                <span className="text-xs text-muted-foreground">{chart}</span>
               </button>
-            )
+            );
           })}
         </div>
       </CardHeader>
@@ -111,57 +112,65 @@ export default function BpLineChart() {
               tickLine={true}
               axisLine={true}
               tickMargin={8}
-              tickFormatter={(value: Date) => `${value.getDate()} ${DateMonthShortFormat.format(value)}`}
+              tickFormatter={(value: Date) =>
+                `${value.getDate()} ${DateMonthShortFormat.format(value)}`
+              }
               interval="equidistantPreserveStart"
             />
-            <YAxis
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-            />
+            <YAxis tickLine={false} axisLine={false} tickMargin={8} />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent />}
               defaultIndex={1}
             />
-            {systolicVisible && <Line
-              dataKey="systolic"
-              type="natural"
-              stroke="var(--color-systolic)"
-              strokeWidth={2}
-              dot={false}
-            />}
-            {diastolicVisible && <Line
-              dataKey="diastolic"
-              type="natural"
-              stroke="var(--color-diastolic)"
-              strokeWidth={2}
-              dot={false}
-            />}
-            {pulseVisible && <Line
-              dataKey="pulse"
-              type="natural"
-              stroke="var(--color-pulse)"
-              strokeWidth={2}
-              dot={false}
-            />}
+            {visibility.systolic && (
+              <Line
+                dataKey="systolic"
+                type="natural"
+                stroke="var(--color-systolic)"
+                strokeWidth={2}
+                dot={false}
+              />
+            )}
+            {visibility.diastolic && (
+              <Line
+                dataKey="diastolic"
+                type="natural"
+                stroke="var(--color-diastolic)"
+                strokeWidth={2}
+                dot={false}
+              />
+            )}
+            {visibility.pulse && (
+              <Line
+                dataKey="pulse"
+                type="natural"
+                stroke="var(--color-pulse)"
+                strokeWidth={2}
+                dot={false}
+              />
+            )}
           </LineChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex space-x-2">
-          <div className="flex items-center space-x-2">
-            <Switch id="systolic" className={`data-[state=checked]:bg-[${chartConfig.systolic.color}]`} checked={systolicVisible} onCheckedChange={() => setSystolicVisible(!systolicVisible)} />
-            <Label htmlFor="airplane-mode">{chartConfig.systolic.label}</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Switch id="diastolic" className={`data-[state=checked]:bg-[${chartConfig.diastolic.color}]`} checked={diastolicVisible} onCheckedChange={() => setDiastolicVisible(!diastolicVisible)} />
-            <Label htmlFor="airplane-mode">{chartConfig.diastolic.label}</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Switch id="pulse" className={`data-[state=checked]:bg-[${chartConfig.pulse.color}]`} checked={pulseVisible} onCheckedChange={() => setPulseVisible(!pulseVisible)} />
-            <Label htmlFor="airplane-mode">{chartConfig.pulse.label}</Label>
-          </div>
+          {Object.keys(chartConfig).map((key) => {
+            const keyTyped = key as ChartTypes
+            return (
+              <div key={key} className="flex items-center space-x-2">
+                <Switch
+                  id={key.toLocaleLowerCase()}
+                  className={`data-[state=checked]:bg-[${chartConfig[keyTyped].color}]`}
+                  checked={visibility[keyTyped]}
+                  onCheckedChange={() => setVisibility({...visibility, [key]: !visibility[keyTyped]})}
+                />
+                <Label htmlFor="airplane-mode">
+                  {chartConfig[keyTyped].label}
+                </Label>
+              </div>
+            );
+          })}
         </div>
         {/* <div className="flex gap-2 font-medium leading-none">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
