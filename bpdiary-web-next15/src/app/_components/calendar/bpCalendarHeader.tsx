@@ -11,9 +11,9 @@ import AddBpEntryButton from "./addBpEntryButton";
 export default function BpCalendarHeader() {
   return (
     <BpEntryContextProvider>
-      <header className="sticky inset-x-0 bottom-0 z-50 mt-auto flex justify-start rounded-md border bg-white shadow-sm">
-        <nav className="bg-sidebar flex w-full items-center justify-start gap-2 p-2">
-          <SidebarTrigger variant="outline" className="bg-sidebar h-10 w-10"/>
+      <header className="sticky inset-x-0 bottom-0 z-50 mt-auto flex justify-start rounded-md border shadow-sm">
+        <nav className="flex w-full items-center justify-start gap-2 p-2">
+          <SidebarTrigger variant="outline" className="h-10 w-10"/>
           <AddBpEntryButton />
           <AddBpEntry />
           <Button className="gap-2">

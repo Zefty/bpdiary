@@ -28,7 +28,7 @@ export default function DailyBpHistory() {
   return (
     <BpEntryContextProvider>
       <ScrollArea
-        className="bg-sidebar h-full max-h-screen overflow-y-auto"
+        className="h-full max-h-screen overflow-y-auto"
         ref={viewPortRef}
         onScrollCapture={(event) => {
           sessionStorage.setItem(

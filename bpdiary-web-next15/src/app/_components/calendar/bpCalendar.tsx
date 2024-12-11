@@ -17,7 +17,7 @@ export function BpCalendar() {
       selected={calendarContext.selectedDate}
       onSelect={calendarContext.setSelectedDate}
       classNames={{
-        [UI.Root]: "bg-sidebar h-full p-2 rounded-md border",
+        [UI.Root]: "h-full p-2 rounded-md border",
         [UI.MonthCaption]: "hidden",
 
         [UI.MonthGrid]: "h-full mt-2",

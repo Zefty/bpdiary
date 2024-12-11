@@ -109,7 +109,7 @@ export async function BpSidebar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 side="top"
-                className="bg-sidebar w-[--radix-popper-anchor-width] min-w-[230px]"
+                className="w-[--radix-popper-anchor-width] min-w-[230px]"
                 align="start"
               >
                 <SidebarMenuButton
@@ -130,10 +130,6 @@ export async function BpSidebar() {
                     <span>Billing</span>
                   </Link>
                 </SidebarMenuButton>
-                {/* <SidebarMenuButton className="h-12 pl-4 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4">
-                  <Sun />
-                  <span>Appearance</span>
-                </SidebarMenuButton> */}
                 <ThemeToggle />
                 <Separator className="m-auto my-1 w-[calc(100%-1rem)]" />
                 <SidebarMenuButton
