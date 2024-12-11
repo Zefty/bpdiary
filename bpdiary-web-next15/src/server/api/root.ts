@@ -1,6 +1,7 @@
 import { postRouter } from "~/server/api/routers/post";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { bloodPressureRouter } from "./routers/bloodpressure";
+import { settingRouter } from "./routers/setting";
 
 /**
  * This is the primary router for your server.
@@ -10,6 +11,7 @@ import { bloodPressureRouter } from "./routers/bloodpressure";
 export const appRouter = createTRPCRouter({
   post: postRouter,
   bloodPressure: bloodPressureRouter,
+  setting: settingRouter
 });
 
 // export type definition of API

@@ -6,6 +6,7 @@ import {
   primaryKey,
   text,
   timestamp,
+  unique,
   varchar,
 } from "drizzle-orm/pg-core";
 import { type AdapterAccount } from "next-auth/adapters";
@@ -128,9 +129,8 @@ export const verificationTokens = createTable(
   }),
 );
 
-export const settings = createTable("settings", {
-  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
-  userId: varchar("logged_by_user_id", { length: 255 })
+export const setting = createTable("setting", {
+  userId: varchar("user_id", { length: 255 })
     .notNull()
     .references(() => users.id),
   createdAt: timestamp("created_at", { withTimezone: true })
@@ -141,7 +141,9 @@ export const settings = createTable("settings", {
   ),
   settingName: varchar("setting_name").notNull(),
   settingValue: varchar("setting_value").notNull(),
-});
+}, (s) => ({
+  compoundKey: primaryKey({ columns: [s.userId, s.settingName] }),
+}),);
 
 export const bloodPressure = createTable("blood_pressure", {
   id: integer("id").primaryKey().generatedByDefaultAsIdentity(),

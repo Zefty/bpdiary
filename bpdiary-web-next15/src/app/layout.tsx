@@ -3,7 +3,9 @@ import "~/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 
-import { TRPCReactProvider } from "~/trpc/react";
+import { RouterOutputs, TRPCReactProvider } from "~/trpc/react";
+import { api } from "~/trpc/server";
+import { ThemeProvider } from "./_contexts/themeProvider";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -11,13 +13,26 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
+type Theme = RouterOutputs["setting"]["retrievePublicSetting"][0]
+
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  let theme = { settingValue: "light" } as Theme;
+  const ret = (await api.setting.retrievePublicSetting({ settingName: "theme" }))[0];
+  if (ret !== undefined) theme = ret;
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
+    <html lang="en" className={`${GeistSans.variable} ${theme.settingValue}`} style={{colorScheme: theme.settingValue}} suppressHydrationWarning>
       <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <TRPCReactProvider>
+          <ThemeProvider 
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+          >
+            {children}
+          </ThemeProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   );
