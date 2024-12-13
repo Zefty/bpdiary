@@ -4,7 +4,6 @@ import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 
 import { RouterOutputs, TRPCReactProvider } from "~/trpc/react";
-import { api } from "~/trpc/server";
 import { ThemeProvider } from "./_contexts/themeProvider";
 
 export const metadata: Metadata = {
@@ -13,14 +12,14 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-type Theme = RouterOutputs["setting"]["retrievePublicSetting"][0]
+type Theme = RouterOutputs["setting"]["retrieveSetting"][0]
 
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   let theme = { settingValue: "light" } as Theme;
-  const ret = (await api.setting.retrievePublicSetting({ settingName: "theme" }))[0];
-  if (ret !== undefined) theme = ret;
+  // const ret = (await api.setting.retrieveSetting({ settingName: "theme" }))[0];
+  // if (ret !== undefined) theme = ret;
   return (
     <html lang="en" className={`${GeistSans.variable} ${theme.settingValue}`} style={{colorScheme: theme.settingValue}} suppressHydrationWarning>
       <body>

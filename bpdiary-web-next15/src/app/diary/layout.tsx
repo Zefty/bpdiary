@@ -2,7 +2,7 @@ import { SidebarProvider } from "../_components/shadcn/sidebar";
 import { BpSidebar } from "../_components/navigation/sidebar";
 import { Toaster } from "../_components/shadcn/toaster";
 
-export default function DiaryLayout({
+export default async function DiaryLayout({
   children,
 }: {
   children: React.ReactNode;

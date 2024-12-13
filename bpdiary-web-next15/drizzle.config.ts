@@ -8,5 +8,5 @@ export default {
   dbCredentials: {
     url: env.DATABASE_URL,
   },
-  tablesFilter: ["bpdiary-web-next15_*"],
+  tablesFilter: ["bpdiary_*"],
 } satisfies Config;

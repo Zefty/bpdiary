@@ -22,7 +22,7 @@ export const settingRouter = createTRPCRouter({
                 set: { settingValue: input.settingValue, updatedAt: new Date() },
             });
         }),
-    retrieveProtectedSetting: protectedProcedure
+    retrieveSetting: protectedProcedure
         .input(z.object({ settingName: z.string().min(1) }))
         .query(async ({ ctx, input }) => await ctx.db
             .select()
@@ -31,13 +31,4 @@ export const settingRouter = createTRPCRouter({
                 and(eq(setting.userId, ctx.session.user.id), eq(setting.settingName, input.settingName))
             )
         ),
-    retrievePublicSetting: publicProcedure
-        .input(z.object({ settingName: z.string().min(1) }))
-        .query(async ({ ctx, input }) => await ctx.db
-            .select()
-            .from(setting)
-            .where(
-                and(eq(setting.userId, ctx.session?.user.id ?? ""), eq(setting.settingName, input.settingName))
-            )
-        )
 });
