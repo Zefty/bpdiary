@@ -20,9 +20,10 @@ import {
 import { sessions } from "~/server/db/schema";
 
 export const sessionRouter = createTRPCRouter({
-  validate: publicProcedure
+  validate: protectedProcedure
     .input(z.object({ sessionToken: z.string() }))
     .query(async ({ ctx, input }) => {
+      // console.log(ctx.session);
       const session = await ctx.db
         .select()
         .from(sessions)
