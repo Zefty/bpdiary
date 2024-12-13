@@ -3,38 +3,18 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
-  publicProcedure,
 } from "~/server/api/trpc";
 import {
   and,
-  desc,
-  count,
   eq,
-  lt,
-  sql,
-  asc,
-  gte,
-  between,
-  avg,
 } from "drizzle-orm";
 import { sessions } from "~/server/db/schema";
 
 export const sessionRouter = createTRPCRouter({
   validate: protectedProcedure
-    .input(z.object({ sessionToken: z.string() }))
-    .query(async ({ ctx, input }) => {
-      // console.log(ctx.session);
-      const session = await ctx.db
-        .select()
-        .from(sessions)
-        .where(
-          and(
-            eq(sessions.sessionToken, input.sessionToken),
-          ),
-        );
-
-      if (!session[0]?.expires) return false;
-
-      return session[0]?.expires >= new Date();
+    .query(async ({ ctx }) => {
+      const session = ctx.session;
+      if (!session) return false;
+      return new Date(session.expires) >= new Date();
     }),
 });
