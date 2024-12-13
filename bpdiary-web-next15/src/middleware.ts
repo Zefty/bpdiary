@@ -38,8 +38,8 @@ export default async function middleware(req: NextRequest) {
     validSession &&
     !req.nextUrl.pathname.startsWith('/diary')
   ) {
-    // return NextResponse.redirect(new URL('/diary', req.nextUrl));
-    return NextResponse.next();
+    return NextResponse.redirect(new URL('/diary', req.nextUrl));
+    // return NextResponse.next();
   }
  
   return NextResponse.next();
