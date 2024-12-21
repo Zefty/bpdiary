@@ -46,7 +46,7 @@ type Timeframes = (typeof TIMEFRAMES)[number];
 
 type DiaryData = RouterOutputs["bloodPressure"]["getPastSevenDaysDiary"];
 
-export default function BpLineChart() {
+export default function TimeframeLineChart() {
   const initialVisibility = Object.keys(chartConfig).reduce((acc, val) => {
     acc[val as ChartTypes] = true;
     return acc;

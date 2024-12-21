@@ -1,5 +1,5 @@
 import { SidebarProvider } from "../_components/shadcn/sidebar";
-import { BpSidebar } from "../_components/navigation/sidebar";
+import { AppSidebar } from "../_components/navigation/app-sidebar";
 import { Toaster } from "../_components/shadcn/toaster";
 
 export default async function DiaryLayout({
@@ -10,7 +10,7 @@ export default async function DiaryLayout({
   return (
     <SidebarProvider>
       <Toaster />
-      <BpSidebar />
+      <AppSidebar />
       <section className="flex flex-col w-full h-screen max-h-screen">
         <div className="flex-1">{children}</div>
       </section>

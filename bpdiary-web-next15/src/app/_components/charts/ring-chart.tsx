@@ -35,7 +35,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function BpRingChart() {
+export default function RingChart() {
   const data = api.bloodPressure.getIsBpRecordedMonthly.useQuery();
 
   const currentDate = new Date();

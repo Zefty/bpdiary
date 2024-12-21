@@ -1,10 +1,10 @@
-import BpBarChart from "~/app/_components/charts/bpBarChart";
-import { BpInfoChart } from "~/app/_components/charts/bpInfoChart";
-import BpLineChart from "~/app/_components/charts/bpLineChart";
-import { BpRingChart } from "~/app/_components/charts/bpRingChart";
+import BarChart from "~/app/_components/charts/bp-by-dow";
+import InfoChart from "~/app/_components/charts/info-chart";
+import TimeframeLineChart from "~/app/_components/charts/timeframe-line-chart";
+import RingChart from "~/app/_components/charts/ring-chart";
 import { api, HydrateClient } from "~/trpc/server";
 
-export default async function Charts() {
+export default async function ChartsPage() {
     await Promise.all([
         api.bloodPressure.getPastSevenDaysDiary.prefetch(),
         api.bloodPressure.getThisWeekDiary.prefetch(),
@@ -22,13 +22,13 @@ export default async function Charts() {
                 <div className="m-8 text-2xl font-semibold leading-none tracking-tight">Charts</div>
                 <div className="w-full flex-1 flex flex-row flex-wrap px-20 gap-10">
                     <div className="flex-1 mb-20">
-                        <BpLineChart />
+                        <TimeframeLineChart />
                     </div>
-                    <BpBarChart />
+                    <BarChart />
                     <div className="flex-1 mb-20">
                         <div className="w-[400px] h-full flex flex-col justify-between">
-                            <BpRingChart />
-                            <BpInfoChart />
+                            <RingChart />
+                            <InfoChart />
                         </div>
                     </div>
                 </div>

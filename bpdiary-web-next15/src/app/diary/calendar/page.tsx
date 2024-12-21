@@ -1,16 +1,19 @@
 import { addMonths, startOfMonth, subMonths } from "date-fns";
 import { api, HydrateClient } from "~/trpc/server";
-import BpCalendarView from "~/app/_components/calendar/bpCalendarView";
 import { BpCalendarContextProvider } from "~/app/_contexts/bpCaldendarContext";
-import { BpDataContextProvider } from "~/app/_contexts/bpDataContext";
+import { BpCalendarDataContextProvider } from "~/app/_contexts/bpCalendarDataContext";
+import CalendarView from "~/app/_components/calendar/calendar-view";
+import CalendarHeader from "~/app/_components/calendar/calendar-header";
+import DailyFeed from "~/app/_components/bp-feed/daily-feed";
+import { BpEntryContextProvider } from "~/app/_contexts/bpEntryContext";
 
-export default async function Calendar() {
+export default async function CalendarPage() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const som = startOfMonth(today);
 
   await api.bloodPressure.getInfiniteDiary.prefetchInfinite({});
-  await api.bloodPressure.getMonthlyRollingDiary.prefetch({date: som});
+  await api.bloodPressure.getMonthlyRollingDiary.prefetch({ date: som });
   void api.bloodPressure.getMonthlyRollingDiary.prefetch({
     date: subMonths(som, 1),
   });
@@ -22,9 +25,26 @@ export default async function Calendar() {
   return (
     <HydrateClient>
       <BpCalendarContextProvider initialDate={today}>
-        <BpDataContextProvider>
-          <BpCalendarView />
-        </BpDataContextProvider>
+        <BpCalendarDataContextProvider>
+          <BpEntryContextProvider>
+            <div className="flex h-full w-full flex-col">
+              <div className="p-2">
+                <CalendarHeader />
+              </div>
+              <div className="flex h-full w-full items-center gap-2 px-2 pb-2">
+                <div className="h-full flex-1">
+                  <CalendarView />
+                </div>
+
+                <div className="relative hidden h-full flex-1 md:flex">
+                  <div className="absolute bottom-0 left-0 right-0 top-0 ">
+                    <DailyFeed />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </BpEntryContextProvider>
+        </BpCalendarDataContextProvider>
       </BpCalendarContextProvider>
     </HydrateClient>
   );

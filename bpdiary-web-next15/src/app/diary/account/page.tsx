@@ -1,4 +1,4 @@
-export default async function Account() {
+export default async function AccountPage() {
     return (
         <div>
             Account

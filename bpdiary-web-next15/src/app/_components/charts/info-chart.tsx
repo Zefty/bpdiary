@@ -11,7 +11,7 @@ import {
 import { DateMonthLongFormat } from "~/lib/utils"
 import { api } from "~/trpc/react"
 
-export function BpInfoChart() {
+export default function InfoChart() {
     const data = api.bloodPressure.getAverageMeasurements.useQuery();
     const viewData = data.data?.[0];
     const currentDate = new Date();

@@ -13,7 +13,7 @@ import { Gauge, HeartPulse, Pencil } from "lucide-react";
 import Note from "../custom-inputs/note";
 import { Button } from "../shadcn/button";
 import { useContext } from "react";
-import { EditBpEntryContext } from "../zdeprecated/bpDiaryHistory";
+import { EditBpEntryContext } from "./bpDiaryHistory";
 
 type BloodPressureDiary =
   RouterOutputs["bloodPressure"]["getInfiniteDiary"]["data"][0];

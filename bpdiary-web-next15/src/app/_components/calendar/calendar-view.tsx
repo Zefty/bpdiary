@@ -2,11 +2,11 @@
 
 import * as React from "react";
 import { DayFlag, DayPicker, SelectionState, UI } from "react-day-picker";
-import CalendarNav from "./calendarNav";
-import CalendarDay from "./calendarDay";
 import { useBpCalendarContext } from "../../_contexts/bpCaldendarContext";
+import CalendarNav from "./calendar-nav";
+import CalendarDay from "./calendar-day";
 
-export function BpCalendar() {
+export default function CalendarView() {
   const calendarContext = useBpCalendarContext();
 
   return (

@@ -35,7 +35,7 @@ import Link from "next/link";
 import { auth } from "~/server/auth";
 import { Button } from "../shadcn/button";
 import { Separator } from "../shadcn/separator";
-import ThemeToggle from "./themeToggle";
+import ThemeToggle from "./theme-toggle";
 
 const items = [
   {
@@ -55,14 +55,14 @@ const items = [
   },
 ];
 
-export async function BpSidebar() {
+export async function AppSidebar() {
   const session = await auth();
   return (
     <Sidebar collapsible="icon" variant="floating">
       <SidebarHeader className="p-[6px]">
         <SidebarMenu className="p-[6px]">
           <SidebarMenuItem className="flex items-center gap-3">
-            <div className="flex aspect-square size-10 items-center justify-center rounded-lg bg-primary text-sidebar-primary-foreground">
+            <div className="flex aspect-square size-10 items-center justify-center rounded-md bg-primary text-sidebar-primary-foreground">
               <HeartPulse />
             </div>
             <span className="whitespace-nowrap text-3xl font-bold group-data-[collapsible=icon]:hidden">

@@ -4,11 +4,11 @@ import React, { useLayoutEffect, useRef, useState } from "react";
 import { api, type RouterOutputs } from "~/trpc/react";
 import { ScrollArea } from "../shadcn/scroll-area";
 import DailyDiaryHistoryCard from "./dailyDiaryHistoryCard";
-import { useBpDataContext } from "../../_contexts/bpDataContext";
+import { useBpDataContext } from "../../_contexts/bpCalendarDataContext";
 import { HeartPulse } from "lucide-react";
 import { useBpCalendarContext } from "../../_contexts/bpCaldendarContext";
 import { format } from "date-fns";
-import EditBpEntry from "../entry/editBpEntry";
+import EditBpEntry from "../log-bp/edit-bp-form";
 import { BpEntryContextProvider } from "~/app/_contexts/bpEntryContext";
 
 export default function DailyBpHistory() {

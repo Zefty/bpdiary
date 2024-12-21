@@ -1,13 +1,14 @@
-import { isSameDay } from "date-fns";
+import { isSameDay, set } from "date-fns";
 import { Gauge, HeartPulse } from "lucide-react";
 import { DayProps } from "react-day-picker";
 import { useBpCalendarContext } from "~/app/_contexts/bpCaldendarContext";
-import { useBpDataContext } from "~/app/_contexts/bpDataContext";
+import { useBpCalendarDataContext } from "~/app/_contexts/bpCalendarDataContext";
+import { useBpEntryContext } from "~/app/_contexts/bpEntryContext";
 import { cn } from "~/lib/utils";
 
 export default function CalendarDay(props: DayProps) {
   const calendarContext = useBpCalendarContext();
-  const dataContext = useBpDataContext();
+  const dataContext = useBpCalendarDataContext();
   const { day, modifiers, ...tdProps } = props;
   const cellData = dataContext?.data?.find((ele) =>
     isSameDay(ele.createdAt, day.date),
@@ -15,9 +16,9 @@ export default function CalendarDay(props: DayProps) {
   return (
     <td
       {...tdProps}
-      className={cn(tdProps.className, "flex flex-col items-center")}
+      className={cn(tdProps.className, "flex flex-col items-center hover:bg-accent")}
       onClick={(e) => {
-        calendarContext?.setSelectedDate(day.date);
+        calendarContext.setSelectedDate(day.date);
       }}
     >
       <div className="mt-2">{props.day.date.getDate()}</div>

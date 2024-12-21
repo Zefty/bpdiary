@@ -15,7 +15,7 @@ import { Button } from "../shadcn/button";
 import { Fragment, useContext } from "react";
 import { Separator } from "../shadcn/separator";
 import { useBpCalendarContext } from "../../_contexts/bpCaldendarContext";
-import { useBpDataContext } from "../../_contexts/bpDataContext";
+import { useBpDataContext } from "../../_contexts/bpCalendarDataContext";
 import { useBpEntryContext } from "~/app/_contexts/bpEntryContext";
 
 export default function DailyDiaryHistoryCard() {

@@ -1,4 +1,4 @@
-export default async function Settings() {
+export default async function SettingsPage() {
     return (
         <div>
 

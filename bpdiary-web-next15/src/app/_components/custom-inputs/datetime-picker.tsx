@@ -1,17 +1,17 @@
 "use client";
 
-import { TimePicker } from "./timePicker";
-import { DatePicker, DatePickerRefs } from "./datePicker";
+import { TimePicker } from "./time-picker";
+import { DatePicker, DatePickerRefs } from "./date-picker";
 import { forwardRef, useRef } from "react";
 
-export interface DateTimePickerRefs extends DatePickerRefs {}
+export interface DatetimePickerRefs extends DatePickerRefs {}
 
-export interface DateTimePickerProps {
+export interface DatetimePickerProps {
   name?: string;
   defaultDate?: Date;
 }
 
-export const DateTimePicker = forwardRef<DatePickerRefs, DateTimePickerProps>(
+export const DatetimePicker = forwardRef<DatePickerRefs, DatetimePickerProps>(
   ({ name, defaultDate }, ref) => {
     return (
       <DatePicker name={name} defaultDate={defaultDate} ref={ref}>

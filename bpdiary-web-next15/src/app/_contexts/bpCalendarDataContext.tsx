@@ -11,20 +11,20 @@ type BloodPressureDiary = RouterOutputs["bloodPressure"]["getMonthlyDiary"];
 /**
  * Daily Blood Pressure History Context
  */
-export interface BpDataContext {
+export interface BpCalendarDataContext {
   data: BloodPressureDiary;
   dataFilteredBySelectedDate: BloodPressureDiary;
 }
 
-export const BpDataContext = createContext<BpDataContext | undefined>(
+export const BpCalendarDataContext = createContext<BpCalendarDataContext | undefined>(
   undefined,
 );
 
-interface BpDataContextProviderProps {
+interface BpCalendarDataContextProviderProps {
   children: React.ReactNode;
 }
 
-export const BpDataContextProvider: React.FC<BpDataContextProviderProps> = ({
+export const BpCalendarDataContextProvider: React.FC<BpCalendarDataContextProviderProps> = ({
   children,
 }) => {
   const calendarContext = useBpCalendarContext();
@@ -44,7 +44,7 @@ export const BpDataContextProvider: React.FC<BpDataContextProviderProps> = ({
   });
 
   return (
-    <BpDataContext.Provider
+    <BpCalendarDataContext.Provider
       value={{
         data: dataMonthly.data ?? [],
         dataFilteredBySelectedDate:
@@ -54,10 +54,10 @@ export const BpDataContextProvider: React.FC<BpDataContextProviderProps> = ({
       }}
     >
       {children}
-    </BpDataContext.Provider>
+    </BpCalendarDataContext.Provider>
   );
 };
 
-export const useBpDataContext = () => {
-  return React.useContext(BpDataContext);
+export const useBpCalendarDataContext = () => {
+  return React.useContext(BpCalendarDataContext);
 };

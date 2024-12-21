@@ -40,7 +40,7 @@ function dayOfWeekAsString(dayIndex: number) {
     return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][dayIndex] || '';
 }
 
-export default function BpBarChart() {
+export default function BpByDOW() {
     const data = api.bloodPressure.getAverageBpPerDayOfWeek.useQuery();
     const chartData = data?.data?.map((entry) => ({
         dayOfWeek: entry.dayOfWeek,

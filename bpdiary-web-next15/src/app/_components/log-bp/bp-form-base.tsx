@@ -8,10 +8,10 @@ import {
   SheetHeader,
 } from "~/app/_components/shadcn/sheet";
 import {
-  DateTimePicker,
-  DateTimePickerRefs,
-} from "../custom-inputs/dateTimePicker";
-import { NumberPicker, NumberPickerRefs } from "../custom-inputs/numberPicker";
+  DatetimePicker,
+  DatetimePickerRefs,
+} from "../custom-inputs/datetime-picker";
+import { NumberPicker, NumberPickerRefs } from "../custom-inputs/number-picker";
 import { Textarea } from "../shadcn/textarea";
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import { RouterOutputs } from "~/trpc/react";
@@ -33,7 +33,7 @@ export interface BpEntryBaseProps {
   isSubmitting?: boolean;
 }
 
-export const BpEntryBase = forwardRef<BpEntryBaseRefs, BpEntryBaseProps>(
+export const BpFormBase = forwardRef<BpEntryBaseRefs, BpEntryBaseProps>(
   (
     {
       openSheet,
@@ -46,7 +46,7 @@ export const BpEntryBase = forwardRef<BpEntryBaseRefs, BpEntryBaseProps>(
     },
     ref,
   ) => {
-    const dateTimePickerRef = useRef<DateTimePickerRefs>(null);
+    const dateTimePickerRef = useRef<DatetimePickerRefs>(null);
     const systolicRef = useRef<NumberPickerRefs>(null);
     const diastolicRef = useRef<NumberPickerRefs>(null);
     const pulseRef = useRef<NumberPickerRefs>(null);
@@ -108,7 +108,7 @@ export const BpEntryBase = forwardRef<BpEntryBaseRefs, BpEntryBaseProps>(
                   <Label htmlFor="name" className="grow">
                     Date
                   </Label>
-                  <DateTimePicker
+                  <DatetimePicker
                     name="datetime"
                     defaultDate={bpEntryData?.createdAt ?? new Date()}
                     ref={dateTimePickerRef}
