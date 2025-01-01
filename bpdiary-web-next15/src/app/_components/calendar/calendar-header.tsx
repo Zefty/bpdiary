@@ -4,26 +4,25 @@ import {
 } from "lucide-react";
 import { SidebarTrigger } from "../shadcn/sidebar";
 import { Button } from "../shadcn/button";
-import { BpEntryContextProvider } from "~/app/_contexts/bpEntryContext";
-import LogBpForm from "../log-bp/log-bp-form";
 import LogBpFormTrigger from "../log-bp/log-bp-form-trigger";
+import LogBpFormProvider from "../log-bp/log-bp-form";
+import BaseHeader from "../header/base-header";
 
 export default function CalendarHeader() {
   return (
-    <header className="sticky inset-x-0 bottom-0 z-50 mt-auto flex justify-start rounded-md border shadow-sm">
-        <nav className="flex w-full items-center justify-start gap-2 p-2">
-          {/* <SidebarTrigger variant="outline" className="h-10 w-10"/> */}
-          <LogBpFormTrigger />
-          <LogBpForm />
-          <Button className="gap-2">
-            <Share className="h-4 w-4" /> 
-            <span className="hidden xs:flex">Share</span>
-          </Button>
-          <Button className="gap-2">
-            <Printer className="h-4 w-4" /> 
-            <span className="hidden xs:flex">Print</span>
-          </Button>
-        </nav>
-      </header>
+    <BaseHeader>
+      <LogBpFormProvider>
+        {/* <SidebarTrigger variant="outline" className="h-10 w-10"/> */}
+        <LogBpFormTrigger />
+        <Button className="gap-2">
+          <Share className="h-4 w-4" />
+          <span className="hidden xs:flex">Share</span>
+        </Button>
+        <Button className="gap-2">
+          <Printer className="h-4 w-4" />
+          <span className="hidden xs:flex">Print</span>
+        </Button>
+      </LogBpFormProvider>
+    </BaseHeader>
   );
 }

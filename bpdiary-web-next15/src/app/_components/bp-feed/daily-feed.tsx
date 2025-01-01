@@ -1,14 +1,11 @@
 "use client";
 
-import React, { useLayoutEffect, useRef, useState } from "react";
-import { api, type RouterOutputs } from "~/trpc/react";
+import React, { useLayoutEffect, useRef } from "react";
 import { ScrollArea } from "../shadcn/scroll-area";
 import { useBpCalendarDataContext } from "../../_contexts/bpCalendarDataContext";
 import { HeartPulse } from "lucide-react";
 import { useBpCalendarContext } from "../../_contexts/bpCaldendarContext";
 import { format } from "date-fns";
-import EditBpEntry from "../log-bp/edit-bp-form";
-import { BpEntryContextProvider } from "~/app/_contexts/bpEntryContext";
 import DisplayCard from "./display-card";
 
 export default function DailyFeed() {

@@ -33,7 +33,7 @@ export interface BpEntryBaseProps {
   isSubmitting?: boolean;
 }
 
-export const BpFormBase = forwardRef<BpEntryBaseRefs, BpEntryBaseProps>(
+export const BaseBpForm = forwardRef<BpEntryBaseRefs, BpEntryBaseProps>(
   (
     {
       openSheet,

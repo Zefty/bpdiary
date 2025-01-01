@@ -1,35 +1,26 @@
 "use client";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { BpEntryContextProvider } from "~/app/_contexts/bpEntryContext";
 import { api, RouterOutputs } from "~/trpc/react";
 import { ScrollArea } from "../shadcn/scroll-area";
-import EditBpEntry from "../log-bp/edit-bp-form";
 import React from "react";
-import DailyDiaryHistoryCard from "../zdeprecated/dailyDiaryHistoryCard";
 import DisplayCard from "./display-card";
-
-type BloodPressureDiary = RouterOutputs["bloodPressure"]["getInfiniteDiary"];
 
 export default function InfiniteFeed() {
   const viewPortRef = useRef<HTMLDivElement>(null);
   const { ref, inView } = useInView();
 
-  const [openEditBpEntry, setOpenEditBpEntry] = useState(false);
-  const [bpEntryData, setBpEntryData] =
-    useState<BloodPressureDiary["data"][0]>();
-
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isPending } =
     api.bloodPressure.getInfiniteDiary.useInfiniteQuery(
-      {},
+      {
+        limit: 10
+      },
       {
         getNextPageParam: (lastPage) => lastPage.nextCursor,
       },
     );
 
   const flattenedData = data?.pages.flatMap((page) => page.data)
-
-  console.log(data)
 
   useEffect(() => {
     if (inView) {
@@ -57,7 +48,7 @@ export default function InfiniteFeed() {
     >
       <div className="flex flex-col items-center gap-2">
         <h1 className="m-8 text-2xl font-semibold leading-none tracking-tight">
-          Blood Pressure History
+          Blood Pressure Measurements
         </h1>
         <>
           <DisplayCard data={flattenedData} />

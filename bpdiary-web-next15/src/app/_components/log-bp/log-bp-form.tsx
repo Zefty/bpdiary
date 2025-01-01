@@ -3,20 +3,29 @@
 import { Button } from "~/app/_components/shadcn/button";
 import { LogBp } from "~/server/actions/server-actions";
 import { useRef, useTransition } from "react";
-import { useBpEntryContext } from "~/app/_contexts/bpEntryContext";
+import { BpEntryContextProvider, useBpEntryContext } from "~/app/_contexts/bpEntryContext";
 import { SheetDescription, SheetTitle } from "../shadcn/sheet";
-import { BpFormBase, BpEntryBaseRefs } from "./bp-form-base";
+import { BaseBpForm, BpEntryBaseRefs } from "./base-bp-form";
 import { useServerAction } from "~/app/_hooks/use-server-action";
 import { useToast } from "~/app/_hooks/use-toast";
 
-export default function AddBpEntry() {
+export default function LogBpFormProvider({ children } : { children?: React.ReactNode }) {
+  return (
+    <BpEntryContextProvider>
+      <LogBpForm />
+      {children}
+    </BpEntryContextProvider>
+  )
+}
+
+export function LogBpForm() {
   const bpEntryBaseRef = useRef<BpEntryBaseRefs>(null);
   const context = useBpEntryContext();
   const [LogBpAction, isLogging] = useServerAction(LogBp);
   const { toast } = useToast();
 
   return (
-    <BpFormBase
+    <BaseBpForm
       ref={bpEntryBaseRef}
       openSheet={context.openSheet}
       setOpenSheet={context.setOpenSheet}

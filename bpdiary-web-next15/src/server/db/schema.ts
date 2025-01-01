@@ -4,6 +4,7 @@ import {
   integer,
   pgTableCreator,
   primaryKey,
+  serial,
   text,
   timestamp,
   unique,
@@ -22,7 +23,7 @@ export const createTable = pgTableCreator((name) => `bpdiary_${name}`);
 export const posts = createTable(
   "post",
   {
-    id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+    id: integer("id").primaryKey().notNull(),
     name: varchar("name", { length: 256 }),
     createdById: varchar("created_by", { length: 255 })
       .notNull()
@@ -34,10 +35,10 @@ export const posts = createTable(
       () => new Date(),
     ),
   },
-  (example) => ({
+  (example) => ([{
     createdByIdIdx: index("created_by_idx").on(example.createdById),
     nameIndex: index("name_idx").on(example.name),
-  }),
+  }]),
 );
 
 export const users = createTable("user", {
@@ -79,12 +80,12 @@ export const accounts = createTable(
     id_token: text("id_token"),
     session_state: varchar("session_state", { length: 255 }),
   },
-  (account) => ({
+  (account) => ([{
     compoundKey: primaryKey({
       columns: [account.provider, account.providerAccountId],
     }),
     userIdIdx: index("account_user_id_idx").on(account.userId),
-  }),
+  }]),
 );
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
@@ -141,12 +142,12 @@ export const setting = createTable("setting", {
   ),
   settingName: varchar("setting_name").notNull(),
   settingValue: varchar("setting_value").notNull(),
-}, (s) => ({
+}, (s) => ([{
   compoundKey: primaryKey({ columns: [s.userId, s.settingName] }),
-}),);
+}]),);
 
 export const bloodPressure = createTable("blood_pressure", {
-  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+  id: serial("id").primaryKey(),
   loggedByUserId: varchar("logged_by_user_id", { length: 255 })
     .notNull()
     .references(() => users.id),
@@ -156,6 +157,9 @@ export const bloodPressure = createTable("blood_pressure", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
     () => new Date(),
   ),
+  measuredAt: timestamp("measured_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
   systolic: integer("systolic"),
   diastolic: integer("diastolic"),
   pulse: integer("pulse"),

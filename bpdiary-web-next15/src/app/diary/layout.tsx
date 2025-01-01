@@ -11,8 +11,8 @@ export default async function DiaryLayout({
     <SidebarProvider>
       <Toaster />
       <AppSidebar />
-      <section className="flex flex-col w-full h-screen max-h-screen">
-        <div className="flex-1">{children}</div>
+      <section className="w-full max-h-dvh">
+        {children}
       </section>
     </SidebarProvider>
   );

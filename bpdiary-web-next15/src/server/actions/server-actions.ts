@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { BpLog } from "../api/shared/types";
+import { BpMeasurement } from "../api/shared/types";
 import { parseData, preprocessFormData } from "~/lib/utils";
 import { api } from "~/trpc/server";
 
@@ -10,8 +10,8 @@ export async function LogBp(formData: FormData) {
   console.log(formData);
 
   try {
-    const bpLog = parseData(preprocessFormData(formData, BpLog), BpLog);
-    await api.bloodPressure.log(bpLog);
+    const bpMeasurement = parseData(preprocessFormData(formData, BpMeasurement), BpMeasurement);
+    await api.bloodPressure.log(bpMeasurement);
     revalidatePath("/diary/history");
     return { message: "success" };
   } catch (error) {
@@ -27,8 +27,8 @@ export async function EditBp(entryId: number | undefined, formData: FormData) {
 
   try {
     if (entryId === undefined) throw new Error("Entry ID is undefined");
-    const bpLog = parseData(preprocessFormData(formData, BpLog), BpLog);
-    await api.bloodPressure.editLog({ ...bpLog, id: entryId });
+    const bpMeasurement = parseData(preprocessFormData(formData, BpMeasurement), BpMeasurement);
+    await api.bloodPressure.editLog({ ...bpMeasurement, id: entryId });
     revalidatePath("/diary/history");
     return { message: "success" };
   } catch (error) {

@@ -46,7 +46,7 @@ type Timeframes = (typeof TIMEFRAMES)[number];
 
 type DiaryData = RouterOutputs["bloodPressure"]["getPastSevenDaysDiary"];
 
-export default function TimeframeLineChart() {
+export default function BpStockChart() {
   const initialVisibility = Object.keys(chartConfig).reduce((acc, val) => {
     acc[val as ChartTypes] = true;
     return acc;
@@ -68,17 +68,17 @@ export default function TimeframeLineChart() {
   allChartData.set("All", dataAll.data);
 
   const chartData = allChartData.get(timeframe)?.map((entry) => ({
-    date: entry.createdAtDate,
+    date: entry.measuredAtDate,
     systolic: Math.ceil(entry.avgSystolic),
     diastolic: Math.ceil(entry.avgDiastolic),
     pulse: Math.ceil(entry.avgPulse),
   }));
 
   return (
-    <Card className="h-full w-full">
+    <Card className="flex flex-col h-full w-full">
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-          <CardTitle>Blood Pressure 7 Day History</CardTitle>
+          <CardTitle>Blood Pressure</CardTitle>
           <CardDescription>Past 7 Days (Average per day)</CardDescription>
         </div>
         <div className="flex">
@@ -96,17 +96,16 @@ export default function TimeframeLineChart() {
           })}
         </div>
       </CardHeader>
-      <CardContent className="p-5">
-        <ChartContainer config={chartConfig}>
-          <LineChart
+      <CardContent className="flex-1 p-5">
+        <ChartContainer config={chartConfig} className="w-full h-[99%]">
+          <LineChart 
             accessibilityLayer
             data={chartData}
             margin={{
               left: -20,
               right: 12,
-            }}
-          >
-            <CartesianGrid vertical={false} />
+            }}>
+            <ChartTooltip cursor={false} content={<ChartTooltipContent />}/>
             <XAxis
               dataKey="date"
               tickLine={true}
@@ -118,11 +117,6 @@ export default function TimeframeLineChart() {
               interval="equidistantPreserveStart"
             />
             <YAxis tickLine={false} axisLine={false} tickMargin={8} />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent />}
-              defaultIndex={1}
-            />
             {visibility.systolic && (
               <Line
                 dataKey="systolic"
@@ -163,7 +157,7 @@ export default function TimeframeLineChart() {
                   id={key.toLocaleLowerCase()}
                   className={`data-[state=checked]:bg-[${chartConfig[keyTyped].color}]`}
                   checked={visibility[keyTyped]}
-                  onCheckedChange={() => setVisibility({...visibility, [key]: !visibility[keyTyped]})}
+                  onCheckedChange={() => setVisibility({ ...visibility, [key]: !visibility[keyTyped] })}
                 />
                 <Label htmlFor="airplane-mode">
                   {chartConfig[keyTyped].label}
@@ -172,12 +166,6 @@ export default function TimeframeLineChart() {
             );
           })}
         </div>
-        {/* <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
-        </div> */}
       </CardFooter>
     </Card>
   );

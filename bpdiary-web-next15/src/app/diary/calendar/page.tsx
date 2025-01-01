@@ -9,7 +9,7 @@ import { BpEntryContextProvider } from "~/app/_contexts/bpEntryContext";
 
 export default async function CalendarPage() {
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  // today.setHours(0, 0, 0, 0);
   const som = startOfMonth(today);
 
   await api.bloodPressure.getInfiniteDiary.prefetchInfinite({});
@@ -26,12 +26,11 @@ export default async function CalendarPage() {
     <HydrateClient>
       <BpCalendarContextProvider initialDate={today}>
         <BpCalendarDataContextProvider>
-          <BpEntryContextProvider>
-            <div className="flex h-full w-full flex-col">
-              <div className="p-2">
+            <div className="flex h-full w-full flex-col py-2 gap-2">
+              <div className="px-2">
                 <CalendarHeader />
               </div>
-              <div className="flex h-full w-full items-center gap-2 px-2 pb-2">
+              <div className="flex h-full w-full items-center gap-2 px-2">
                 <div className="h-full flex-1">
                   <CalendarView />
                 </div>
@@ -43,7 +42,6 @@ export default async function CalendarPage() {
                 </div>
               </div>
             </div>
-          </BpEntryContextProvider>
         </BpCalendarDataContextProvider>
       </BpCalendarContextProvider>
     </HydrateClient>

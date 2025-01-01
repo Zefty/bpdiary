@@ -2,14 +2,23 @@
 
 import { Button } from "~/app/_components/shadcn/button";
 import { EditBp } from "~/server/actions/server-actions";
-import { BpFormBase, BpEntryBaseRefs } from "./bp-form-base";
+import { BaseBpForm, BpEntryBaseRefs } from "./base-bp-form";
 import React, { useRef } from "react";
-import { useBpEntryContext } from "~/app/_contexts/bpEntryContext";
+import { BpEntryContextProvider, useBpEntryContext } from "~/app/_contexts/bpEntryContext";
 import { SheetClose, SheetDescription, SheetTitle } from "../shadcn/sheet";
 import { useServerAction } from "~/app/_hooks/use-server-action";
 import { useToast } from "~/app/_hooks/use-toast";
 
-export default function EditBpEntry() {
+export default function EditBpFormProvider({ children } : { children?: React.ReactNode }) {
+  return (
+    <BpEntryContextProvider>
+      <EditBpForm />
+      {children}
+    </BpEntryContextProvider>
+  )
+}
+
+export function EditBpForm() {
   const bpEntryBaseRef = useRef<BpEntryBaseRefs>(null);
   const context = useBpEntryContext();
   const bpEntryData = context.bpEntryData;
@@ -18,7 +27,7 @@ export default function EditBpEntry() {
   const { toast } = useToast();
   
   return (
-    <BpFormBase
+    <BaseBpForm
       ref={bpEntryBaseRef}
       openSheet={context.openSheet}
       setOpenSheet={context.setOpenSheet}

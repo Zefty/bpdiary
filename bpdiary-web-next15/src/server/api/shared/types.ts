@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const BpLog = z.object({
+export const BpMeasurement = z.object({
   datetime: z.date(),
   systolic: z.number().int().optional(),
   diastolic: z.number().int().optional(),
@@ -8,7 +8,7 @@ export const BpLog = z.object({
   notes: z.string().optional(),
 });
 
-export const BpLogWithId = BpLog.extend({ id: z.number().int() });
+export const BpMeasurementWithId = BpMeasurement.extend({ id: z.number().int() });
 
-export type BpLog = z.infer<typeof BpLog>;
-export type BpLogWithId = z.infer<typeof BpLogWithId>;
+export type BpMeasurement = z.infer<typeof BpMeasurement>;
+export type BpMeasurementWithId = z.infer<typeof BpMeasurementWithId>;

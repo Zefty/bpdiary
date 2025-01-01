@@ -1,6 +1,6 @@
 import BarChart from "~/app/_components/charts/bp-by-dow";
 import InfoChart from "~/app/_components/charts/info-chart";
-import TimeframeLineChart from "~/app/_components/charts/timeframe-line-chart";
+import TimeframeLineChart from "~/app/_components/charts/bp-stock-chart";
 import RingChart from "~/app/_components/charts/ring-chart";
 import { api, HydrateClient } from "~/trpc/server";
 

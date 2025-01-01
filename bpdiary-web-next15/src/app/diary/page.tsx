@@ -1,9 +1,11 @@
 import { api, HydrateClient } from "~/trpc/server";
 import { SidebarTrigger } from "../_components/shadcn/sidebar";
-import BpLineChart from "../_components/charts/timeframe-line-chart";
+import BpStockChart from "../_components/charts/bp-stock-chart";
 import InfiniteFeed from "../_components/bp-feed/infinite-feed";
-import CalendarHeader from "../_components/calendar/calendar-header";
-import { BpEntryContextProvider } from "../_contexts/bpEntryContext";
+import HomeHeader from "../_components/header/home-header";
+import BpChart from "../_components/charts/bp-chart";
+import HeartRateChart from "../_components/charts/heart-rate-chart";
+import MeasurementsChart from "../_components/charts/measurements-charts";
 
 export default async function DiaryHomePage() {
   await Promise.all([
@@ -14,24 +16,28 @@ export default async function DiaryHomePage() {
   ]);
   return (
     <HydrateClient>
-      <BpEntryContextProvider>
-        <div className="flex h-full w-full flex-col">
-          <div className="p-2">
-            <CalendarHeader />
-          </div>
-          <div className="flex h-full w-full items-center gap-2 p-2">
-            <div className="h-full flex-1">
-              <BpLineChart />
-            </div>
-
-            <div className="relative hidden h-full flex-1 md:flex">
-              <div className="absolute bottom-0 left-0 right-0 top-0">
-                <InfiniteFeed />
+      <div className="h-screen grid grid-rows-1 grid-cols-3 p-2 gap-2">
+        <div className="flex flex-col items-center gap-2 col-span-3 md:col-span-2 ">
+          <HomeHeader />
+          <div className="h-full w-full flex flex-col items-center border rounded-md p-8">
+            <div className="h-full w-full max-w-[1024px] grid grid-rows-1 grid-cols-3 gap-8">
+              <div className="col-span-2">
+                <BpStockChart />
+              </div>
+              <div className="col-span-1 grid grid-rows-3 grid-cols-1 gap-8">
+                <BpChart />
+                <HeartRateChart />
+                <MeasurementsChart />
               </div>
             </div>
           </div>
         </div>
-      </BpEntryContextProvider>
+        <div className="relative hidden md:block w-full">
+          <div className="absolute bottom-0 left-0 right-0 top-0">
+            <InfiniteFeed />
+          </div>
+        </div>
+      </div>
     </HydrateClient>
   )
 }
