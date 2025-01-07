@@ -47,6 +47,7 @@ export const authConfig = {
   }),
   callbacks: {
     session: async ({ session, user }) => {
+      // const timezone = 
       return {
         ...session,
         user: {
@@ -55,12 +56,6 @@ export const authConfig = {
         },
       };
     },
-    redirect: async ({ url, baseUrl }) => {
-      // console.log(url, baseUrl)
-      return url.startsWith(baseUrl)
-      ? Promise.resolve(url.includes('/diary') ? baseUrl : `${baseUrl}/diary`)
-      : Promise.resolve(baseUrl)
-    }
   },
   session: { strategy: "database" },
 } satisfies NextAuthConfig;

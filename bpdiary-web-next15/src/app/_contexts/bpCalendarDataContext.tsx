@@ -49,7 +49,7 @@ export const BpCalendarDataContextProvider: React.FC<BpCalendarDataContextProvid
         data: dataMonthly.data ?? [],
         dataFilteredBySelectedDate:
           dataMonthly.data?.filter((entry) =>
-            isSameDay(entry.createdAt, calendarContext?.selectedDate ?? 0),
+            isSameDay(entry.measuredAt, calendarContext?.selectedDate ?? 0),
           ) ?? [],
       }}
     >

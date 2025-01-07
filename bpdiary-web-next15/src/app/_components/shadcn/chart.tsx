@@ -1,5 +1,6 @@
 "use client"
 
+import { format } from "date-fns"
 import * as React from "react"
 import * as RechartsPrimitive from "recharts"
 
@@ -139,12 +140,21 @@ const ChartTooltipContent = React.forwardRef<
       }
 
       const [item] = payload
-      const key = `${labelKey || item.dataKey || item.name || "value"}`
+      const key = `${labelKey || item?.dataKey || item?.name || "value"}`
       const itemConfig = getPayloadConfigFromPayload(config, item, key)
-      const value =
-        !labelKey && typeof label === "string"
-          ? config[label as keyof typeof config]?.label || label
-          : itemConfig?.label
+      // const value =
+      //   !labelKey && typeof label === "string"
+      //     ? config[label as keyof typeof config]?.label || label
+      //     : itemConfig?.label
+
+      let value = undefined
+      if (!labelKey && typeof label === "string") {
+        value = config[label as keyof typeof config]?.label || label
+      } else if (!labelKey && label instanceof Date) {
+        value = format(label, "PP")
+      } else {
+        itemConfig?.label
+      }
 
       if (labelFormatter) {
         return (

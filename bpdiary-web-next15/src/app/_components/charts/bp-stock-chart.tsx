@@ -87,7 +87,7 @@ export default function BpStockChart() {
               <button
                 key={chart}
                 data-active={timeframe === chart}
-                className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-6 sm:py-6"
+                className="flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-6 sm:py-6"
                 onClick={() => setTimeframe(chart)}
               >
                 <span className="text-xs text-muted-foreground">{chart}</span>
@@ -105,16 +105,19 @@ export default function BpStockChart() {
               left: -20,
               right: 12,
             }}>
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />}/>
+            <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line"/>}/>
+            <CartesianGrid vertical={false} />
             <XAxis
               dataKey="date"
-              tickLine={true}
-              axisLine={true}
-              tickMargin={8}
+              tickLine={false}
+              axisLine={false}
+              tickMargin={16}
               tickFormatter={(value: Date) =>
                 `${value.getDate()} ${DateMonthShortFormat.format(value)}`
               }
               interval="equidistantPreserveStart"
+              angle={-45}
+              height={45}
             />
             <YAxis tickLine={false} axisLine={false} tickMargin={8} />
             {visibility.systolic && (

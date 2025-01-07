@@ -36,6 +36,7 @@ import { auth } from "~/server/auth";
 import { Button } from "../shadcn/button";
 import { Separator } from "../shadcn/separator";
 import ThemeToggle from "./theme-toggle";
+import SignOut from "./sign-out";
 
 const items = [
   {
@@ -48,11 +49,11 @@ const items = [
     url: "/diary/calendar",
     icon: Calendar,
   },
-  {
-    title: "Charts",
-    url: "/diary/charts",
-    icon: ChartLine,
-  },
+  // {
+  //   title: "Charts",
+  //   url: "/diary/charts",
+  //   icon: ChartLine,
+  // },
 ];
 
 export async function AppSidebar() {
@@ -136,10 +137,11 @@ export async function AppSidebar() {
                   asChild
                   className="h-12 pl-4 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4"
                 >
-                  <Link href="/api/auth/signout">
+                  {/* <Link href="/api/auth/signout">
                     <LogOut />
                     <span>Sign out</span>
-                  </Link>
+                  </Link> */}
+                  <SignOut />
                 </SidebarMenuButton>
               </DropdownMenuContent>
             </DropdownMenu>

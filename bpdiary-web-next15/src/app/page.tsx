@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { auth } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
+import SignIn from "./_components/navigation/sign-in";
 
 export default async function HomePage() {
   const session = await auth();
@@ -17,12 +18,13 @@ export default async function HomePage() {
                 {session && <span>Logged in as {session.user?.name}</span>}
               </p>
               {!session && (
-                <Link
-                  href="/api/auth/signin?callbackUrl=/diary"
-                  className="rounded-full bg-primary px-10 py-3 font-semibold no-underline transition hover:bg-primary/70 text-white"
-                >
-                  Sign in
-                </Link>
+                // <Link
+                //   href="/api/auth/signin?tz=apple"
+                //   className="rounded-full bg-primary px-10 py-3 font-semibold no-underline transition hover:bg-primary/70 text-white"
+                // >
+                //   Sign in
+                // </Link>
+                <SignIn/>
               )}
             </div>
           </div>

@@ -22,7 +22,7 @@ const chartConfig = {
 
 
 export default function MeasurementsChart() {
-    const data = api.bloodPressure.getIsBpRecordedMonthly.useQuery();
+    const data = api.bloodPressure.getDatesWithBpMeasurementsByMonth.useQuery();
 
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth();

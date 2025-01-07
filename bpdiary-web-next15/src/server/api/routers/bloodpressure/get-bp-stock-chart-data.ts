@@ -1,9 +1,12 @@
-import { sql, and, eq, asc } from "drizzle-orm";
+import { sql, and, eq, asc, between, lte } from "drizzle-orm";
 import { bloodPressure } from "~/server/db/schema";
 import { protectedProcedure } from "../../trpc";
+import { endOfDay, startOfDay, startOfYear, subDays } from "date-fns";
 
 export const getBpStockChartData = {
     getPastSevenDaysDiary: protectedProcedure.query(async ({ ctx }) => {
+        const today = endOfDay(new Date());
+        const last7Days = startOfDay(subDays(today, 7));
         return await ctx.db
             .select({
                 measuredAtDate: sql`${bloodPressure.measuredAt}::DATE`
@@ -17,7 +20,7 @@ export const getBpStockChartData = {
             .where(
                 and(
                     eq(bloodPressure.loggedByUserId, ctx.session.user.id),
-                    sql`${bloodPressure.measuredAt} >= CURRENT_DATE - 6`,
+                    between(bloodPressure.measuredAt, last7Days, today)
                 ),
             )
             .groupBy(
@@ -35,6 +38,8 @@ export const getBpStockChartData = {
             );
     }),
     getPastMonthDiary: protectedProcedure.query(async ({ ctx }) => {
+        const today = endOfDay(new Date());
+        const last30Days = startOfDay(subDays(today, 30));
         return await ctx.db
             .select({
                 measuredAtDate: sql`${bloodPressure.measuredAt}::DATE`
@@ -48,7 +53,8 @@ export const getBpStockChartData = {
             .where(
                 and(
                     eq(bloodPressure.loggedByUserId, ctx.session.user.id),
-                    sql`${bloodPressure.measuredAt} >= CURRENT_DATE - 30`,
+                    between(bloodPressure.measuredAt, last30Days, today),
+                    // sql`${bloodPressure.measuredAt} BETWEEN CURRENT_DATE - 30 AND CURRENT_DATE`,
                 ),
             )
             .groupBy(
@@ -66,6 +72,8 @@ export const getBpStockChartData = {
             );
     }),
     getPastYearDiary: protectedProcedure.query(async ({ ctx }) => {
+        const today = endOfDay(new Date());
+        const past365Days = startOfDay(subDays(today, 365));
         return await ctx.db
             .select({
                 measuredAtDate: sql`${bloodPressure.measuredAt}::DATE`
@@ -79,7 +87,7 @@ export const getBpStockChartData = {
             .where(
                 and(
                     eq(bloodPressure.loggedByUserId, ctx.session.user.id),
-                    sql`${bloodPressure.measuredAt} >= CURRENT_DATE - 365`,
+                    between(bloodPressure.measuredAt, past365Days, today)
                 ),
             )
             .groupBy(
@@ -159,6 +167,8 @@ export const getBpStockChartData = {
             );
     }),
     getThisYearDiary: protectedProcedure.query(async ({ ctx }) => {
+        const today = endOfDay(new Date());
+        const startDateOfYear = startOfYear(today);
         return await ctx.db
             .select({
                 measuredAtDate: sql`${bloodPressure.measuredAt}::DATE`
@@ -172,7 +182,7 @@ export const getBpStockChartData = {
             .where(
                 and(
                     eq(bloodPressure.loggedByUserId, ctx.session.user.id),
-                    sql`${bloodPressure.measuredAt} >= date_trunc('year', CURRENT_DATE)`,
+                    between(bloodPressure.measuredAt, startDateOfYear, today)
                 ),
             )
             .groupBy(
@@ -200,7 +210,7 @@ export const getBpStockChartData = {
                 avgPulse: sql<number>`AVG(${bloodPressure.pulse})`,
             })
             .from(bloodPressure)
-            .where(and(eq(bloodPressure.loggedByUserId, ctx.session.user.id)))
+            .where(and(eq(bloodPressure.loggedByUserId, ctx.session.user.id), lte(bloodPressure.measuredAt, endOfDay(new Date()))))
             .groupBy(
                 sql`${bloodPressure.measuredAt}::DATE`.mapWith(
                     (value: Date) => new Date(value),

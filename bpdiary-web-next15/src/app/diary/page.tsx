@@ -13,6 +13,9 @@ export default async function DiaryHomePage() {
     api.bloodPressure.getThisWeekDiary.prefetch(),
     api.bloodPressure.getThisMonthDiary.prefetch(),
     api.bloodPressure.getThisYearDiary.prefetch(),
+    api.bloodPressure.getInfiniteDiary.prefetchInfinite({
+      limit: 10
+    })
   ]);
   return (
     <HydrateClient>

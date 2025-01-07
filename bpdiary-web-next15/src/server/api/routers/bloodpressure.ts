@@ -38,20 +38,20 @@ export const bloodPressureRouter = createTRPCRouter({
         asc(sql`EXTRACT(DOW FROM ${bloodPressure.createdAt})`.mapWith(Number)),
       );
   }),
-  getIsBpRecordedMonthly: protectedProcedure.query(async ({ ctx }) => {
-    const now = new Date();
+  getDatesWithBpMeasurementsByMonth: protectedProcedure.input(z.object({ date: z.date() }).optional()).query(async ({ input, ctx }) => {
+    const now = input?.date ?? new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
 
     return await ctx.db
       .select({
-        createdAt: bloodPressure.createdAt,
+        measuredAt: bloodPressure.measuredAt,
       })
       .from(bloodPressure)
       .where(
         and(
           eq(bloodPressure.loggedByUserId, ctx.session.user.id),
-          between(bloodPressure.createdAt, startOfMonth, endOfMonth),
+          between(bloodPressure.measuredAt, startOfMonth, endOfMonth),
         ),
       );
   }),
@@ -103,11 +103,11 @@ export const bloodPressureRouter = createTRPCRouter({
         .where(
           and(
             eq(bloodPressure.loggedByUserId, ctx.session.user.id),
-            gte(bloodPressure.createdAt, start),
-            lt(bloodPressure.createdAt, end),
+            gte(bloodPressure.measuredAt, start),
+            lt(bloodPressure.measuredAt, end),
           ),
         )
-        .orderBy(desc(bloodPressure.createdAt));
+        .orderBy(desc(bloodPressure.measuredAt));
     }),
   getMonthlyPaginatedDiary: protectedProcedure
     .input(

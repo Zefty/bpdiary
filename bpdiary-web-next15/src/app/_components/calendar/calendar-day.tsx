@@ -11,7 +11,7 @@ export default function CalendarDay(props: DayProps) {
   const dataContext = useBpCalendarDataContext();
   const { day, modifiers, ...tdProps } = props;
   const cellData = dataContext?.data?.find((ele) =>
-    isSameDay(ele.createdAt, day.date),
+    isSameDay(ele.measuredAt, day.date),
   );
   return (
     <td

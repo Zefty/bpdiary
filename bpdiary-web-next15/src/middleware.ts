@@ -1,12 +1,13 @@
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server'
+import { env } from './env';
 
 const protectedRoutes = ['/diary']
 const publicRoutes = ['/login', '/signup', '/']
  
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname
-  const baseUrl = req.url.replace(path, "")
+  const baseUrl = env.BASE_URL;
 
   const isProtectedRoute = protectedRoutes.some((route) => path.startsWith(route));
   const isPublicRoute = publicRoutes.includes(path)
@@ -39,7 +40,6 @@ export default async function middleware(req: NextRequest) {
     !req.nextUrl.pathname.startsWith('/diary')
   ) {
     return NextResponse.redirect(new URL('/diary', req.nextUrl));
-    // return NextResponse.next();
   }
  
   return NextResponse.next();

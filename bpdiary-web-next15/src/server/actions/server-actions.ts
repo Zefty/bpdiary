@@ -12,7 +12,7 @@ export async function LogBp(formData: FormData) {
   try {
     const bpMeasurement = parseData(preprocessFormData(formData, BpMeasurement), BpMeasurement);
     await api.bloodPressure.log(bpMeasurement);
-    revalidatePath("/diary/history");
+    revalidatePath("/diary");
     return { message: "success" };
   } catch (error) {
     console.error("Failed to parse data", error);
@@ -29,7 +29,7 @@ export async function EditBp(entryId: number | undefined, formData: FormData) {
     if (entryId === undefined) throw new Error("Entry ID is undefined");
     const bpMeasurement = parseData(preprocessFormData(formData, BpMeasurement), BpMeasurement);
     await api.bloodPressure.editLog({ ...bpMeasurement, id: entryId });
-    revalidatePath("/diary/history");
+    revalidatePath("/diary");
     return { message: "success" };
   } catch (error) {
     console.error("Failed to parse data", error);
