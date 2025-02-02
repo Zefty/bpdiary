@@ -43,7 +43,7 @@ type ChartTypes = keyof typeof chartConfig;
 const TIMEFRAMES = ["W", "M", "YTD", "Y", "All"] as const;
 type Timeframes = (typeof TIMEFRAMES)[number];
 
-type DiaryData = RouterOutputs["bloodPressure"]["getPastSevenDaysDiary"];
+type DiaryData = RouterOutputs["bloodPressure"]["getStockChartData"];
 
 export default function BpStockChart() {
   const initialVisibility = Object.keys(chartConfig).reduce((acc, val) => {

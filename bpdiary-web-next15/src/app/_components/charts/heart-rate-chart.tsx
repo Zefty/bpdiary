@@ -12,6 +12,7 @@ import {
 } from "~/app/_components/shadcn/chart"
 import { HeartPulse } from "lucide-react";
 import { api } from "~/trpc/react";
+import { endOfDay, startOfDay, subDays } from "date-fns";
 
 const chartConfig = {
     pulse: {
@@ -22,8 +23,9 @@ const chartConfig = {
 
 
 export default function HeartRateChart() {
-    const currentDate = new Date();
-    const dataPastSevenDays = api.bloodPressure.getPastSevenDaysDiary.useQuery();
+    const toDate = endOfDay(new Date());
+    const fromLastWeek = startOfDay(subDays(toDate, 7));
+    const dataPastSevenDays = api.bloodPressure.getStockChartData.useQuery({ fromDate: fromLastWeek, toDate });
     const chartData = dataPastSevenDays.data?.map((entry) => ({
         date: entry.measuredAtDate,
         systolic: Math.ceil(entry.avgSystolic),

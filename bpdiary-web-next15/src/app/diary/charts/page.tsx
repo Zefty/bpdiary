@@ -6,11 +6,7 @@ import { api, HydrateClient } from "~/trpc/server";
 
 export default async function ChartsPage() {
     await Promise.all([
-        api.bloodPressure.getPastSevenDaysDiary.prefetch(),
-        api.bloodPressure.getThisWeekDiary.prefetch(),
-        api.bloodPressure.getThisMonthDiary.prefetch(),
-        api.bloodPressure.getThisYearDiary.prefetch(),
-        api.bloodPressure.getWholeDiary.prefetch(),
+        // api.bloodPressure.getPastSevenDaysDiary.prefetch(),
         api.bloodPressure.getAverageBpPerDayOfWeek.prefetch(),
         api.bloodPressure.getDatesWithBpMeasurementsByMonth.prefetch(),
         api.bloodPressure.getAverageMeasurements.prefetch(),
