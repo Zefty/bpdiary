@@ -1,10 +1,14 @@
-import { and, eq } from "drizzle-orm";
+import {
+    createTRPCRouter,
+    protectedProcedure,
+} from "~/server/api/trpc";
 import { bloodPressure } from "~/server/db/schema";
-import { BpMeasurement, BpMeasurementWithId } from "../../shared/types";
-import { protectedProcedure } from "../../trpc";
+import { BpMeasurement, BpMeasurementWithId } from "../shared/types";
+import { and, eq } from "drizzle-orm";
+import { z } from "zod";
 
-export const createAndEdit = {
-    log: protectedProcedure.input(BpMeasurement).mutation(async ({ ctx, input }) => {
+export const bloodPressureRouter = createTRPCRouter({
+    logMeasurement: protectedProcedure.input(BpMeasurement).mutation(async ({ ctx, input }) => {
         const now = new Date();
         await ctx.db.insert(bloodPressure).values({
             loggedByUserId: ctx.session.user.id,
@@ -18,7 +22,7 @@ export const createAndEdit = {
         });
     }),
 
-    editLog: protectedProcedure.input(BpMeasurementWithId).mutation(async ({ ctx, input }) => {
+    editMeasurement: protectedProcedure.input(BpMeasurementWithId).mutation(async ({ ctx, input }) => {
         await ctx.db
             .update(bloodPressure)
             .set({
@@ -35,5 +39,16 @@ export const createAndEdit = {
                     eq(bloodPressure.loggedByUserId, ctx.session.user.id),
                 ),
             );
+    }),
+
+    deleteMeasurement: protectedProcedure.input(z.object({ id: z.number() })).mutation(async ({ ctx, input }) => {
+        await ctx.db
+            .delete(bloodPressure)
+            .where(
+                and(
+                    eq(bloodPressure.id, input.id),
+                    eq(bloodPressure.loggedByUserId, ctx.session.user.id),
+                ),
+            );
     })
-};
+});

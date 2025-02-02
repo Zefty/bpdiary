@@ -24,7 +24,7 @@ const chartConfig = {
 export default function BpChart() {
     const toDate = endOfDay(new Date());
     const fromLastWeek = startOfDay(subDays(toDate, 7));
-    const dataPastSevenDays = api.bloodPressure.getStockChartData.useQuery({ fromDate: fromLastWeek, toDate });
+    const dataPastSevenDays = api.chart.getStockChartData.useQuery({ fromDate: fromLastWeek, toDate });
     const chartData = dataPastSevenDays.data?.map((entry) => ({
         date: entry.measuredAtDate,
         systolic: Math.ceil(entry.avgSystolic),

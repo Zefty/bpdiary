@@ -1,8 +1,11 @@
 import { postRouter } from "~/server/api/routers/post";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
-import { bloodPressureRouter } from "./routers/bloodpressure";
+import { bloodPressureRouter } from "./routers/blood-pressure";
 import { settingRouter } from "./routers/setting";
 import { sessionRouter } from "./routers/session";
+import { feedRouter } from "./routers/feed";
+import { calendarRouter } from "./routers/calendar";
+import { chartRouter } from "./routers/chart";
 
 /**
  * This is the primary router for your server.
@@ -14,6 +17,9 @@ export const appRouter = createTRPCRouter({
   bloodPressure: bloodPressureRouter,
   setting: settingRouter,
   session: sessionRouter,
+  feed: feedRouter,
+  calendar: calendarRouter,
+  chart: chartRouter,
 });
 
 // export type definition of API

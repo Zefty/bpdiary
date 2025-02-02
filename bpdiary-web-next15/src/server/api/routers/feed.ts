@@ -1,9 +1,13 @@
-import { eq, desc, sql, count, and, lt } from "drizzle-orm";
+import { eq, desc, sql, and, lt, count } from "drizzle-orm";
 import { z } from "zod";
-import { bloodPressure } from "~/server/db/schema";
-import { protectedProcedure } from "../../trpc";
 
-export const getPaginated = {
+import {
+    createTRPCRouter,
+    protectedProcedure,
+} from "~/server/api/trpc";
+import { bloodPressure } from "~/server/db/schema";
+
+export const feedRouter = createTRPCRouter({
     getPaginatedDiary: protectedProcedure
         .input(
             z.object({
@@ -38,7 +42,7 @@ export const getPaginated = {
                     .where(eq(bloodPressure.loggedByUserId, ctx.session.user.id))
             )[0];
         }),
-        
+
     getInfiniteDiary: protectedProcedure
         .input(
             z.object({
@@ -63,4 +67,4 @@ export const getPaginated = {
                 nextCursor: data.length ? data[data.length - 1]?.measuredAt : null,
             };
         })
-}
+});

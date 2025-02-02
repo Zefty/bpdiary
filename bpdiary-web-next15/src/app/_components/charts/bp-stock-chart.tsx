@@ -43,7 +43,7 @@ type ChartTypes = keyof typeof chartConfig;
 const TIMEFRAMES = ["W", "M", "YTD", "Y", "All"] as const;
 type Timeframes = (typeof TIMEFRAMES)[number];
 
-type DiaryData = RouterOutputs["bloodPressure"]["getStockChartData"];
+type DiaryData = RouterOutputs["chart"]["getStockChartData"];
 
 export default function BpStockChart() {
   const initialVisibility = Object.keys(chartConfig).reduce((acc, val) => {
@@ -60,11 +60,11 @@ export default function BpStockChart() {
   const fromStartOfYear = startOfYear(toDate);
   const fromAll = new Date(0);
 
-  const week = api.bloodPressure.getStockChartData.useQuery({ fromDate: fromLastWeek, toDate });
-  const month = api.bloodPressure.getStockChartData.useQuery({ fromDate: fromLastMonth, toDate });
-  const year =  api.bloodPressure.getStockChartData.useQuery({ fromDate: fromLastYear, toDate });
-  const ytd = api.bloodPressure.getStockChartData.useQuery({ fromDate: fromStartOfYear, toDate });
-  const all = api.bloodPressure.getStockChartData.useQuery({ fromDate: fromAll, toDate });
+  const week = api.chart.getStockChartData.useQuery({ fromDate: fromLastWeek, toDate });
+  const month = api.chart.getStockChartData.useQuery({ fromDate: fromLastMonth, toDate });
+  const year =  api.chart.getStockChartData.useQuery({ fromDate: fromLastYear, toDate });
+  const ytd = api.chart.getStockChartData.useQuery({ fromDate: fromStartOfYear, toDate });
+  const all = api.chart.getStockChartData.useQuery({ fromDate: fromAll, toDate });
 
   const allChartData = new Map<Timeframes, DiaryData | undefined>();
   allChartData.set("W", week.data);

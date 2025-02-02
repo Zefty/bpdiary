@@ -28,7 +28,7 @@ export default function BpDiaryHistory({
     useState<BloodPressureDiary["data"][0]>();
 
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isPending } =
-    api.bloodPressure.getInfiniteDiary.useInfiniteQuery(
+    api.feed.getInfiniteDiary.useInfiniteQuery(
       {},
       {
         getNextPageParam: (lastPage) => lastPage.nextCursor,

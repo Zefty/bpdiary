@@ -6,7 +6,7 @@ import { createContext } from "react";
 import { api, RouterOutputs } from "~/trpc/react";
 import { useBpCalendarContext } from "./bpCaldendarContext";
 
-type BloodPressureDiary = RouterOutputs["bloodPressure"]["getMonthlyDiary"];
+type BloodPressureDiary = RouterOutputs["calendar"]["getMonthlyDiary"];
 
 /**
  * Daily Blood Pressure History Context
@@ -31,15 +31,15 @@ export const BpCalendarDataContextProvider: React.FC<BpCalendarDataContextProvid
 
   const som = startOfMonth(calendarContext?.selectedMonth ?? new Date());
 
-  const dataMonthly = api.bloodPressure.getMonthlyRollingDiary.useQuery({
+  const dataMonthly = api.calendar.getMonthlyRollingDiary.useQuery({
     date: som,
   });
 
-  void api.bloodPressure.getMonthlyRollingDiary.useQuery({
+  void api.calendar.getMonthlyRollingDiary.useQuery({
     date: subMonths(som, 1),
   });
 
-  void api.bloodPressure.getMonthlyRollingDiary.useQuery({
+  void api.calendar.getMonthlyRollingDiary.useQuery({
     date: addMonths(som, 1),
   });
 

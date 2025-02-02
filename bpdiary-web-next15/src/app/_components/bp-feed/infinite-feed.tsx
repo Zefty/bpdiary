@@ -11,7 +11,7 @@ export default function InfiniteFeed() {
   const { ref, inView } = useInView();
 
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isPending } =
-    api.bloodPressure.getInfiniteDiary.useInfiniteQuery(
+    api.feed.getInfiniteDiary.useInfiniteQuery(
       {
         limit: 10
       },

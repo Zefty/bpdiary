@@ -17,12 +17,12 @@ export default async function DiaryHomePage() {
   const fromAll = new Date(0);
 
   await Promise.all([
-    api.bloodPressure.getStockChartData.prefetch({ fromDate: fromLastWeek, toDate }),
-    api.bloodPressure.getStockChartData.prefetch({ fromDate: fromLastMonth, toDate }),
-    api.bloodPressure.getStockChartData.prefetch({ fromDate: fromLastYear, toDate }),
-    api.bloodPressure.getStockChartData.prefetch({ fromDate: fromStartOfYear, toDate }),
-    api.bloodPressure.getStockChartData.prefetch({ fromDate: fromAll, toDate }),
-    api.bloodPressure.getInfiniteDiary.prefetchInfinite({
+    api.chart.getStockChartData.prefetch({ fromDate: fromLastWeek, toDate }),
+    api.chart.getStockChartData.prefetch({ fromDate: fromLastMonth, toDate }),
+    api.chart.getStockChartData.prefetch({ fromDate: fromLastYear, toDate }),
+    api.chart.getStockChartData.prefetch({ fromDate: fromStartOfYear, toDate }),
+    api.chart.getStockChartData.prefetch({ fromDate: fromAll, toDate }),
+    api.feed.getInfiniteDiary.prefetchInfinite({
       limit: 10
     })
   ]);
