@@ -22,9 +22,7 @@ export default async function DiaryHomePage() {
     api.chart.getStockChartData.prefetch({ fromDate: fromLastYear, toDate }),
     api.chart.getStockChartData.prefetch({ fromDate: fromStartOfYear, toDate }),
     api.chart.getStockChartData.prefetch({ fromDate: fromAll, toDate }),
-    api.feed.getInfiniteDiary.prefetchInfinite({
-      limit: 10
-    })
+    api.feed.getInfiniteDiary.prefetchInfinite({ limit: 10 })
   ]);
   const session = await auth();
   return (

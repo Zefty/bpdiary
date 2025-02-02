@@ -1,4 +1,4 @@
-import { and, eq, sql, between, getTableColumns } from "drizzle-orm";
+import { and, eq, sql, between, getTableColumns, asc, avg } from "drizzle-orm";
 import { z } from "zod";
 
 import {
@@ -14,6 +14,7 @@ export const chartRouter = createTRPCRouter({
         const data = getBloodPressureAdjustedByUserTimezone(ctx, input.fromDate, input.toDate);
         return data
     }),
+    
     getDatesWithBpMeasurementsByMonth: protectedProcedure.input(z.object({ date: z.date() }).optional()).query(async ({ input, ctx }) => {
         const now = input?.date ?? new Date();
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -30,6 +31,37 @@ export const chartRouter = createTRPCRouter({
                     between(bloodPressure.measuredAt, startOfMonth, endOfMonth),
                 ),
             );
+    }),
+    
+    getAverageBpPerDayOfWeek: protectedProcedure.query(async ({ ctx }) => {
+        return await ctx.db
+            .select({
+                dayOfWeek: sql`EXTRACT(DOW FROM ${bloodPressure.createdAt})`
+                    .mapWith(Number)
+                    .as("dayOfWeek"),
+                avgSystolic: sql<number>`AVG(${bloodPressure.systolic})`,
+                avgDiastolic: sql<number>`AVG(${bloodPressure.diastolic})`,
+                avgPulse: sql<number>`AVG(${bloodPressure.pulse})`,
+            })
+            .from(bloodPressure)
+            .where(eq(bloodPressure.loggedByUserId, ctx.session.user.id))
+            .groupBy(
+                sql`EXTRACT(DOW FROM ${bloodPressure.createdAt})`.mapWith(Number),
+                bloodPressure.loggedByUserId,
+            )
+            .orderBy(
+                asc(sql`EXTRACT(DOW FROM ${bloodPressure.createdAt})`.mapWith(Number)),
+            );
+    }),
+    getAverageMeasurements: protectedProcedure.query(async ({ ctx }) => {
+        return await ctx.db
+            .select({
+                avgSystolic: avg(bloodPressure.systolic),
+                avgDiastolic: avg(bloodPressure.diastolic),
+                avgPulse: avg(bloodPressure.pulse),
+            })
+            .from(bloodPressure)
+            .where(and(eq(bloodPressure.loggedByUserId, ctx.session.user.id)));
     }),
 });
 

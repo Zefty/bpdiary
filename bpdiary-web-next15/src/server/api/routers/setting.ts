@@ -35,6 +35,7 @@ export const settingRouter = createTRPCRouter({
                 set: { settingValue: input.settingValue, updatedAt: new Date() },
             });
         }),
+        
     retrieveSetting: protectedProcedure
         .input(z.object({ settingName: z.string().min(1) }))
         .query(async ({ ctx, input }) => await ctx.db

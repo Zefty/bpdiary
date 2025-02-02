@@ -12,13 +12,12 @@ export default async function CalendarPage() {
   // today.setHours(0, 0, 0, 0);
   const som = startOfMonth(today);
 
-  await api.feed.getInfiniteDiary.prefetchInfinite({});
-  await api.calendar.getMonthlyRollingDiary.prefetch({ date: som });
-  void api.calendar.getMonthlyRollingDiary.prefetch({
+  await api.calendar.getRollingMonthlyDiary.prefetch({ date: som });
+  void api.calendar.getRollingMonthlyDiary.prefetch({
     date: subMonths(som, 1),
   });
 
-  void api.calendar.getMonthlyRollingDiary.prefetch({
+  void api.calendar.getRollingMonthlyDiary.prefetch({
     date: addMonths(som, 1),
   });
 
