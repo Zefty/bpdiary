@@ -30,7 +30,7 @@ export default function DisplayCardEntry({
             >
                 <div className="flex flex-col justify-between gap-2">
                     <div className="flex justify-between items-center">
-                        <span className="font-medium text-muted-foreground">{`${entry.measuredAt.toDateString()}, ${entry.createdAt.toLocaleTimeString("en-us").toUpperCase()}`}</span>
+                        <span className="font-medium text-muted-foreground">{`${entry.measuredAt.toDateString()}, ${entry.measuredAt.toLocaleTimeString("en-us").toUpperCase()}`}</span>
                         <Button variant="outline" className="h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100">
                             <ChevronRight className="h-4 w-4" />
                         </Button>

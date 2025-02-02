@@ -95,8 +95,9 @@ export const DatePicker = forwardRef<DatePickerRefs, DatePickerProps>(
             <Calendar
               mode="single"
               selected={date}
+              month={date}
               onSelect={(d) => handleSelect(d)}
-              initialFocus
+              autoFocus
             />
             {children}
           </PopoverContent>

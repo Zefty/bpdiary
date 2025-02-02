@@ -1,5 +1,15 @@
-import { type NextAuthConfig } from "next-auth";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { type DefaultSession, type NextAuthConfig } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
+
+import { db } from "~/server/db";
+import {
+  accounts,
+  sessions,
+  users,
+  verificationTokens,
+} from "~/server/db/schema";
+
 
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
@@ -22,4 +32,11 @@ export const baseAuthConfig = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  adapter: DrizzleAdapter(db, {
+    usersTable: users,
+    accountsTable: accounts,
+    sessionsTable: sessions,
+    verificationTokensTable: verificationTokens,
+  }),
+  session: { strategy: "database" },
 } satisfies NextAuthConfig;

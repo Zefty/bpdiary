@@ -1,8 +1,6 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
-import { CartesianGrid, Legend, Line, LineChart, XAxis, YAxis } from "recharts";
-
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 import {
   Card,
   CardContent,
@@ -22,6 +20,7 @@ import { api, RouterOutputs } from "~/trpc/react";
 import { Switch } from "../shadcn/switch";
 import { Label } from "../shadcn/label";
 import { useState } from "react";
+import { endOfDay, startOfDay, startOfYear, subDays } from "date-fns";
 
 export const description = "A linear line chart";
 
@@ -54,18 +53,25 @@ export default function BpStockChart() {
   const [visibility, setVisibility] = useState(initialVisibility);
   const [timeframe, setTimeframe] = useState<Timeframes>("W");
 
-  const dataPastSevenDays = api.bloodPressure.getPastSevenDaysDiary.useQuery();
-  const dataPastMonth = api.bloodPressure.getPastMonthDiary.useQuery();
-  const dataThisYear = api.bloodPressure.getThisYearDiary.useQuery();
-  const dataPastYear = api.bloodPressure.getPastYearDiary.useQuery();
-  const dataAll = api.bloodPressure.getWholeDiary.useQuery();
+  const toDate = endOfDay(new Date());
+  const fromLastWeek = startOfDay(subDays(toDate, 7));
+  const fromLastMonth = startOfDay(subDays(toDate, 30));
+  const fromLastYear = startOfDay(subDays(toDate, 365));
+  const fromStartOfYear = startOfYear(toDate);
+  const fromAll = new Date(0);
+
+  const week = api.bloodPressure.getStockChartData.useQuery({ fromDate: fromLastWeek, toDate });
+  const month = api.bloodPressure.getStockChartData.useQuery({ fromDate: fromLastMonth, toDate });
+  const year =  api.bloodPressure.getStockChartData.useQuery({ fromDate: fromLastYear, toDate });
+  const ytd = api.bloodPressure.getStockChartData.useQuery({ fromDate: fromStartOfYear, toDate });
+  const all = api.bloodPressure.getStockChartData.useQuery({ fromDate: fromAll, toDate });
 
   const allChartData = new Map<Timeframes, DiaryData | undefined>();
-  allChartData.set("W", dataPastSevenDays.data);
-  allChartData.set("M", dataPastMonth.data);
-  allChartData.set("YTD", dataThisYear.data);
-  allChartData.set("Y", dataPastYear.data);
-  allChartData.set("All", dataAll.data);
+  allChartData.set("W", week.data);
+  allChartData.set("M", month.data);
+  allChartData.set("YTD", ytd.data);
+  allChartData.set("Y", year.data);
+  allChartData.set("All", all.data);
 
   const chartData = allChartData.get(timeframe)?.map((entry) => ({
     date: entry.measuredAtDate,

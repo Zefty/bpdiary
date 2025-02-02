@@ -1,22 +1,32 @@
 import { api, HydrateClient } from "~/trpc/server";
-import { SidebarTrigger } from "../_components/shadcn/sidebar";
 import BpStockChart from "../_components/charts/bp-stock-chart";
 import InfiniteFeed from "../_components/bp-feed/infinite-feed";
 import HomeHeader from "../_components/header/home-header";
 import BpChart from "../_components/charts/bp-chart";
 import HeartRateChart from "../_components/charts/heart-rate-chart";
 import MeasurementsChart from "../_components/charts/measurements-charts";
+import { auth } from "~/server/auth";
+import { endOfDay, startOfDay, startOfYear, subDays } from "date-fns";
 
 export default async function DiaryHomePage() {
+  const toDate = endOfDay(new Date());
+  const fromLastWeek = startOfDay(subDays(toDate, 7));
+  const fromLastMonth = startOfDay(subDays(toDate, 30));
+  const fromLastYear = startOfDay(subDays(toDate, 365));
+  const fromStartOfYear = startOfYear(toDate);
+  const fromAll = new Date(0);
+
   await Promise.all([
-    api.bloodPressure.getPastSevenDaysDiary.prefetch(),
-    api.bloodPressure.getThisWeekDiary.prefetch(),
-    api.bloodPressure.getThisMonthDiary.prefetch(),
-    api.bloodPressure.getThisYearDiary.prefetch(),
+    api.bloodPressure.getStockChartData.prefetch({ fromDate: fromLastWeek, toDate }),
+    api.bloodPressure.getStockChartData.prefetch({ fromDate: fromLastMonth, toDate }),
+    api.bloodPressure.getStockChartData.prefetch({ fromDate: fromLastYear, toDate }),
+    api.bloodPressure.getStockChartData.prefetch({ fromDate: fromStartOfYear, toDate }),
+    api.bloodPressure.getStockChartData.prefetch({ fromDate: fromAll, toDate }),
     api.bloodPressure.getInfiniteDiary.prefetchInfinite({
       limit: 10
     })
   ]);
+  const session = await auth();
   return (
     <HydrateClient>
       <div className="h-screen grid grid-rows-1 grid-cols-3 p-2 gap-2">

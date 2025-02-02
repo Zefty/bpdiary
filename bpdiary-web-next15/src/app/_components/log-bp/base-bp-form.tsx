@@ -110,7 +110,7 @@ export const BaseBpForm = forwardRef<BpEntryBaseRefs, BpEntryBaseProps>(
                   </Label>
                   <DatetimePicker
                     name="datetime"
-                    defaultDate={bpEntryData?.createdAt ?? new Date()}
+                    defaultDate={bpEntryData?.measuredAt ?? new Date()}
                     ref={dateTimePickerRef}
                   />
                 </div>

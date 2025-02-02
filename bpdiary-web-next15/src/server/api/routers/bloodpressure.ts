@@ -12,12 +12,12 @@ import { addDays, endOfMonth, startOfMonth, subDays } from "date-fns";
 import { date } from "drizzle-orm/pg-core";
 import { createAndEdit } from "./bloodpressure/create-and-edit";
 import { getPaginated } from "./bloodpressure/get-paginated";
-import { getBpStockChartData } from "./bloodpressure/get-bp-stock-chart-data";
+import { getStockChartData } from "./bloodpressure/get-stock-chart-data";
 
 export const bloodPressureRouter = createTRPCRouter({
   ...createAndEdit,
   ...getPaginated,
-  ...getBpStockChartData,
+  ...getStockChartData,
   getAverageBpPerDayOfWeek: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.db
       .select({

@@ -22,7 +22,7 @@ export const createAndEdit = {
         await ctx.db
             .update(bloodPressure)
             .set({
-                createdAt: input.datetime,
+                measuredAt: input.datetime,
                 updatedAt: new Date(),
                 systolic: input.systolic,
                 diastolic: input.diastolic,

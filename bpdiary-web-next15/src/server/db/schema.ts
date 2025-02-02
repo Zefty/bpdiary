@@ -35,10 +35,10 @@ export const posts = createTable(
       () => new Date(),
     ),
   },
-  (example) => ([{
-    createdByIdIdx: index("created_by_idx").on(example.createdById),
-    nameIndex: index("name_idx").on(example.name),
-  }]),
+  (example) => [
+    index("created_by_idx").on(example.createdById),
+    index("name_idx").on(example.name),
+  ],
 );
 
 export const users = createTable("user", {
@@ -80,12 +80,12 @@ export const accounts = createTable(
     id_token: text("id_token"),
     session_state: varchar("session_state", { length: 255 }),
   },
-  (account) => ([{
-    compoundKey: primaryKey({
+  (account) => [
+    primaryKey({
       columns: [account.provider, account.providerAccountId],
     }),
-    userIdIdx: index("account_user_id_idx").on(account.userId),
-  }]),
+    index("account_user_id_idx").on(account.userId),
+  ],
 );
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
@@ -106,9 +106,7 @@ export const sessions = createTable(
       withTimezone: true,
     }).notNull(),
   },
-  (session) => ({
-    userIdIdx: index("session_user_id_idx").on(session.userId),
-  }),
+  (session) => [index("session_user_id_idx").on(session.userId)],
 );
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({
@@ -125,9 +123,7 @@ export const verificationTokens = createTable(
       withTimezone: true,
     }).notNull(),
   },
-  (vt) => ({
-    compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
-  }),
+  (vt) => [primaryKey({ columns: [vt.identifier, vt.token] })]
 );
 
 export const setting = createTable("setting", {
@@ -142,9 +138,7 @@ export const setting = createTable("setting", {
   ),
   settingName: varchar("setting_name").notNull(),
   settingValue: varchar("setting_value").notNull(),
-}, (s) => ([{
-  compoundKey: primaryKey({ columns: [s.userId, s.settingName] }),
-}]),);
+}, (s) => [primaryKey({ columns: [s.userId, s.settingName] })]);
 
 export const bloodPressure = createTable("blood_pressure", {
   id: serial("id").primaryKey(),
