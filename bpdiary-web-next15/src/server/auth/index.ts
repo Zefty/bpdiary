@@ -6,7 +6,6 @@ import { NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import { db } from "../db";
 import { setting } from "../db/schema";
-import { sql } from "drizzle-orm";
 
 const { auth: uncachedAuth, handlers, signIn, signOut } = NextAuth(async (req: NextRequest | undefined) => {
     if (req?.url.startsWith(`${env.BASE_URL}/api/auth/signin`)) {

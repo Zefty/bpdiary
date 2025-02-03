@@ -24,14 +24,14 @@ export default async function DiaryHomePage() {
     api.chart.getStockChartData.prefetch({ fromDate: fromAll, toDate }),
     api.feed.getInfiniteDiary.prefetchInfinite({ limit: 10 })
   ]);
-  const session = await auth();
+
   return (
     <HydrateClient>
       <div className="h-screen grid grid-rows-1 grid-cols-3 p-2 gap-2">
         <div className="flex flex-col items-center gap-2 col-span-3 md:col-span-2 ">
           <HomeHeader />
           <div className="h-full w-full flex flex-col items-center border rounded-md p-8">
-            <div className="h-full w-full max-w-[1024px] grid grid-rows-1 grid-cols-3 gap-8">
+            <div className="h-full w-full grid grid-rows-1 grid-cols-3 gap-8">
               <div className="col-span-2">
                 <BpStockChart />
               </div>
