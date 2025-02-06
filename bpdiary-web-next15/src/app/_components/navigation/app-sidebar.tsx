@@ -33,10 +33,8 @@ import {
 } from "../shadcn/dropdown-menu";
 import Link from "next/link";
 import { auth } from "~/server/auth";
-import { Button } from "../shadcn/button";
 import { Separator } from "../shadcn/separator";
 import ThemeToggle from "./theme-toggle";
-import SignOut from "./sign-out";
 
 const items = [
   {
@@ -137,11 +135,10 @@ export async function AppSidebar() {
                   asChild
                   className="h-12 pl-4 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4"
                 >
-                  {/* <Link href="/api/auth/signout">
+                  <Link href="/api/auth/signout">
                     <LogOut />
                     <span>Sign out</span>
-                  </Link> */}
-                  <SignOut />
+                  </Link>
                 </SidebarMenuButton>
               </DropdownMenuContent>
             </DropdownMenu>
