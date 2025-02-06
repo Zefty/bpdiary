@@ -59,7 +59,7 @@ const items = [
 export async function AppSidebar() {
   const session = await auth();
   return (
-    <Sidebar collapsible="icon" variant="floating">
+    <Sidebar collapsible="icon" variant="floating" resizable>
       <SidebarHeader className="p-[6px]">
         <SidebarMenu className="p-[6px]">
           <SidebarMenuItem className="flex items-center gap-3">

@@ -25,13 +25,20 @@ import {
   TooltipTrigger,
 } from "~/app/_components/shadcn/tooltip";
 import { useIsTablet } from "../../_hooks/use-tablet";
+import { useEffect, useState } from "react";
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
-const SIDEBAR_WIDTH = "16rem";
+const SIDEBAR_WIDTH = "14rem";
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "4rem";
+const MAX_SIDEBAR_WIDTH = "20rem";
+const SIDEBAR_RESIZE_HANDLE_WIDTH = "0.5rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
+const convertRemToPixels = (rem: string) => {    
+  const r = Number(rem.match(/(\d+)/)?.[0]);
+  return r * 16;
+}
 
 type SidebarContext = {
   state: "expanded" | "collapsed";
@@ -42,6 +49,10 @@ type SidebarContext = {
   isMobile: boolean;
   isTablet: boolean;
   toggleSidebar: () => void;
+  track: boolean;
+  setTrack: (track: boolean) => void;
+  width: number;
+  setWidth: (width: number) => void;
 };
 
 const SidebarContext = React.createContext<SidebarContext | null>(null);
@@ -78,6 +89,8 @@ const SidebarProvider = React.forwardRef<
     const isMobile = useIsMobile();
     const isTablet = useIsTablet();
     const [openMobile, setOpenMobile] = React.useState(false);
+    const [track, setTrack] = useState(false);
+    const [width, setWidth] = useState(convertRemToPixels(SIDEBAR_WIDTH));
 
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.
@@ -123,7 +136,7 @@ const SidebarProvider = React.forwardRef<
 
     // We add a state so that we can do data-state="expanded" or "collapsed".
     // This makes it easier to style the sidebar with Tailwind classes.
-    const state = open ? "expanded" : "collapsed";
+    const state = isTablet ? "collapsed" : (open ? "expanded" : "collapsed");
 
     const contextValue = React.useMemo<SidebarContext>(
       () => ({
@@ -135,6 +148,10 @@ const SidebarProvider = React.forwardRef<
         setOpenMobile,
         isTablet,
         toggleSidebar,
+        track,
+        setTrack,
+        width,
+        setWidth
       }),
       [
         state,
@@ -145,6 +162,10 @@ const SidebarProvider = React.forwardRef<
         setOpenMobile,
         isTablet,
         toggleSidebar,
+        track,
+        setTrack,
+        width,
+        setWidth
       ],
     );
 
@@ -154,10 +175,11 @@ const SidebarProvider = React.forwardRef<
           <div
             style={
               {
-                "--sidebar-width": SIDEBAR_WIDTH,
+                "--sidebar-width": `${width}px`,
                 "--sidebar-width-icon": SIDEBAR_WIDTH_ICON,
+                "--sidebar-resize-handle-width": SIDEBAR_RESIZE_HANDLE_WIDTH,
                 ...style,
-              } as React.CSSProperties
+              } as React.CSSProperties 
             }
             className={cn(
               "group/sidebar-wrapper flex min-h-svh w-full has-[[data-variant=inset]]:bg-sidebar",
@@ -178,9 +200,10 @@ SidebarProvider.displayName = "SidebarProvider";
 const Sidebar = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & {
-    side?: "left" | "right" ;
+    side?: "left" | "right";
     variant?: "sidebar" | "floating" | "inset";
     collapsible?: "offcanvas" | "icon" | "none";
+    resizable?: true | false;
   }
 >(
   (
@@ -188,17 +211,40 @@ const Sidebar = React.forwardRef<
       side = "left",
       variant = "sidebar",
       collapsible = "offcanvas",
+      resizable = false,
       className,
       children,
       ...props
     },
     ref,
   ) => {
-    const { isMobile, isTablet, state, openMobile, setOpenMobile } =
-      useSidebar();
+    const { isMobile, isTablet, state, openMobile, setOpenMobile, track, setTrack, setWidth, setOpen } = useSidebar();
 
-    // console.log(isTablet)
-    const finalState = isTablet ? "collapsed" : state;
+    useEffect(() => {
+      const handleMouseMove = (e: MouseEvent) => {
+        if (track) {
+          if (e.clientX <= 140) {
+            setOpen(false);
+          }
+          if (e.clientX > 140) {
+            setOpen(true);
+          }
+          setWidth(Math.max(convertRemToPixels(SIDEBAR_WIDTH), Math.min(e.clientX, convertRemToPixels(MAX_SIDEBAR_WIDTH))));
+        }
+      };
+
+      const handleMouseUp = () => {
+        if (track) setTrack(false);
+      };
+
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+
+      return () => {
+        window.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener("mouseup", handleMouseUp);
+      };
+    }, [track]);
 
     if (collapsible === "none") {
       return (
@@ -242,32 +288,34 @@ const Sidebar = React.forwardRef<
         <div
           ref={ref}
           className="group peer hidden text-sidebar-foreground md:block"
-          data-state={finalState}
-          data-collapsible={finalState === "collapsed" ? collapsible : ""}
+          data-state={state}
+          data-collapsible={state === "collapsed" ? collapsible : ""}
           data-variant={variant}
           data-side={side}
         >
           {/* This is what handles the sidebar gap on desktop */}
           <div
             className={cn(
-              "relative h-svh w-[--sidebar-width] bg-transparent transition-[width] duration-200 ease-linear",
+              "relative h-svh w-[--sidebar-width] bg-transparent overflow",
               "group-data-[collapsible=offcanvas]:w-0",
               "group-data-[side=right]:rotate-180",
               variant === "floating" || variant === "inset"
-                ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_-4px)]"
+                ? "w-[calc(var(--sidebar-width)_+_8px)] group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_-4px)]"
                 : "group-data-[collapsible=icon]:w-[--sidebar-width-icon]",
+              resizable ? "" : "transition-[width] duration-200 ease-linear",
             )}
           />
           <div
             className={cn(
-              "fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-[left,right,width] duration-200 ease-linear md:flex",
+              "fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] md:flex",
               side === "left"
                 ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
                 : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
               // Adjust the padding for floating and inset variants.
               variant === "floating" || variant === "inset"
-                ? "p-2 pr-0 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_-4px)]"
+                ? "p-2 pr-0 w-[calc(var(--sidebar-width)_+_8px)] group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_-4px)]"
                 : "group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=left]:border-r group-data-[side=right]:border-l",
+              resizable ? "" : "transition-[left,right,width] duration-200 ease-linear",
               className,
             )}
             {...props}
@@ -279,6 +327,18 @@ const Sidebar = React.forwardRef<
               {children}
             </div>
           </div>
+          {resizable && (
+              <div
+                onMouseDown={() => setTrack(true)}
+                className={cn(
+                  "z-50 absolute inset-y-0 py-2 w-[--sidebar-resize-handle-width] h-full cursor-col-resize", 
+                  "left-[calc(var(--sidebar-width)_+_8px_-_var(--sidebar-resize-handle-width))] group-data-[collapsible=icon]:left-[calc(var(--sidebar-width-icon)_-_var(--sidebar-resize-handle-width)_+_theme(spacing.4)_-4px)]",
+                  (!isMobile && !isTablet) ? "" : "group-data-[collapsible=icon]:hidden"
+                )}
+              >
+                <div className="w-full h-full hover:bg-neutral-600/80 transition-colors rounded-md" /> 
+              </div>
+            )}
         </div>
       </>
     );
@@ -641,7 +701,7 @@ const SidebarMenuAction = React.forwardRef<
         "peer-data-[size=lg]/menu-button:top-2.5",
         "group-data-[collapsible=icon]:hidden",
         showOnHover &&
-          "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground md:opacity-0",
+        "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground md:opacity-0",
         className,
       )}
       {...props}
