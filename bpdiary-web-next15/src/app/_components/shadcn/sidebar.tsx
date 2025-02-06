@@ -235,6 +235,7 @@ const Sidebar = React.forwardRef<
 
       const handleMouseUp = () => {
         if (track) setTrack(false);
+        document.body.style.userSelect = 'auto';
       };
 
       window.addEventListener("mousemove", handleMouseMove);
@@ -329,7 +330,10 @@ const Sidebar = React.forwardRef<
           </div>
           {resizable && (
               <div
-                onMouseDown={() => setTrack(true)}
+                onMouseDown={() => {
+                  setTrack(true);
+                  document.body.style.userSelect = 'none';
+                }}
                 className={cn(
                   "z-50 absolute inset-y-0 py-2 w-[--sidebar-resize-handle-width] h-full cursor-col-resize", 
                   "left-[calc(var(--sidebar-width)_+_8px_-_var(--sidebar-resize-handle-width))] group-data-[collapsible=icon]:left-[calc(var(--sidebar-width-icon)_-_var(--sidebar-resize-handle-width)_+_theme(spacing.4)_-4px)]",
