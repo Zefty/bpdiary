@@ -58,11 +58,11 @@ export async function AppSidebar() {
   const session = await auth();
   return (
     <Sidebar collapsible="icon" variant="floating" resizable className="select-none">
-      <SidebarHeader className="p-[6px]">
-        <SidebarMenu className="p-[6px]">
-          <SidebarMenuItem className="flex items-center gap-3">
-            <div className="flex aspect-square size-10 items-center justify-center rounded-md bg-primary text-sidebar-primary-foreground">
-              <HeartPulse width="1.5em" height="1.5em"/>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem className="flex flex-row items-center gap-3">
+            <div className="flex aspect-square size-12 items-center justify-center rounded-md bg-primary text-sidebar-primary-foreground">
+              <HeartPulse width="1.75em" height="1.75em"/>
             </div>
             <span className="whitespace-nowrap text-3xl font-bold group-data-[collapsible=icon]:hidden">
               BP Diary
@@ -73,7 +73,7 @@ export async function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="gap-2">
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton

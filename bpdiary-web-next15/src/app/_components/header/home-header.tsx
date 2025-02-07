@@ -9,10 +9,10 @@ export default async function HomeHeader() {
     return (
         <BaseHeader>
             <LogBpFormProvider>
-                <h1 className="ml-2 text-2xl font-semibold leading-none tracking-tight">
+                <h1 className="text-2xl font-semibold leading-none tracking-tight mr-auto">
                     <span>{Greeting()}, {session?.user?.name}!</span>
                 </h1>
-                <Separator orientation="vertical" className="mx-4 h-[calc(100%-0.5rem)]"/>
+                {/* <Separator orientation="vertical" className="mx-4 h-[calc(100%-0.5rem)]"/> */}
                 <LogBpFormTrigger />
             </LogBpFormProvider>
         </BaseHeader>
