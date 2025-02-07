@@ -151,7 +151,7 @@
 } */
 /*==== FHD/UHD (6:9) Responsive Support ====*/
 @media screen and (min-width: 1800px) {
-  body, html {font-size: 2.5vh;}
+  body, html {font-size: 1.1vw;}
 }
 
 /*==== FHD/2K (4:3) Responsive Support ====*/
