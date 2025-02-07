@@ -25,7 +25,7 @@ export default function CalendarDay(props: DayProps) {
       {cellData && (
         <div className="h-full hidden text-muted-foreground my-2 [@media(min-height:600px)]:flex flex-col justify-center gap-2 text-xs">
           <div className="flex items-center gap-2">
-            <Gauge className="text-primary" height={12} width={12} />
+            <Gauge className="text-primary" width="1.5em" height="1.5em" />
             <span className="flex flex-col">
               <span className="underline underline-offset-[3px]">
                 {cellData?.systolic}
@@ -34,7 +34,7 @@ export default function CalendarDay(props: DayProps) {
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <HeartPulse className="text-primary" height={12} width={12} />
+            <HeartPulse className="text-primary" width="1.5em" height="1.5em" />
             <span>{cellData?.pulse}</span>
           </div>
         </div>

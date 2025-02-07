@@ -15,11 +15,11 @@ export default function CalendarHeader() {
         <SidebarTrigger variant="outline" className="h-10 w-10"/>
         <LogBpFormTrigger />
         <Button className="gap-2">
-          <Share className="h-4 w-4" />
+          <Share width="1.5em" height="1.5em" />
           <span className="hidden xs:flex">Share</span>
         </Button>
         <Button className="gap-2">
-          <Printer className="h-4 w-4" />
+          <Printer width="1.5em" height="1.5em" />
           <span className="hidden xs:flex">Print</span>
         </Button>
       </LogBpFormProvider>

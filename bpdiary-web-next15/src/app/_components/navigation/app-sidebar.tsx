@@ -62,7 +62,7 @@ export async function AppSidebar() {
         <SidebarMenu className="p-[6px]">
           <SidebarMenuItem className="flex items-center gap-3">
             <div className="flex aspect-square size-10 items-center justify-center rounded-md bg-primary text-sidebar-primary-foreground">
-              <HeartPulse />
+              <HeartPulse width="1.5em" height="1.5em"/>
             </div>
             <span className="whitespace-nowrap text-3xl font-bold group-data-[collapsible=icon]:hidden">
               BP Diary

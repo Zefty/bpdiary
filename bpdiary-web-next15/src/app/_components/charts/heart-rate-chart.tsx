@@ -37,7 +37,7 @@ export default function HeartRateChart() {
             <CardHeader className="items-start p-4 pb-0">
                 <div className="flex items-center gap-2">
                     <div className="flex aspect-square size-10 items-center justify-center rounded-md bg-primary text-sidebar-primary-foreground">
-                        <HeartPulse />
+                        <HeartPulse width="1.5em" height="1.5em"/>
                     </div>
                     <CardTitle className="text-md">Heart Rate</CardTitle>
                 </div>

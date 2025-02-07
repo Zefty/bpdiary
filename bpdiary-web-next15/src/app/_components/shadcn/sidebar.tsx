@@ -37,7 +37,16 @@ const SIDEBAR_RESIZE_HANDLE_WIDTH = "0.5rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 const convertRemToPixels = (rem: string) => {    
   const r = Number(rem.match(/(\d+)/)?.[0]);
-  return r * 16;
+  if (typeof(getComputedStyle) === 'undefined') {
+    return r * 16;
+  }
+  return r * parseFloat(getComputedStyle(document.documentElement).fontSize);
+}
+const convertPixelsToRem = (pixels: number) => {    
+  if (typeof(getComputedStyle) === 'undefined') {
+    return `${pixels / 16}rem`;
+  }
+  return `${pixels / parseFloat(getComputedStyle(document.documentElement).fontSize)}rem`;
 }
 
 type SidebarContext = {
@@ -51,8 +60,8 @@ type SidebarContext = {
   toggleSidebar: () => void;
   track: boolean;
   setTrack: (track: boolean) => void;
-  width: number;
-  setWidth: (width: number) => void;
+  width: string;
+  setWidth: (width: string) => void;
 };
 
 const SidebarContext = React.createContext<SidebarContext | null>(null);
@@ -90,7 +99,7 @@ const SidebarProvider = React.forwardRef<
     const isTablet = useIsTablet();
     const [openMobile, setOpenMobile] = React.useState(false);
     const [track, setTrack] = useState(false);
-    const [width, setWidth] = useState(convertRemToPixels(SIDEBAR_WIDTH));
+    const [width, setWidth] = useState(SIDEBAR_WIDTH);
 
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.
@@ -175,7 +184,7 @@ const SidebarProvider = React.forwardRef<
           <div
             style={
               {
-                "--sidebar-width": `${width}px`,
+                "--sidebar-width": width,
                 "--sidebar-width-icon": SIDEBAR_WIDTH_ICON,
                 "--sidebar-resize-handle-width": SIDEBAR_RESIZE_HANDLE_WIDTH,
                 ...style,
@@ -229,7 +238,8 @@ const Sidebar = React.forwardRef<
           if (e.clientX > 140) {
             setOpen(true);
           }
-          setWidth(Math.max(convertRemToPixels(SIDEBAR_WIDTH), Math.min(e.clientX, convertRemToPixels(MAX_SIDEBAR_WIDTH))));
+          const newWidth = Math.max(convertRemToPixels(SIDEBAR_WIDTH), Math.min(e.clientX, convertRemToPixels(MAX_SIDEBAR_WIDTH)));
+          setWidth(convertPixelsToRem(newWidth));
         }
       };
 

@@ -38,7 +38,7 @@ export default function DailyFeed() {
                     <h1 className="text-2xl font-semibold leading-none tracking-tight">
                         {format(calendarContext.selectedDate, "E, LLL d")}
                     </h1>
-                    <HeartPulse />
+                    <HeartPulse width="1.5em" height="1.5em"/>
                 </div>
                 {noMeasurements ? (
                     <h1 className="text-muted-foreground m-auto text-2xl font-semibold leading-none tracking-tight">

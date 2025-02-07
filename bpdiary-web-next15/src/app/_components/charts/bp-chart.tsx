@@ -36,7 +36,7 @@ export default function BpChart() {
             <CardHeader className="items-start p-4 pb-0">
                 <div className="flex items-center gap-2">
                     <div className="flex aspect-square size-10 items-center justify-center rounded-md bg-primary text-sidebar-primary-foreground">
-                        <Gauge />
+                        <Gauge width="1.5em" height="1.5em"/>
                     </div>
                     <CardTitle className="text-md">Blood Pressure</CardTitle>
                 </div>

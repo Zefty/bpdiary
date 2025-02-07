@@ -7,7 +7,7 @@ import { Button } from "../shadcn/button";
 import Note from "../custom-inputs/note";
 
 type BloodPressureDiary =
-    RouterOutputs["bloodPressure"]["getInfiniteDiary"]["data"][0];
+    RouterOutputs["feed"]["getInfiniteDiary"]["data"][0];
 
 export default function DisplayCardEntry({
     entry,
@@ -32,20 +32,20 @@ export default function DisplayCardEntry({
                     <div className="flex justify-between items-center">
                         <span className="font-medium text-muted-foreground">{`${entry.measuredAt.toDateString()}, ${entry.measuredAt.toLocaleTimeString("en-us").toUpperCase()}`}</span>
                         <Button variant="outline" className="h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100">
-                            <ChevronRight className="h-4 w-4" />
+                            <ChevronRight width="1.5em" height="1.5em" />
                         </Button>
 
 
                     </div>
                     <div className="mb-2 flex items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
-                            <Gauge className="text-primary" />
+                            <Gauge className="text-primary" width="1.5em" height="1.5em" />
                             <span className="font-medium">
                                 {entry.systolic} / {entry.diastolic} mmHg
                             </span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <HeartPulse className="text-primary" />
+                            <HeartPulse className="text-primary" width="1.5em" height="1.5em" />
                             <span className="font-medium">{entry.pulse} bpm</span>
                         </div>
                     </div>

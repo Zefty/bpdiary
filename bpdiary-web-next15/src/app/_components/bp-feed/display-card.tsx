@@ -4,7 +4,7 @@ import DisplayCardEntry from "./display-card-entry";
 import EditBpFormProvider from "../log-bp/edit-bp-form";
 
 type BloodPressureDiary =
-    RouterOutputs["bloodPressure"]["getInfiniteDiary"]["data"]
+    RouterOutputs["feed"]["getInfiniteDiary"]["data"]
 
 export default function DisplayCard({ data = [] as BloodPressureDiary }) {
     if (data.length === 0) return;

@@ -30,7 +30,7 @@ export default function LogBpFormTrigger() {
         }
       }}
     >
-      <CirclePlus className="h-4 w-4" />
+      <CirclePlus width="1.5em" height="1.5em" />
       <span className="hidden xxs:flex">New Reading</span>
     </Button>
   );

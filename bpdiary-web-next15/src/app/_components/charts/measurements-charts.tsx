@@ -34,7 +34,7 @@ export default function MeasurementsChart() {
             <CardHeader className="items-start p-4 pb-0">
                 <div className="flex items-center gap-2">
                     <div className="flex aspect-square size-10 items-center justify-center rounded-md bg-primary text-sidebar-primary-foreground">
-                        <ChartBar />
+                        <ChartBar width="1.5em" height="1.5em"/>
                     </div>
                     <CardTitle className="text-md">Total Measurements</CardTitle>
                 </div>

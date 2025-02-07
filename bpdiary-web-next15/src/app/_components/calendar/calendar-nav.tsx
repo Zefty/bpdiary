@@ -9,13 +9,14 @@ export default function CalendarNav(props: NavProps) {
   return (
     <div className="flex w-full items-center justify-between">
       <Button onClick={props.onPreviousClick}>
-        <ChevronLeft className="h-4 w-4" />
+        <ChevronLeft width="1.5em" height="1.5em" />
       </Button>
       <span className="text-2xl font-semibold leading-none tracking-tight">
         {format(calendarContext.selectedMonth, "LLLL y")}
       </span>
+      
       <Button onClick={props.onNextClick}>
-        <ChevronRight className="h-4 w-4" />
+        <ChevronRight width="1.5em" height="1.5em" />
       </Button>
     </div>
   );
