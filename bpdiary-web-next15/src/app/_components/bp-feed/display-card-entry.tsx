@@ -30,14 +30,14 @@ export default function DisplayCardEntry({
             >
                 <div className="flex flex-col justify-between gap-2">
                     <div className="flex justify-between items-center">
-                        <span className="font-medium text-muted-foreground">{`${entry.measuredAt.toDateString()}, ${entry.measuredAt.toLocaleTimeString("en-us").toUpperCase()}`}</span>
+                        <span className="font-medium">{`${entry.measuredAt.toDateString()}, ${entry.measuredAt.toLocaleTimeString("en-us").toUpperCase()}`}</span>
                         <Button variant="outline" className="h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100">
                             <ChevronRight width="1.5em" height="1.5em" />
                         </Button>
 
 
                     </div>
-                    <div className="mb-2 flex items-center justify-between gap-2">
+                    <div className="mb-2 flex items-center justify-between gap-2 text-muted-foreground">
                         <div className="flex items-center gap-2">
                             <Gauge className="text-primary" width="1.5em" height="1.5em" />
                             <span className="font-medium">
@@ -54,7 +54,7 @@ export default function DisplayCardEntry({
                     <span className="font-medium underline underline-offset-2">
                         Notes:
                     </span>
-                    <Note note={entry.notes} />
+                    <Note note={entry.notes} className="text-muted-foreground"/>
                 </div>
                 <Separator className="mt-6 group-last:invisible" />
             </div>

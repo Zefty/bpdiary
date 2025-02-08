@@ -1,4 +1,5 @@
 import React, { useState, useLayoutEffect, useRef } from "react";
+import { cn } from "~/lib/utils";
 
 const useTruncatedElement = ({
   ref,
@@ -27,7 +28,7 @@ const useTruncatedElement = ({
   };
 };
 
-export default function Note({ note }: { note?: string | null }) {
+export default function Note({ note, className }: { note?: string | null, className?: string }) {
   const ref = useRef(null);
   const { isTruncated, isShowingMore, toggleIsShowingMore } =
     useTruncatedElement({
@@ -35,7 +36,7 @@ export default function Note({ note }: { note?: string | null }) {
     });
   return (
     <div>
-      <div ref={ref} className={`${!isShowingMore && "line-clamp-1"} ${note ? "" : "h-5"}`}>
+      <div ref={ref} className={cn(!isShowingMore && "line-clamp-1", note ? "" : "h-5", className)}>
         {note}
       </div>
       {/* {isTruncated && (

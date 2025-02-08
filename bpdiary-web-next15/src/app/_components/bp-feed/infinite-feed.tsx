@@ -40,7 +40,7 @@ export default function InfiniteFeed() {
 
   return (
     <ScrollArea
-      className="h-full max-h-screen overflow-y-auto rounded-md border-t"
+      className="h-full max-h-screen overflow-y-auto rounded-md border-t shadow-none"
       ref={viewPortRef}
       onScrollCapture={(event) => {
         sessionStorage.setItem(
@@ -58,11 +58,11 @@ export default function InfiniteFeed() {
         <DisplayCard data={flattenedData} />
         <div ref={bottom}>
           {(isFetchingNextPage || hasNextPage || isPending || isFetching) ? (
-            <span className="text-center">
+            <span className="text-center text-muted-foreground">
               Loading more of your diary ...
             </span>
           ) : (
-            <span className="text-center">End of diary</span>
+            <span className="text-center text-muted-foreground">End of diary</span>
           )}
         </div>
       </div>

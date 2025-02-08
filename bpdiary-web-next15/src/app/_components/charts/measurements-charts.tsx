@@ -41,11 +41,11 @@ export default function MeasurementsChart() {
             </CardHeader>
             <CardContent className="flex h-full w-full p-4">
                 <div className="flex flex-col justify-between">
-                    <span className="text-muted-foreground">
+                    <span className="font-semibold text-md">
                         {DateMonthLongFormat.format(currentDate)}
                     </span>
                     <div>
-                        <span className="font-bold">
+                        <span className="font-semibold text-md">
                             {chartData[0]?.measurements}&nbsp;
                         </span>
                         <span className="text-muted-foreground text-sm">

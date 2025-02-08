@@ -46,7 +46,7 @@ export default function BpChart() {
                     {
                         chartData?.length ?
                             <>
-                                <span className="font-bold">{chartData[chartData.length - 1]?.systolic} </span><span className="text-muted-foreground">/{chartData[chartData.length - 1]?.diastolic} mmHg</span>
+                                <span className="font-semibold text-md">{chartData[chartData.length - 1]?.systolic} </span><span className="text-muted-foreground">/{chartData[chartData.length - 1]?.diastolic} mmHg</span>
                             </> :
                             <span className="line-clamp-1 text-muted-foreground">
                                 no recent measurement...

@@ -47,7 +47,7 @@ export default function HeartRateChart() {
                     {
                         chartData?.length ?
                             <>
-                                <span className="font-bold">{chartData[chartData.length - 1]?.pulse} </span><span className="text-muted-foreground">bpm</span>
+                                <span className="font-semibold text-md">{chartData[chartData.length - 1]?.pulse} </span><span className="text-muted-foreground">bpm</span>
                             </> :
                             <span className="line-clamp-1 text-muted-foreground">
                                 no recent measurement...
