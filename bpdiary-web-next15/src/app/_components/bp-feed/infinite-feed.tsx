@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { useInView } from "react-intersection-observer";
 import { api, RouterOutputs } from "~/trpc/react";
 import { ScrollArea } from "../shadcn/scroll-area";
 import React from "react";
@@ -9,32 +8,35 @@ import BaseHeader from "../header/base-header";
 
 export default function InfiniteFeed() {
   const viewPortRef = useRef<HTMLDivElement>(null);
-  const { ref, inView } = useInView();
+  const bottom = useRef<HTMLDivElement>(null);
 
-  const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isPending } =
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isPending, isFetching } =
     api.feed.getInfiniteDiary.useInfiniteQuery(
       {
-        limit: 10
+        limit: 10,
       },
       {
         getNextPageParam: (lastPage) => lastPage.nextCursor,
       },
     );
 
-  const flattenedData = data?.pages.flatMap((page) => page.data)
+  const flattenedData = data?.pages.flatMap((page) => page.data);
 
   useEffect(() => {
-    if (inView) {
-      void fetchNextPage();
-    }
-  }, [fetchNextPage, inView]);
+    const observer = new IntersectionObserver((entries) => {
+      console.log(entries)
+      if (entries[0]?.isIntersecting) {
+        fetchNextPage();
+      }
+    }, { threshold: 0 });
+    if (bottom.current) observer.observe(bottom.current);
 
-  useLayoutEffect(() => {
-    if (viewPortRef.current) {
-      const scrollPosition = sessionStorage.getItem("scrollPosition");
-      viewPortRef.current.scrollTop = Number(scrollPosition) ?? 0;
+    return () => {
+      if (bottom.current) {
+        observer.unobserve(bottom.current);
+      }
     }
-  });
+  }, [bottom]);
 
   return (
     <ScrollArea
@@ -54,14 +56,15 @@ export default function InfiniteFeed() {
           </h1>
         </BaseHeader>
         <DisplayCard data={flattenedData} />
-        {(isFetchingNextPage && hasNextPage) || isPending ? (
-          <span className="text-center">
-            Loading more of your diary ...
-          </span>
-        ) : (
-          <span className="text-center">End of diary.</span>
-        )}
-        <div ref={ref} />
+        <div ref={bottom}>
+          {(isFetchingNextPage || hasNextPage || isPending || isFetching) ? (
+            <span className="text-center">
+              Loading more of your diary ...
+            </span>
+          ) : (
+            <span className="text-center">End of diary</span>
+          )}
+        </div>
       </div>
     </ScrollArea>
   );

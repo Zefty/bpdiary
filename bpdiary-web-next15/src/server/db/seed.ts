@@ -4,7 +4,7 @@ import postgres from "postgres";
 import { env } from "~/env";
 import { reset, seed } from "drizzle-seed";
 import { bloodPressure } from "./schema";
-import { startOfWeek, startOfYear } from "date-fns";
+import { startOfWeek, startOfYear, subYears } from "date-fns";
 
 console.log(env.DATABASE_URL)
 const conn = postgres(env.DATABASE_URL);
@@ -18,7 +18,7 @@ await seed(db, { bloodPressure }, { count: 100 }).refine((funcs) => ({
             systolic: funcs.int({minValue: 100, maxValue: 160}),
             diastolic: funcs.int({minValue: 70, maxValue: 90}),
             pulse: funcs.int({minValue: 60, maxValue: 100}),
-            measuredAt: funcs.date({maxDate: new Date(), minDate: startOfYear(new Date())})
+            measuredAt: funcs.date({maxDate: new Date(), minDate: startOfYear(subYears(new Date(), 1))})
         }
     }
 }));

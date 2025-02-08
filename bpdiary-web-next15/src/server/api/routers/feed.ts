@@ -1,4 +1,4 @@
-import { eq, desc, sql, and, lt, count } from "drizzle-orm";
+import { eq, desc, sql, and, lt, count, lte } from "drizzle-orm";
 import { z } from "zod";
 
 import {
@@ -27,9 +27,12 @@ export const feedRouter = createTRPCRouter({
                 )
                 .orderBy(desc(bloodPressure.measuredAt))
                 .limit(input.limit ?? 5);
-            return {
+            
+            const ret = {
                 data,
                 nextCursor: data.length ? data[data.length - 1]?.measuredAt : null,
             };
+            
+            return ret;
         })
 });
