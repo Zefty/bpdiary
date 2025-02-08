@@ -10,7 +10,7 @@ export default function DisplayCard({ data = [] as BloodPressureDiary }) {
     if (data.length === 0) return;
     return (
         <EditBpFormProvider>
-            <Card className="w-3/4">
+            <Card className="w-full border-0 shadow-none">
                 <CardContent className="flex w-full flex-col p-0">
                     {data?.map((entry) => (
                         <DisplayCardEntry key={entry.id} entry={entry} />

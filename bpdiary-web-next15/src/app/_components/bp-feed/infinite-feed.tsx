@@ -5,6 +5,7 @@ import { api, RouterOutputs } from "~/trpc/react";
 import { ScrollArea } from "../shadcn/scroll-area";
 import React from "react";
 import DisplayCard from "./display-card";
+import BaseHeader from "../header/base-header";
 
 export default function InfiniteFeed() {
   const viewPortRef = useRef<HTMLDivElement>(null);
@@ -37,7 +38,7 @@ export default function InfiniteFeed() {
 
   return (
     <ScrollArea
-      className="h-full max-h-screen overflow-y-auto rounded-md border"
+      className="h-full max-h-screen overflow-y-auto rounded-md border-t"
       ref={viewPortRef}
       onScrollCapture={(event) => {
         sessionStorage.setItem(
@@ -47,20 +48,20 @@ export default function InfiniteFeed() {
       }}
     >
       <div className="flex flex-col items-center gap-2">
-        <h1 className="m-8 text-2xl font-semibold leading-none tracking-tight">
-          Blood Pressure Measurements
-        </h1>
-        <>
-          <DisplayCard data={flattenedData} />
-          {(isFetchingNextPage && hasNextPage) || isPending ? (
-            <span className="text-center">
-              Loading more of your diary ...
-            </span>
-          ) : (
-            <span className="text-center">End of diary.</span>
-          )}
-          <div ref={ref} />
-        </>
+        <BaseHeader className="h-14 border-t-0">
+          <h1 className="text-2xl font-semibold leading-none tracking-tight">
+            Blood Pressure Measurements
+          </h1>
+        </BaseHeader>
+        <DisplayCard data={flattenedData} />
+        {(isFetchingNextPage && hasNextPage) || isPending ? (
+          <span className="text-center">
+            Loading more of your diary ...
+          </span>
+        ) : (
+          <span className="text-center">End of diary.</span>
+        )}
+        <div ref={ref} />
       </div>
     </ScrollArea>
   );

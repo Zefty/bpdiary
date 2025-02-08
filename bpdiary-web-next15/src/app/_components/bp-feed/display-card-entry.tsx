@@ -16,9 +16,9 @@ export default function DisplayCardEntry({
 }) {
     const bpEntryContext = useBpEntryContext();
     return (
-        <Fragment>
+        <div className="group">
             <div
-                className="group px-6 pt-6 hover:bg-accent"
+                className="px-6 pt-6 hover:bg-accent border-l border-r group-first:border-t group-first:rounded-t-lg group-last:border-b group-last:rounded-b-lg "
                 onClick={() => {
                     if (bpEntryContext) {
                         bpEntryContext.setBpEntryData(entry);
@@ -58,6 +58,6 @@ export default function DisplayCardEntry({
                 </div>
                 <Separator className="mt-6 group-last:invisible" />
             </div>
-        </Fragment>
+        </div>
     );
 }

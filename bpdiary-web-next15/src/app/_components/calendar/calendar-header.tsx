@@ -12,7 +12,6 @@ export default function CalendarHeader() {
   return (
     <BaseHeader>
       <LogBpFormProvider>
-        <SidebarTrigger variant="outline" className="h-10 w-10"/>
         <LogBpFormTrigger />
         <Button className="gap-2">
           <Share width="1.5em" height="1.5em" />
