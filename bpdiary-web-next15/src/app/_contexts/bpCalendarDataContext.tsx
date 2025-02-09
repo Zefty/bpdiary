@@ -16,17 +16,17 @@ export interface BpCalendarDataContext {
   dataFilteredBySelectedDate: BloodPressureDiary;
 }
 
-export const BpCalendarDataContext = createContext<BpCalendarDataContext | undefined>(
-  undefined,
-);
+export const BpCalendarDataContext = createContext<
+  BpCalendarDataContext | undefined
+>(undefined);
 
 interface BpCalendarDataContextProviderProps {
   children: React.ReactNode;
 }
 
-export const BpCalendarDataContextProvider: React.FC<BpCalendarDataContextProviderProps> = ({
-  children,
-}) => {
+export const BpCalendarDataContextProvider: React.FC<
+  BpCalendarDataContextProviderProps
+> = ({ children }) => {
   const calendarContext = useBpCalendarContext();
 
   const som = startOfMonth(calendarContext?.selectedMonth ?? new Date());

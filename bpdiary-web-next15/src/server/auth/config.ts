@@ -47,7 +47,7 @@ export const authConfig = {
   }),
   callbacks: {
     session: async ({ session, user }) => {
-      // const timezone = 
+      // const timezone =
       return {
         ...session,
         user: {

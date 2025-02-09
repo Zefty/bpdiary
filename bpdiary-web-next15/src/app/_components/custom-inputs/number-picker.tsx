@@ -17,7 +17,8 @@ export interface NumberPickerRefs {
   focus: () => void;
 }
 
-export interface NumberPickerProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface NumberPickerProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   id?: string;
   name?: string;
@@ -27,7 +28,19 @@ export interface NumberPickerProps extends React.InputHTMLAttributes<HTMLInputEl
 }
 
 export const NumberPicker = forwardRef<NumberPickerRefs, NumberPickerProps>(
-  ({ className, id, name, type, initialValue, onNextFocus, onChange, onKeyDown }, ref) => {
+  (
+    {
+      className,
+      id,
+      name,
+      type,
+      initialValue,
+      onNextFocus,
+      onChange,
+      onKeyDown,
+    },
+    ref,
+  ) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [value, setValue] = useState<number>(initialValue ?? 0);
     const [flag, setFlag] = useState<boolean>(false);

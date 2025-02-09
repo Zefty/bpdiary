@@ -10,29 +10,28 @@ import DisplayCard from "./display-card";
 import BaseHeader from "../header/base-header";
 
 export default function DailyFeed() {
-    const calendarContext = useBpCalendarContext();
-    const dataContext = useBpCalendarDataContext();
-    const noMeasurements =
-        (dataContext?.dataFilteredBySelectedDate?.length ?? 0) === 0;
+  const calendarContext = useBpCalendarContext();
+  const dataContext = useBpCalendarDataContext();
+  const noMeasurements =
+    (dataContext?.dataFilteredBySelectedDate?.length ?? 0) === 0;
 
-    return (
-        <ScrollArea
-            className="h-full max-h-screen overflow-y-auto border rounded-md"
-        >
-            <div className="flex h-full flex-col items-center gap-2">
-                <BaseHeader className="h-14 gap-3 border-none shadow-none justify-center border">
-                    <h1 className="text-2xl font-semibold leading-none tracking-tight">
-                        {format(calendarContext.selectedDate, "E, LLL d")}
-                    </h1>
-                    <HeartPulse width="1.5em" height="1.5em" />
-                </BaseHeader>
-                {noMeasurements ? (
-                    <h1 className="text-muted-foreground text-2xl font-semibold leading-none tracking-tight">
-                        No Measurements ...
-                    </h1>
-                ) : <DisplayCard data={dataContext?.dataFilteredBySelectedDate} />
-                }
-            </div>
-        </ScrollArea>
-    );
+  return (
+    <ScrollArea className="h-full max-h-screen overflow-y-auto rounded-md border">
+      <div className="flex h-full flex-col items-center gap-2">
+        <BaseHeader className="h-14 justify-center gap-3 border border-none shadow-none">
+          <h1 className="text-2xl font-semibold leading-none tracking-tight">
+            {format(calendarContext.selectedDate, "E, LLL d")}
+          </h1>
+          <HeartPulse width="1.5em" height="1.5em" />
+        </BaseHeader>
+        {noMeasurements ? (
+          <h1 className="text-2xl font-semibold leading-none tracking-tight text-muted-foreground">
+            No Measurements ...
+          </h1>
+        ) : (
+          <DisplayCard data={dataContext?.dataFilteredBySelectedDate} />
+        )}
+      </div>
+    </ScrollArea>
+  );
 }

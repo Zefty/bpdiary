@@ -123,22 +123,26 @@ export const verificationTokens = createTable(
       withTimezone: true,
     }).notNull(),
   },
-  (vt) => [primaryKey({ columns: [vt.identifier, vt.token] })]
+  (vt) => [primaryKey({ columns: [vt.identifier, vt.token] })],
 );
 
-export const setting = createTable("setting", {
-  userId: varchar("user_id", { length: 255 })
-    .notNull()
-    .references(() => users.id),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
-    () => new Date(),
-  ),
-  settingName: varchar("setting_name").notNull(),
-  settingValue: varchar("setting_value").notNull(),
-}, (s) => [primaryKey({ columns: [s.userId, s.settingName] })]);
+export const setting = createTable(
+  "setting",
+  {
+    userId: varchar("user_id", { length: 255 })
+      .notNull()
+      .references(() => users.id),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+      () => new Date(),
+    ),
+    settingName: varchar("setting_name").notNull(),
+    settingValue: varchar("setting_value").notNull(),
+  },
+  (s) => [primaryKey({ columns: [s.userId, s.settingName] })],
+);
 
 export const bloodPressure = createTable("blood_pressure", {
   id: serial("id").primaryKey(),

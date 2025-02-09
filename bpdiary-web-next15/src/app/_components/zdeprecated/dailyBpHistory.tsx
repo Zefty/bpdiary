@@ -45,7 +45,7 @@ export default function DailyBpHistory() {
             <HeartPulse />
           </div>
           {noMeasurements && (
-            <h1 className="text-muted-foreground m-auto text-2xl font-semibold leading-none tracking-tight">
+            <h1 className="m-auto text-2xl font-semibold leading-none tracking-tight text-muted-foreground">
               No Measurements ...
             </h1>
           )}

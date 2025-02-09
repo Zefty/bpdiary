@@ -25,22 +25,22 @@ export default async function CalendarPage() {
     <HydrateClient>
       <BpCalendarContextProvider initialDate={today}>
         <BpCalendarDataContextProvider>
-            <div className="flex h-full w-full flex-col py-2 gap-2">
-              <div className="px-2">
-                <CalendarHeader />
+          <div className="flex h-full w-full flex-col gap-2 py-2">
+            <div className="px-2">
+              <CalendarHeader />
+            </div>
+            <div className="grid h-full w-full grid-cols-3 grid-rows-1 items-center gap-2 px-2">
+              <div className="col-span-3 h-full flex-1 md:col-span-2">
+                <CalendarView />
               </div>
-              <div className="grid grid-rows-1 grid-cols-3 h-full w-full items-center gap-2 px-2">
-                <div className="col-span-3 h-full flex-1 md:col-span-2">
-                  <CalendarView />
-                </div>
 
-                <div className="col-span-1 relative hidden h-full flex-1 md:flex">
-                  <div className="absolute bottom-0 left-0 right-0 top-0 ">
-                    <DailyFeed />
-                  </div>
+              <div className="relative col-span-1 hidden h-full flex-1 md:flex">
+                <div className="absolute bottom-0 left-0 right-0 top-0">
+                  <DailyFeed />
                 </div>
               </div>
             </div>
+          </div>
         </BpCalendarDataContextProvider>
       </BpCalendarContextProvider>
     </HydrateClient>

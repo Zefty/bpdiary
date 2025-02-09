@@ -21,7 +21,7 @@ export default function CalendarView() {
 
         [UI.Nav]: "border rounded-md",
         [UI.MonthCaption]: "hidden",
-        
+
         [UI.MonthGrid]: "h-full mt-2",
         [UI.Months]: "flex flex-col h-full",
         [UI.Month]: "flex flex-col h-full mt-2 border rounded-md",
@@ -29,21 +29,21 @@ export default function CalendarView() {
         [UI.Weeks]: "flex flex-col h-full",
         [UI.Week]: "flex flex-1",
 
-        [UI.Weekdays]: 'flex',
+        [UI.Weekdays]: "flex",
         [UI.Weekday]:
           "text-muted-foreground rounded-md w-full font-normal text-[0.8rem]",
-          
+
         [UI.Day]: "mt-2 w-full text-center rounded-md text-sm p-0",
 
-        [SelectionState.range_end]: 'day-range-end',
+        [SelectionState.range_end]: "day-range-end",
         [SelectionState.selected]:
-          'bg-accent text-accent-foreground border-2 border-ring hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
+          "bg-accent text-accent-foreground border-2 border-ring hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
         [SelectionState.range_middle]:
-          'aria-selected:bg-accent aria-selected:text-accent-foreground',
+          "aria-selected:bg-accent aria-selected:text-accent-foreground",
         [DayFlag.outside]:
-          'day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30',
-        [DayFlag.disabled]: 'text-muted-foreground opacity-50',
-        [DayFlag.hidden]: 'invisible',
+          "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
+        [DayFlag.disabled]: "text-muted-foreground opacity-50",
+        [DayFlag.hidden]: "invisible",
       }}
       month={calendarContext.selectedMonth}
       onMonthChange={(month) => {

@@ -6,8 +6,8 @@ import { useTheme } from "next-themes";
 import { api } from "~/trpc/react";
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
-  
+  const { theme, setTheme } = useTheme();
+
   return (
     <SidebarMenuButton
       onClick={() => {

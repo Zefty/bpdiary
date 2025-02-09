@@ -11,10 +11,15 @@ export default function CalendarNav(props: NavProps) {
     const today = new Date();
     calendarContext.setSelectedDate(today);
     calendarContext.setSelectedMonth(today);
-  }
+  };
   return (
-    <div className={cn("flex w-full items-center justify-between p-2", props.className)}>
-      <div className="px-4 h-[2.5rem] flex gap-2 items-center rounded-md bg-accent">
+    <div
+      className={cn(
+        "flex w-full items-center justify-between p-2",
+        props.className,
+      )}
+    >
+      <div className="flex h-[2.5rem] items-center gap-2 rounded-md bg-accent px-4">
         <span className="text-2xl font-semibold leading-none tracking-tight">
           {format(calendarContext.selectedMonth, "LLLL")}
         </span>

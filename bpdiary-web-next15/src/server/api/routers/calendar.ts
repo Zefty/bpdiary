@@ -2,10 +2,7 @@ import { startOfMonth, endOfMonth, subDays, addDays } from "date-fns";
 import { eq, desc, sql, and, lt, asc, avg, gte } from "drizzle-orm";
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { bloodPressure } from "~/server/db/schema";
 
 export const calendarRouter = createTRPCRouter({
@@ -37,7 +34,7 @@ export const calendarRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       const som = startOfMonth(input.date);
-      const eom = endOfMonth(som)
+      const eom = endOfMonth(som);
 
       const start = subDays(som, som.getDay());
       const end = addDays(eom, 6 - eom.getDay());

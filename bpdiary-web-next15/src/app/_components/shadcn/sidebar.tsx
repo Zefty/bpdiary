@@ -35,19 +35,19 @@ const SIDEBAR_WIDTH_ICON = "4rem";
 const MAX_SIDEBAR_WIDTH = "20rem";
 const SIDEBAR_RESIZE_HANDLE_WIDTH = "0.5rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
-const convertRemToPixels = (rem: string) => {    
+const convertRemToPixels = (rem: string) => {
   const r = Number(rem.match(/(\d+)/)?.[0]);
-  if (typeof(getComputedStyle) === 'undefined') {
+  if (typeof getComputedStyle === "undefined") {
     return r * 16;
   }
   return r * parseFloat(getComputedStyle(document.documentElement).fontSize);
-}
-const convertPixelsToRem = (pixels: number) => {    
-  if (typeof(getComputedStyle) === 'undefined') {
+};
+const convertPixelsToRem = (pixels: number) => {
+  if (typeof getComputedStyle === "undefined") {
     return `${pixels / 16}rem`;
   }
   return `${pixels / parseFloat(getComputedStyle(document.documentElement).fontSize)}rem`;
-}
+};
 
 type SidebarContext = {
   state: "expanded" | "collapsed";
@@ -145,7 +145,7 @@ const SidebarProvider = React.forwardRef<
 
     // We add a state so that we can do data-state="expanded" or "collapsed".
     // This makes it easier to style the sidebar with Tailwind classes.
-    const state = isTablet ? "collapsed" : (open ? "expanded" : "collapsed");
+    const state = isTablet ? "collapsed" : open ? "expanded" : "collapsed";
 
     const contextValue = React.useMemo<SidebarContext>(
       () => ({
@@ -160,7 +160,7 @@ const SidebarProvider = React.forwardRef<
         track,
         setTrack,
         width,
-        setWidth
+        setWidth,
       }),
       [
         state,
@@ -174,7 +174,7 @@ const SidebarProvider = React.forwardRef<
         track,
         setTrack,
         width,
-        setWidth
+        setWidth,
       ],
     );
 
@@ -188,7 +188,7 @@ const SidebarProvider = React.forwardRef<
                 "--sidebar-width-icon": SIDEBAR_WIDTH_ICON,
                 "--sidebar-resize-handle-width": SIDEBAR_RESIZE_HANDLE_WIDTH,
                 ...style,
-              } as React.CSSProperties 
+              } as React.CSSProperties
             }
             className={cn(
               "group/sidebar-wrapper flex min-h-svh w-full has-[[data-variant=inset]]:bg-sidebar",
@@ -227,7 +227,17 @@ const Sidebar = React.forwardRef<
     },
     ref,
   ) => {
-    const { isMobile, isTablet, state, openMobile, setOpenMobile, track, setTrack, setWidth, setOpen } = useSidebar();
+    const {
+      isMobile,
+      isTablet,
+      state,
+      openMobile,
+      setOpenMobile,
+      track,
+      setTrack,
+      setWidth,
+      setOpen,
+    } = useSidebar();
 
     useEffect(() => {
       const handleMouseMove = (e: MouseEvent) => {
@@ -238,14 +248,17 @@ const Sidebar = React.forwardRef<
           if (e.clientX > 140) {
             setOpen(true);
           }
-          const newWidth = Math.max(convertRemToPixels(SIDEBAR_WIDTH), Math.min(e.clientX, convertRemToPixels(MAX_SIDEBAR_WIDTH)));
+          const newWidth = Math.max(
+            convertRemToPixels(SIDEBAR_WIDTH),
+            Math.min(e.clientX, convertRemToPixels(MAX_SIDEBAR_WIDTH)),
+          );
           setWidth(convertPixelsToRem(newWidth));
         }
       };
 
       const handleMouseUp = () => {
         if (track) setTrack(false);
-        document.body.style.userSelect = 'auto';
+        document.body.style.userSelect = "auto";
       };
 
       window.addEventListener("mousemove", handleMouseMove);
@@ -307,7 +320,7 @@ const Sidebar = React.forwardRef<
           {/* This is what handles the sidebar gap on desktop */}
           <div
             className={cn(
-              "relative h-svh w-[--sidebar-width] bg-transparent overflow",
+              "overflow relative h-svh w-[--sidebar-width] bg-transparent",
               "group-data-[collapsible=offcanvas]:w-0",
               "group-data-[side=right]:rotate-180",
               variant === "floating" || variant === "inset"
@@ -324,9 +337,11 @@ const Sidebar = React.forwardRef<
                 : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
               // Adjust the padding for floating and inset variants.
               variant === "floating" || variant === "inset"
-                ? "p-2 pr-0 w-[calc(var(--sidebar-width)_+_0.5rem)] group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_0.5rem_+_2px)]"
+                ? "w-[calc(var(--sidebar-width)_+_0.5rem)] p-2 pr-0 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_0.5rem_+_2px)]"
                 : "group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=left]:border-r group-data-[side=right]:border-l",
-              resizable ? "" : "transition-[left,right,width] duration-200 ease-linear",
+              resizable
+                ? ""
+                : "transition-[left,right,width] duration-200 ease-linear",
               className,
             )}
             {...props}
@@ -339,20 +354,22 @@ const Sidebar = React.forwardRef<
             </div>
           </div>
           {resizable && (
-              <div
-                onMouseDown={() => {
-                  setTrack(true);
-                  document.body.style.userSelect = 'none';
-                }}
-                className={cn(
-                  "z-50 absolute inset-y-0 py-2 w-[--sidebar-resize-handle-width] h-full cursor-col-resize", 
-                  "left-[calc(var(--sidebar-width)_+_0.5rem_-_var(--sidebar-resize-handle-width))] group-data-[collapsible=icon]:left-[calc(var(--sidebar-width-icon)_-_var(--sidebar-resize-handle-width)_+_theme(spacing.4)_-0.25rem)]",
-                  (!isMobile && !isTablet) ? "" : "group-data-[collapsible=icon]:hidden"
-                )}
-              >
-                <div className="w-full h-full hover:bg-border transition-colors rounded-md" /> 
-              </div>
-            )}
+            <div
+              onMouseDown={() => {
+                setTrack(true);
+                document.body.style.userSelect = "none";
+              }}
+              className={cn(
+                "absolute inset-y-0 z-50 h-full w-[--sidebar-resize-handle-width] cursor-col-resize py-2",
+                "left-[calc(var(--sidebar-width)_+_0.5rem_-_var(--sidebar-resize-handle-width))] group-data-[collapsible=icon]:left-[calc(var(--sidebar-width-icon)_-_var(--sidebar-resize-handle-width)_+_theme(spacing.4)_-0.25rem)]",
+                !isMobile && !isTablet
+                  ? ""
+                  : "group-data-[collapsible=icon]:hidden",
+              )}
+            >
+              <div className="h-full w-full rounded-md transition-colors hover:bg-border" />
+            </div>
+          )}
         </div>
       </>
     );
@@ -715,7 +732,7 @@ const SidebarMenuAction = React.forwardRef<
         "peer-data-[size=lg]/menu-button:top-2.5",
         "group-data-[collapsible=icon]:hidden",
         showOnHover &&
-        "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground md:opacity-0",
+          "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground md:opacity-0",
         className,
       )}
       {...props}

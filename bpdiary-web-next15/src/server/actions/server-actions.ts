@@ -10,7 +10,10 @@ export async function LogBp(formData: FormData) {
   console.log(formData);
 
   try {
-    const bpMeasurement = parseData(preprocessFormData(formData, BpMeasurement), BpMeasurement);
+    const bpMeasurement = parseData(
+      preprocessFormData(formData, BpMeasurement),
+      BpMeasurement,
+    );
     await api.bloodPressure.logMeasurement(bpMeasurement);
     revalidatePath("/diary");
     return { message: "success" };
@@ -27,7 +30,10 @@ export async function EditBp(entryId: number | undefined, formData: FormData) {
 
   try {
     if (entryId === undefined) throw new Error("Entry ID is undefined");
-    const bpMeasurement = parseData(preprocessFormData(formData, BpMeasurement), BpMeasurement);
+    const bpMeasurement = parseData(
+      preprocessFormData(formData, BpMeasurement),
+      BpMeasurement,
+    );
     await api.bloodPressure.editMeasurement({ ...bpMeasurement, id: entryId });
     revalidatePath("/diary");
     return { message: "success" };

@@ -28,7 +28,13 @@ const useTruncatedElement = ({
   };
 };
 
-export default function Note({ note, className }: { note?: string | null, className?: string }) {
+export default function Note({
+  note,
+  className,
+}: {
+  note?: string | null;
+  className?: string;
+}) {
   const ref = useRef(null);
   const { isTruncated, isShowingMore, toggleIsShowingMore } =
     useTruncatedElement({
@@ -36,7 +42,14 @@ export default function Note({ note, className }: { note?: string | null, classN
     });
   return (
     <div>
-      <div ref={ref} className={cn(!isShowingMore && "line-clamp-1", note ? "" : "h-5", className)}>
+      <div
+        ref={ref}
+        className={cn(
+          !isShowingMore && "line-clamp-1",
+          note ? "" : "h-5",
+          className,
+        )}
+      >
         {note}
       </div>
       {/* {isTruncated && (

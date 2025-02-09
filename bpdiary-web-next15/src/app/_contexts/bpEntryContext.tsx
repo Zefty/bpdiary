@@ -13,31 +13,32 @@ export interface BpEntryContext {
 
 export const BpEntryContext = createContext<BpEntryContext>({
   openSheet: false,
-  setOpenSheet: function() {
-    this.openSheet = !this.openSheet
+  setOpenSheet: function () {
+    this.openSheet = !this.openSheet;
   },
-  setBpEntryData: function(data: BloodPressureDiary["data"][0]) {
-    this.bpEntryData = data
-  }
+  setBpEntryData: function (data: BloodPressureDiary["data"][0]) {
+    this.bpEntryData = data;
+  },
 });
 
 interface BpEntryContextProviderProps {
   children: React.ReactNode;
 }
 
-export const BpEntryContextProvider: React.FC<
-  BpEntryContextProviderProps
-> = ({ children }) => {
+export const BpEntryContextProvider: React.FC<BpEntryContextProviderProps> = ({
+  children,
+}) => {
   const [openSheet, setOpenSheet] = useState<boolean>(false);
-  const [bpEntryData, setBpEntryData] = useState<BloodPressureDiary["data"][0]>();
+  const [bpEntryData, setBpEntryData] =
+    useState<BloodPressureDiary["data"][0]>();
 
   return (
     <BpEntryContext.Provider
       value={{
         openSheet,
         setOpenSheet,
-        bpEntryData, 
-        setBpEntryData
+        bpEntryData,
+        setBpEntryData,
       }}
     >
       {children}

@@ -24,7 +24,7 @@ export default async function HomePage() {
                 // >
                 //   Sign in
                 // </Link>
-                <SignIn/>
+                <SignIn />
               )}
             </div>
           </div>

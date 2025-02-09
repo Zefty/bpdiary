@@ -80,11 +80,10 @@ export const BaseBpForm = forwardRef<BpEntryBaseRefs, BpEntryBaseProps>(
 
     return (
       <Sheet open={openSheet} onOpenChange={setOpenSheet}>
-        <SheetContent
-          side="right"
-          className="sm:max-w-[750px] p-0"
-        >
-          <div className={`flex flex-col items-center gap-3 w-full h-full p-9 ${isSubmitting ? "bg-slate-50 bg-opacity-50" : ""}`}>
+        <SheetContent side="right" className="p-0 sm:max-w-[750px]">
+          <div
+            className={`flex h-full w-full flex-col items-center gap-3 p-9 ${isSubmitting ? "bg-slate-50 bg-opacity-50" : ""}`}
+          >
             <SheetHeader className="w-full sm:text-center">
               {sheetHeader}
             </SheetHeader>
@@ -161,9 +160,7 @@ export const BaseBpForm = forwardRef<BpEntryBaseRefs, BpEntryBaseProps>(
                 </div>
               </fieldset>
             </form>
-            <SheetFooter className="w-full">
-              {sheetFooter}
-            </SheetFooter>
+            <SheetFooter className="w-full">{sheetFooter}</SheetFooter>
           </div>
         </SheetContent>
       </Sheet>

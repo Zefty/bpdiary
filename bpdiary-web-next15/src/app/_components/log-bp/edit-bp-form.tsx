@@ -4,18 +4,25 @@ import { Button } from "~/app/_components/shadcn/button";
 import { EditBp } from "~/server/actions/server-actions";
 import { BaseBpForm, BpEntryBaseRefs } from "./base-bp-form";
 import React, { useRef } from "react";
-import { BpEntryContextProvider, useBpEntryContext } from "~/app/_contexts/bpEntryContext";
+import {
+  BpEntryContextProvider,
+  useBpEntryContext,
+} from "~/app/_contexts/bpEntryContext";
 import { SheetClose, SheetDescription, SheetTitle } from "../shadcn/sheet";
 import { useServerAction } from "~/app/_hooks/use-server-action";
 import { useToast } from "~/app/_hooks/use-toast";
 
-export default function EditBpFormProvider({ children } : { children?: React.ReactNode }) {
+export default function EditBpFormProvider({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
   return (
     <BpEntryContextProvider>
       <EditBpForm />
       {children}
     </BpEntryContextProvider>
-  )
+  );
 }
 
 export function EditBpForm() {
@@ -25,7 +32,7 @@ export function EditBpForm() {
   const EditBpWithId = EditBp.bind(null, bpEntryData?.id);
   const [EditBpWithIdAction, isEditing] = useServerAction(EditBpWithId);
   const { toast } = useToast();
-  
+
   return (
     <BaseBpForm
       ref={bpEntryBaseRef}
@@ -60,7 +67,7 @@ export function EditBpForm() {
           context.setOpenSheet(!context.openSheet);
           toast({
             title: "Edited entry!",
-          })
+          });
         }
       }}
       isSubmitting={isEditing}

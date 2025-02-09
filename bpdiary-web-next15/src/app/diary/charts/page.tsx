@@ -5,16 +5,16 @@ import RingChart from "~/app/_components/charts/ring-chart";
 import { api, HydrateClient } from "~/trpc/server";
 
 export default async function ChartsPage() {
-    await Promise.all([
-        // api.bloodPressure.getPastSevenDaysDiary.prefetch(),
-        api.bloodPressure.getAverageBpPerDayOfWeek.prefetch(),
-        api.bloodPressure.getDatesWithBpMeasurementsByMonth.prefetch(),
-        api.bloodPressure.getAverageMeasurements.prefetch(),
-    ]);
+  await Promise.all([
+    // api.bloodPressure.getPastSevenDaysDiary.prefetch(),
+    api.bloodPressure.getAverageBpPerDayOfWeek.prefetch(),
+    api.bloodPressure.getDatesWithBpMeasurementsByMonth.prefetch(),
+    api.bloodPressure.getAverageMeasurements.prefetch(),
+  ]);
 
-    return (
-        <HydrateClient>
-            {/* <div className="flex-1 flex flex-col items-center">
+  return (
+    <HydrateClient>
+      {/* <div className="flex-1 flex flex-col items-center">
                 <div className="m-8 text-2xl font-semibold leading-none tracking-tight">Charts</div>
                 <div className="w-full flex-1 flex flex-row flex-wrap px-20 gap-10">
                     <div className="flex-1 mb-20">
@@ -30,7 +30,7 @@ export default async function ChartsPage() {
                     </div>
                 </div>
             </div> */}
-            <div></div>
-        </HydrateClient>
-    );
+      <div></div>
+    </HydrateClient>
+  );
 }

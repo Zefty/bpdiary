@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { ChevronLeft, ChevronRight, TrendingUp } from "lucide-react"
+import { ChevronLeft, ChevronRight, TrendingUp } from "lucide-react";
 import {
   Label,
   PolarAngleAxis,
@@ -8,7 +8,7 @@ import {
   PolarRadiusAxis,
   RadialBar,
   RadialBarChart,
-} from "recharts"
+} from "recharts";
 
 import {
   Card,
@@ -17,13 +17,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/app/_components/shadcn/card"
-import { ChartConfig, ChartContainer } from "~/app/_components/shadcn/chart"
-import { DateMonthLongFormat } from "~/lib/utils"
-import { api } from "~/trpc/react"
-import { Button } from "../shadcn/button"
+} from "~/app/_components/shadcn/card";
+import { ChartConfig, ChartContainer } from "~/app/_components/shadcn/chart";
+import { DateMonthLongFormat } from "~/lib/utils";
+import { api } from "~/trpc/react";
+import { Button } from "../shadcn/button";
 
-export const description = "A radial chart with text"
+export const description = "A radial chart with text";
 
 const chartConfig = {
   measurements: {
@@ -33,25 +33,33 @@ const chartConfig = {
     label: "CurrentMonth",
     color: "hsl(var(--chart-2))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export default function RingChart() {
   const data = api.bloodPressure.getIsBpRecordedMonthly.useQuery();
 
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth();
-  const maxDays = new Date(currentDate.getFullYear(), currentMonth + 1, 0).getDate();
+  const maxDays = new Date(
+    currentDate.getFullYear(),
+    currentMonth + 1,
+    0,
+  ).getDate();
 
-  const chartData = [{ month: currentMonth, measurements: data?.data?.length ?? 0 }]
+  const chartData = [
+    { month: currentMonth, measurements: data?.data?.length ?? 0 },
+  ];
   return (
     <Card className="flex flex-col">
-      <CardHeader className="flex flex-row pb-0 gap-2 items-center">
+      <CardHeader className="flex flex-row items-center gap-2 pb-0">
         <Button>
           <ChevronLeft className="h-4 w-4" />
         </Button>
         <div className="flex flex-col items-center">
           <CardTitle>Total Measurements</CardTitle>
-          <CardDescription>{DateMonthLongFormat.format(currentDate)}</CardDescription>
+          <CardDescription>
+            {DateMonthLongFormat.format(currentDate)}
+          </CardDescription>
         </div>
         <Button>
           <ChevronRight className="h-4 w-4" />
@@ -102,7 +110,7 @@ export default function RingChart() {
                           Measurements
                         </tspan>
                       </text>
-                    )
+                    );
                   }
                 }}
               />
@@ -119,5 +127,5 @@ export default function RingChart() {
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

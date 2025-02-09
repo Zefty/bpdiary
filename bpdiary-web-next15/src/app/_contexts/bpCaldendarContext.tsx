@@ -18,13 +18,13 @@ export interface BpCalendarContext {
 export const BpCalendarContext = createContext<BpCalendarContext>({
   today: new Date(),
   selectedDate: new Date(),
-  setSelectedDate: function(date) {
-    this.selectedDate = date
+  setSelectedDate: function (date) {
+    this.selectedDate = date;
   },
   selectedMonth: new Date(),
-  setSelectedMonth: function(date) {
-    this.selectedMonth = date
-  }
+  setSelectedMonth: function (date) {
+    this.selectedMonth = date;
+  },
 });
 
 interface BpCalendarContextProviderProps {

@@ -16,15 +16,19 @@ export default function LogBpFormTrigger() {
           if (calendarContext) {
             const now = new Date();
             context.setBpEntryData({
-              createdAt: set(calendarContext.selectedDate, { hours: now.getHours(), minutes: now.getMinutes(), seconds: now.getSeconds()}),
+              createdAt: set(calendarContext.selectedDate, {
+                hours: now.getHours(),
+                minutes: now.getMinutes(),
+                seconds: now.getSeconds(),
+              }),
               id: 0,
               updatedAt: null,
               loggedByUserId: "",
               systolic: null,
               diastolic: null,
               pulse: null,
-              notes: null
-            })
+              notes: null,
+            });
           }
           context.setOpenSheet(!context.openSheet);
         }

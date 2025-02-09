@@ -8,7 +8,9 @@ export const BpMeasurement = z.object({
   notes: z.string().optional(),
 });
 
-export const BpMeasurementWithId = BpMeasurement.extend({ id: z.number().int() });
+export const BpMeasurementWithId = BpMeasurement.extend({
+  id: z.number().int(),
+});
 
 export type BpMeasurement = z.infer<typeof BpMeasurement>;
 export type BpMeasurementWithId = z.infer<typeof BpMeasurementWithId>;

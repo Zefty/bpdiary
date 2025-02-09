@@ -10,7 +10,6 @@ import {
   verificationTokens,
 } from "~/server/db/schema";
 
-
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
  *

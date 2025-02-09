@@ -1,7 +1,4 @@
-import {
-  Share,
-  Printer,
-} from "lucide-react";
+import { Share, Printer } from "lucide-react";
 import { SidebarTrigger } from "../shadcn/sidebar";
 import { Button } from "../shadcn/button";
 import LogBpFormTrigger from "../log-bp/log-bp-form-trigger";

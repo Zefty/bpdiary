@@ -1,7 +1,3 @@
 export default async function AccountPage() {
-    return (
-        <div>
-            Account
-        </div>
-    )
+  return <div>Account</div>;
 }

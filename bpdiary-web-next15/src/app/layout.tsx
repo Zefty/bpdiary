@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-type Theme = RouterOutputs["setting"]["retrieveSetting"][0]
+type Theme = RouterOutputs["setting"]["retrieveSetting"][0];
 
 export default async function RootLayout({
   children,
@@ -21,14 +21,15 @@ export default async function RootLayout({
   // const ret = (await api.setting.retrieveSetting({ settingName: "theme" }))[0];
   // if (ret !== undefined) theme = ret;
   return (
-    <html lang="en" className={`${GeistSans.variable} ${theme.settingValue}`} style={{colorScheme: theme.settingValue}} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${GeistSans.variable} ${theme.settingValue}`}
+      style={{ colorScheme: theme.settingValue }}
+      suppressHydrationWarning
+    >
       <body>
         <TRPCReactProvider>
-          <ThemeProvider 
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-          >
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
           </ThemeProvider>
         </TRPCReactProvider>

@@ -11,9 +11,7 @@ export default async function DiaryLayout({
     <SidebarProvider>
       <Toaster />
       <AppSidebar />
-      <section className="w-full max-h-dvh">
-        {children}
-      </section>
+      <section className="max-h-dvh w-full">{children}</section>
     </SidebarProvider>
   );
 }

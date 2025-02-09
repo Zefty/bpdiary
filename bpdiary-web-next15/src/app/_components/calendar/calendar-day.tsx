@@ -16,14 +16,17 @@ export default function CalendarDay(props: DayProps) {
   return (
     <td
       {...tdProps}
-      className={cn(tdProps.className, "flex flex-col items-center hover:bg-accent")}
+      className={cn(
+        tdProps.className,
+        "flex flex-col items-center hover:bg-accent",
+      )}
       onClick={(e) => {
         calendarContext.setSelectedDate(day.date);
       }}
     >
       <div className="mt-2">{props.day.date.getDate()}</div>
       {cellData && (
-        <div className="h-full hidden text-muted-foreground my-2 [@media(min-height:700px)]:flex flex-col justify-center gap-2 text-xs">
+        <div className="my-2 hidden h-full flex-col justify-center gap-2 text-xs text-muted-foreground [@media(min-height:700px)]:flex">
           <div className="flex items-center gap-2">
             <Gauge className="text-primary" width="1.5em" height="1.5em" />
             <span className="flex flex-col">

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useTransition } from 'react';
+import { useEffect, useRef, useState, useTransition } from "react";
 
 export const useServerAction = <P extends any[], R>(
   action: (...args: P) => Promise<R>,
@@ -9,7 +9,7 @@ export const useServerAction = <P extends any[], R>(
   const [finished, setFinished] = useState(false);
   const resolver = useRef<(value?: R | PromiseLike<R>) => void>();
   const onFinishRef = useRef(onFinished);
-  
+
   useEffect(() => {
     if (!finished) return;
     if (onFinishRef.current) onFinishRef.current(result);

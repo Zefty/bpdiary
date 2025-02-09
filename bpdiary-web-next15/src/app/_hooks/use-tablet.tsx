@@ -1,19 +1,21 @@
-import * as React from "react"
+import * as React from "react";
 
-const XLScreen_BREAKPOINT = 1280
+const XLScreen_BREAKPOINT = 1280;
 
 export function useIsTablet() {
-  const [isTablet, setIsTablet] = React.useState<boolean | undefined>(undefined)
+  const [isTablet, setIsTablet] = React.useState<boolean | undefined>(
+    undefined,
+  );
 
   React.useEffect(() => {
-    const mql = window.matchMedia(`(max-width: ${XLScreen_BREAKPOINT - 1}px)`)
+    const mql = window.matchMedia(`(max-width: ${XLScreen_BREAKPOINT - 1}px)`);
     const onChange = () => {
-      setIsTablet(window.innerWidth < XLScreen_BREAKPOINT)
-    }
-    mql.addEventListener("change", onChange)
-    setIsTablet(window.innerWidth < XLScreen_BREAKPOINT)
-    return () => mql.removeEventListener("change", onChange)
-  }, [])
+      setIsTablet(window.innerWidth < XLScreen_BREAKPOINT);
+    };
+    mql.addEventListener("change", onChange);
+    setIsTablet(window.innerWidth < XLScreen_BREAKPOINT);
+    return () => mql.removeEventListener("change", onChange);
+  }, []);
 
-  return !!isTablet
+  return !!isTablet;
 }

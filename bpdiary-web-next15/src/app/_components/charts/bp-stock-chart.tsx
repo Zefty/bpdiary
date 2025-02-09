@@ -46,10 +46,13 @@ type Timeframes = (typeof TIMEFRAMES)[number];
 type DiaryData = RouterOutputs["chart"]["getStockChartData"];
 
 export default function BpStockChart() {
-  const initialVisibility = Object.keys(chartConfig).reduce((acc, val) => {
-    acc[val as ChartTypes] = true;
-    return acc;
-  }, {} as { [Key in keyof typeof chartConfig]: boolean });
+  const initialVisibility = Object.keys(chartConfig).reduce(
+    (acc, val) => {
+      acc[val as ChartTypes] = true;
+      return acc;
+    },
+    {} as { [Key in keyof typeof chartConfig]: boolean },
+  );
   const [visibility, setVisibility] = useState(initialVisibility);
   const [timeframe, setTimeframe] = useState<Timeframes>("W");
 
@@ -60,11 +63,26 @@ export default function BpStockChart() {
   const fromStartOfYear = startOfYear(toDate);
   const fromAll = new Date(0);
 
-  const week = api.chart.getStockChartData.useQuery({ fromDate: fromLastWeek, toDate });
-  const month = api.chart.getStockChartData.useQuery({ fromDate: fromLastMonth, toDate });
-  const year =  api.chart.getStockChartData.useQuery({ fromDate: fromLastYear, toDate });
-  const ytd = api.chart.getStockChartData.useQuery({ fromDate: fromStartOfYear, toDate });
-  const all = api.chart.getStockChartData.useQuery({ fromDate: fromAll, toDate });
+  const week = api.chart.getStockChartData.useQuery({
+    fromDate: fromLastWeek,
+    toDate,
+  });
+  const month = api.chart.getStockChartData.useQuery({
+    fromDate: fromLastMonth,
+    toDate,
+  });
+  const year = api.chart.getStockChartData.useQuery({
+    fromDate: fromLastYear,
+    toDate,
+  });
+  const ytd = api.chart.getStockChartData.useQuery({
+    fromDate: fromStartOfYear,
+    toDate,
+  });
+  const all = api.chart.getStockChartData.useQuery({
+    fromDate: fromAll,
+    toDate,
+  });
 
   const allChartData = new Map<Timeframes, DiaryData | undefined>();
   allChartData.set("W", week.data);
@@ -81,7 +99,7 @@ export default function BpStockChart() {
   }));
 
   return (
-    <Card className="flex flex-col h-full w-full">
+    <Card className="flex h-full w-full flex-col">
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>Blood Pressure</CardTitle>
@@ -103,15 +121,19 @@ export default function BpStockChart() {
         </div>
       </CardHeader>
       <CardContent className="flex-1 p-5">
-        <ChartContainer config={chartConfig} className="w-full h-[99%]">
-          <LineChart 
+        <ChartContainer config={chartConfig} className="h-[99%] w-full">
+          <LineChart
             accessibilityLayer
             data={chartData}
             margin={{
               left: -20,
               right: 12,
-            }}>
-            <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line"/>}/>
+            }}
+          >
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent indicator="line" />}
+            />
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="date"
@@ -159,14 +181,19 @@ export default function BpStockChart() {
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex space-x-2">
           {Object.keys(chartConfig).map((key) => {
-            const keyTyped = key as ChartTypes
+            const keyTyped = key as ChartTypes;
             return (
               <div key={key} className="flex items-center space-x-2">
                 <Switch
                   id={key.toLocaleLowerCase()}
                   className={`data-[state=checked]:bg-[${chartConfig[keyTyped].color}]`}
                   checked={visibility[keyTyped]}
-                  onCheckedChange={() => setVisibility({ ...visibility, [key]: !visibility[keyTyped] })}
+                  onCheckedChange={() =>
+                    setVisibility({
+                      ...visibility,
+                      [key]: !visibility[keyTyped],
+                    })
+                  }
                 />
                 <Label htmlFor="airplane-mode">
                   {chartConfig[keyTyped].label}
