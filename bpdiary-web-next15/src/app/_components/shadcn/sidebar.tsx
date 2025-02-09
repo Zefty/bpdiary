@@ -350,7 +350,7 @@ const Sidebar = React.forwardRef<
                   (!isMobile && !isTablet) ? "" : "group-data-[collapsible=icon]:hidden"
                 )}
               >
-                <div className="w-full h-full hover:bg-neutral-600/80 transition-colors rounded-md" /> 
+                <div className="w-full h-full hover:bg-border transition-colors rounded-md" /> 
               </div>
             )}
         </div>

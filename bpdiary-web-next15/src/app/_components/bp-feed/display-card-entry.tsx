@@ -18,7 +18,7 @@ export default function DisplayCardEntry({
     return (
         <div className="group">
             <div
-                className="px-6 pt-6 hover:bg-accent border-l border-r group-first:border-t group-first:rounded-t-lg group-last:border-b group-last:rounded-b-lg "
+                className="px-6 pt-6 hover:bg-accent group-first:border-t group-last:border-b"
                 onClick={() => {
                     if (bpEntryContext) {
                         bpEntryContext.setBpEntryData(entry);

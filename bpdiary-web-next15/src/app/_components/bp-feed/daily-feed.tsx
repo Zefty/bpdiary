@@ -17,17 +17,17 @@ export default function DailyFeed() {
 
     return (
         <ScrollArea
-            className="h-full max-h-screen overflow-y-auto rounded-md border-t"
+            className="h-full max-h-screen overflow-y-auto border rounded-md"
         >
-            <div className="flex h-full flex-col items-center gap-3">
-                <BaseHeader className="h-14 gap-3 justify-center border-t-0">
+            <div className="flex h-full flex-col items-center gap-2">
+                <BaseHeader className="h-14 gap-3 border-none shadow-none justify-center border">
                     <h1 className="text-2xl font-semibold leading-none tracking-tight">
                         {format(calendarContext.selectedDate, "E, LLL d")}
                     </h1>
                     <HeartPulse width="1.5em" height="1.5em" />
                 </BaseHeader>
                 {noMeasurements ? (
-                    <h1 className="text-muted-foreground m-auto text-2xl font-semibold leading-none tracking-tight">
+                    <h1 className="text-muted-foreground text-2xl font-semibold leading-none tracking-tight">
                         No Measurements ...
                     </h1>
                 ) : <DisplayCard data={dataContext?.dataFilteredBySelectedDate} />

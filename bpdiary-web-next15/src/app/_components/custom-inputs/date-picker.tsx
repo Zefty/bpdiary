@@ -79,7 +79,7 @@ export const DatePicker = forwardRef<DatePickerRefs, DatePickerProps>(
             <Button
               variant={"outline"}
               className={cn(
-                "w-[280px] justify-start text-left font-normal",
+                "w-[14.75rem] justify-start text-left font-normal",
                 !date && "text-muted-foreground",
               )}
             >

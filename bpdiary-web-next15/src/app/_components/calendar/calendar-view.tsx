@@ -17,12 +17,14 @@ export default function CalendarView() {
       selected={calendarContext.selectedDate}
       onSelect={calendarContext.setSelectedDate}
       classNames={{
-        [UI.Root]: "h-full p-2 rounded-md border",
-        [UI.MonthCaption]: "hidden",
+        [UI.Root]: "h-full rounded-md",
 
+        [UI.Nav]: "border rounded-md",
+        [UI.MonthCaption]: "hidden",
+        
         [UI.MonthGrid]: "h-full mt-2",
         [UI.Months]: "flex flex-col h-full",
-        [UI.Month]: "flex flex-col h-full",
+        [UI.Month]: "flex flex-col h-full mt-2 border rounded-md",
 
         [UI.Weeks]: "flex flex-col h-full",
         [UI.Week]: "flex flex-1",
@@ -35,7 +37,7 @@ export default function CalendarView() {
 
         [SelectionState.range_end]: 'day-range-end',
         [SelectionState.selected]:
-          'bg-accent text-accent-foreground ring-2 ring-ring hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
+          'bg-accent text-accent-foreground border-2 border-ring hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
         [SelectionState.range_middle]:
           'aria-selected:bg-accent aria-selected:text-accent-foreground',
         [DayFlag.outside]:

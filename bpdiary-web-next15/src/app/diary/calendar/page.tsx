@@ -29,12 +29,12 @@ export default async function CalendarPage() {
               <div className="px-2">
                 <CalendarHeader />
               </div>
-              <div className="flex h-full w-full items-center gap-2 px-2">
-                <div className="h-full flex-1">
+              <div className="grid grid-rows-1 grid-cols-3 h-full w-full items-center gap-2 px-2">
+                <div className="col-span-3 h-full flex-1 md:col-span-2">
                   <CalendarView />
                 </div>
 
-                <div className="relative hidden h-full flex-1 md:flex">
+                <div className="col-span-1 relative hidden h-full flex-1 md:flex">
                   <div className="absolute bottom-0 left-0 right-0 top-0 ">
                     <DailyFeed />
                   </div>

@@ -43,7 +43,7 @@ const items = [
     icon: Home,
   },
   {
-    title: "Calendar",
+    title: "Diary",
     url: "/diary/calendar",
     icon: Calendar,
   },

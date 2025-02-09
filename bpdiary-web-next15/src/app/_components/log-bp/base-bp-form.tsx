@@ -17,7 +17,7 @@ import { forwardRef, useImperativeHandle, useRef } from "react";
 import { RouterOutputs } from "~/trpc/react";
 import { LoaderCircle } from "lucide-react";
 
-type BloodPressureDiary = RouterOutputs["bloodPressure"]["getInfiniteDiary"];
+type BloodPressureDiary = RouterOutputs["feed"]["getInfiniteDiary"];
 
 export interface BpEntryBaseRefs {
   resetForm: () => void;

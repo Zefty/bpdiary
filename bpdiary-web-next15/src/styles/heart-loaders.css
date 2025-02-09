@@ -50,16 +50,23 @@
 
 
 /* Heart beat pulse animation */
+.pulse svg {
+  width: 100%; /* Makes the SVG scalable */
+  height: auto; /* Maintains aspect ratio */
+}
+
 .pulse svg polyline {
   fill: none;
   stroke-width: 4;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+
 .pulse svg polyline#back {
   fill: none;
   stroke: #ff4d5033;
 }
+
 .pulse svg polyline#front {
   fill: none;
   stroke: hsl(var(--primary));
@@ -67,12 +74,12 @@
   stroke-dashoffset: 192;
   animation: pulseFrames 1.4s linear infinite;
 }
+
 @keyframes pulseFrames {
   72.5% {
     opacity: 0;
   }
-
   to {
     stroke-dashoffset: 0;
   }
-}   
+}

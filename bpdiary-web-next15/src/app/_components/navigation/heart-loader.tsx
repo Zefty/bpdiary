@@ -19,11 +19,12 @@ export default function HeartLoader({ className, variant }: { className?: string
             <div data-value="beat" className="beater"></div>
             <div data-value="fill" className="heartFill"></div>
             <div data-value="pulse" className="pulse">
-                <svg width="64px" height="48px">
+                <svg viewBox="0 0 64 48" preserveAspectRatio="xMidYMid meet">
                     <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="back"></polyline>
                     <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="front"></polyline>
                 </svg>
             </div>
+
         </Switch>
     )
 }

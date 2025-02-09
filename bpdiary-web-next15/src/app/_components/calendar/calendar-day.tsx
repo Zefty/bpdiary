@@ -23,7 +23,7 @@ export default function CalendarDay(props: DayProps) {
     >
       <div className="mt-2">{props.day.date.getDate()}</div>
       {cellData && (
-        <div className="h-full hidden text-muted-foreground my-2 [@media(min-height:600px)]:flex flex-col justify-center gap-2 text-xs">
+        <div className="h-full hidden text-muted-foreground my-2 [@media(min-height:700px)]:flex flex-col justify-center gap-2 text-xs">
           <div className="flex items-center gap-2">
             <Gauge className="text-primary" width="1.5em" height="1.5em" />
             <span className="flex flex-col">
