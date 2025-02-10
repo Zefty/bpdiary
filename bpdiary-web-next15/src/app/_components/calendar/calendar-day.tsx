@@ -1,6 +1,6 @@
 import { isSameDay, set } from "date-fns";
 import { Gauge, HeartPulse } from "lucide-react";
-import { DayProps } from "react-day-picker";
+import { type DayProps } from "react-day-picker";
 import { useBpCalendarContext } from "~/app/_contexts/bpCaldendarContext";
 import { useBpCalendarDataContext } from "~/app/_contexts/bpCalendarDataContext";
 import { useBpEntryContext } from "~/app/_contexts/bpEntryContext";

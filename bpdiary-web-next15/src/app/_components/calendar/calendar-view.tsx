@@ -17,21 +17,20 @@ export default function CalendarView() {
       selected={calendarContext.selectedDate}
       onSelect={calendarContext.setSelectedDate}
       classNames={{
-        [UI.Root]: "h-full rounded-md",
+        [UI.Root]: "h-full border rounded-md p-2",
 
-        [UI.Nav]: "border rounded-md",
+        [UI.Nav]: "",
         [UI.MonthCaption]: "hidden",
 
         [UI.MonthGrid]: "h-full mt-2",
         [UI.Months]: "flex flex-col h-full",
-        [UI.Month]: "flex flex-col h-full mt-2 border rounded-md",
+        [UI.Month]: "flex flex-col h-full",
 
         [UI.Weeks]: "flex flex-col h-full",
         [UI.Week]: "flex flex-1",
 
-        [UI.Weekdays]: "flex",
-        [UI.Weekday]:
-          "text-muted-foreground rounded-md w-full font-normal text-[0.8rem]",
+        [UI.Weekdays]: "flex rounded-md bg-accent py-[0.4375rem] mt-2",
+        [UI.Weekday]: "rounded-md w-full font-normal font-semibold",
 
         [UI.Day]: "mt-2 w-full text-center rounded-md text-sm p-0",
 
@@ -40,6 +39,7 @@ export default function CalendarView() {
           "bg-accent text-accent-foreground border-2 border-ring hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
         [SelectionState.range_middle]:
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
+
         [DayFlag.outside]:
           "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
         [DayFlag.disabled]: "text-muted-foreground opacity-50",

@@ -22,11 +22,10 @@ export default function DailyFeed() {
           <h1 className="text-2xl font-semibold leading-none tracking-tight">
             {format(calendarContext.selectedDate, "E, LLL d")}
           </h1>
-          <HeartPulse width="1.5em" height="1.5em" />
         </BaseHeader>
         {noMeasurements ? (
-          <h1 className="text-2xl font-semibold leading-none tracking-tight text-muted-foreground">
-            No Measurements ...
+          <h1 className="absolute top-[40%] text-xl font-semibold leading-none tracking-tight text-muted-foreground opacity-50">
+            No measurements ...
           </h1>
         ) : (
           <DisplayCard data={dataContext?.dataFilteredBySelectedDate} />

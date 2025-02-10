@@ -1,4 +1,4 @@
-import { NavProps } from "react-day-picker";
+import { type NavProps } from "react-day-picker";
 import { Button } from "../shadcn/button";
 import { Calendar1, ChevronLeft, ChevronRight } from "lucide-react";
 import { format } from "date-fns";
@@ -15,11 +15,11 @@ export default function CalendarNav(props: NavProps) {
   return (
     <div
       className={cn(
-        "flex w-full items-center justify-between p-2",
+        "flex w-full items-center justify-between",
         props.className,
       )}
     >
-      <div className="flex h-[2.5rem] items-center gap-2 rounded-md bg-accent px-4">
+      <div className="flex h-[2.5rem] items-center gap-2 rounded-md bg-muted px-4">
         <span className="text-2xl font-semibold leading-none tracking-tight">
           {format(calendarContext.selectedMonth, "LLLL")}
         </span>

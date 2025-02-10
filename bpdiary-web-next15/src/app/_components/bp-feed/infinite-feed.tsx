@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { api, RouterOutputs } from "~/trpc/react";
 import { ScrollArea } from "../shadcn/scroll-area";
@@ -80,7 +81,7 @@ export default function InfiniteFeed() {
                 End of diary ...
               </span>
               <Button
-                className="absolute right-2 flex h-[2.5rem] w-[2.5gitrem] items-center justify-center rounded-md border bg-background hover:bg-muted"
+                className="absolute right-2 flex h-[2.5rem] w-[2.5gitrem] items-center justify-center rounded-md bg-background hover:bg-muted"
                 onClick={() => {
                   if (viewPortRef.current) {
                     viewPortRef.current.scrollTo({
