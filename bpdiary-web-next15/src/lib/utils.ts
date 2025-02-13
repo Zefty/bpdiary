@@ -6,6 +6,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function tw(strings: any, ...values: any[]) {
+  return String.raw({ raw: strings }, ...values);
+}
+
 export const DateMonthShortFormat = new Intl.DateTimeFormat("us", {
   month: "short",
 });

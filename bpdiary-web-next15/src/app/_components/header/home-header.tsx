@@ -2,23 +2,28 @@ import { auth } from "~/server/auth";
 import LogBpFormProvider from "../log-bp/log-bp-form";
 import LogBpFormTrigger from "../log-bp/log-bp-form-trigger";
 import BaseHeader from "./base-header";
-import { Separator } from "../shadcn/separator";
+import { Button } from "../shadcn/button";
+import { Bell } from "lucide-react";
 
 export default async function HomeHeader() {
   const session = await auth();
   return (
-    <BaseHeader>
+    <BaseHeader className="flex-col items-start p-0">
       <LogBpFormProvider>
-        <LogBpFormTrigger />
-        <Separator
-          orientation="vertical"
-          className="m-1 h-[calc(100%-0.125rem)]"
-        />
-        <h1 className="mr-auto text-2xl font-semibold leading-none tracking-tight">
-          <span>
-            {Greeting()}, {session?.user?.name}!
-          </span>
-        </h1>
+        <div className="flex w-full justify-start gap-4">
+          <div className="mr-auto align-middle">
+            <h1 className="text-xl font-semibold leading-none tracking-tight md:text-[40px]">
+              <span>
+                {Greeting()}, {session?.user?.name?.split(" ")[0]}!
+              </span>
+            </h1>
+          </div>
+          <LogBpFormTrigger />
+          <Button>
+            <Bell className="h-[1.5rem] w-[1.5rem]" />
+          </Button>
+        </div>
+        <span className="text-muted-foreground">{Reminders()}</span>
       </LogBpFormProvider>
     </BaseHeader>
   );
@@ -31,4 +36,16 @@ const Greeting = () => {
   if (hours >= 12 && hours < 18) return "Good afternoon";
   if (hours >= 18 && hours < 24) return "Good night";
   return "";
+};
+
+const Reminders = () => {
+  const randomInteger = (min: number, max: number) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+  const rems = [
+    "Have you taken your blood pressure today?",
+    "Don't forget to take your medication",
+  ];
+  const idx = randomInteger(0, rems.length);
+  return rems[idx];
 };

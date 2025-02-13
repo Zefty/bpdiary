@@ -12,6 +12,7 @@ import {
   LogOut,
   CreditCard,
   Sun,
+  Droplet,
 } from "lucide-react";
 import {
   Sidebar,
@@ -35,39 +36,22 @@ import Link from "next/link";
 import { auth } from "~/server/auth";
 import { Separator } from "../shadcn/separator";
 import ThemeToggle from "./theme-toggle";
+import { cn } from "~/lib/utils";
 
-const items = [
-  {
-    title: "Home",
-    url: "/diary",
-    icon: Home,
-  },
-  {
-    title: "Diary",
-    url: "/diary/calendar",
-    icon: Calendar,
-  },
-  // {
-  //   title: "Charts",
-  //   url: "/diary/charts",
-  //   icon: ChartLine,
-  // },
-];
-
-export async function AppSidebar() {
+export default async function AppSidebar() {
   const session = await auth();
   return (
     <Sidebar
       collapsible="icon"
-      variant="floating"
+      variant="sidebar"
       resizable
-      className="select-none"
+      className="select-none group-data-[side=left]:border-r-[0.15rem]"
     >
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem className="flex flex-row items-center gap-3">
+          <SidebarMenuItem className="rouded-md flex flex-row items-center gap-4 p-[1.75rem] duration-200 ease-linear group-data-[collapsible=icon]:justify-normal group-data-[collapsible=icon]:px-0">
             <div className="flex aspect-square size-12 items-center justify-center rounded-md bg-primary text-sidebar-primary-foreground">
-              <HeartPulse width="1.75em" height="1.75em" />
+              <Droplet className="h-[1.75rem] w-[1.75rem] fill-white stroke-[2.25]" />
             </div>
             <span className="whitespace-nowrap text-3xl font-bold group-data-[collapsible=icon]:hidden">
               BP Diary
@@ -79,21 +63,54 @@ export async function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu className="gap-2">
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    className="h-12 gap-3 pl-4 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4"
-                  >
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span className="text-sm group-data-[collapsible=icon]:hidden">
-                        {item.title}
-                      </span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  className={cn(
+                    "group/diary h-16 gap-6 pl-8 text-xl font-medium text-muted-foreground hover:font-semibold group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-[0.75rem] [&>svg]:size-6",
+                    "group-data-[pathname=/diary]:bg-muted group-data-[pathname=/diary]:font-semibold group-data-[pathname=/diary]:text-current",
+                  )}
+                >
+                  <Link href="/diary">
+                    <Home className="stroke-[2.25] group-hover/diary:stroke-[2.75] group-data-[pathname=/diary]:stroke-[2.75]" />
+                    <span className="group-data-[collapsible=icon]:hidden">
+                      Home
+                    </span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  className={cn(
+                    "group/calendar h-16 gap-6 pl-8 text-xl font-medium text-muted-foreground hover:font-semibold group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-[0.75rem] [&>svg]:size-6",
+                    "group-data-[pathname=/diary/calendar]:bg-muted group-data-[pathname=/diary/calendar]:font-semibold group-data-[pathname=/diary/calendar]:text-current",
+                  )}
+                >
+                  <Link href="/diary/calendar">
+                    <Calendar className="stroke-[2.25] group-hover/calendar:stroke-[2.75] group-data-[pathname=/diary/calendar]:stroke-[2.75]" />
+                    <span className="group-data-[collapsible=icon]:hidden">
+                      Calendar
+                    </span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  className={cn(
+                    "group/settings h-16 gap-6 pl-8 text-xl font-medium text-muted-foreground hover:font-semibold group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-[0.75rem] [&>svg]:size-6",
+                    "group-data-[pathname=/diary/settings]:bg-muted group-data-[pathname=/diary/settings]:font-semibold group-data-[pathname=/diary/settings]:text-current",
+                  )}
+                >
+                  <Link href="/diary/settings">
+                    <Settings className="stroke-[2.25] group-hover/settings:stroke-[2.75] group-data-[pathname=/diary/settings]:stroke-[2.75]" />
+                    <span className="group-data-[collapsible=icon]:hidden">
+                      Settings
+                    </span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -103,12 +120,12 @@ export async function AppSidebar() {
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className="h-12 gap-3 pl-4 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4">
-                  <User2 />
-                  <span className="whitespace-nowrap group-data-[collapsible=icon]:hidden">
+                <SidebarMenuButton className="group-data-[collapsible=icon]: h-16 gap-6 px-8 text-xl font-medium group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-[0.75rem] [&>svg]:size-6">
+                  <User2 className="stroke-[2.75]" />
+                  <span className="whitespace-nowrap font-semibold group-data-[collapsible=icon]:hidden">
                     {session?.user?.name}
                   </span>
-                  <ChevronUp className="ml-auto group-data-[collapsible=icon]:hidden" />
+                  <ChevronUp className="ml-auto stroke-[2.75] group-data-[collapsible=icon]:hidden" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
@@ -116,32 +133,14 @@ export async function AppSidebar() {
                 className="w-[--radix-popper-anchor-width] min-w-[230px]"
                 align="start"
               >
-                <SidebarMenuButton
-                  asChild
-                  className="h-12 pl-4 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4"
-                >
-                  <Link href="/diary/settings">
-                    <Settings />
-                    <span>Settings</span>
-                  </Link>
-                </SidebarMenuButton>
-                <SidebarMenuButton
-                  asChild
-                  className="h-12 pl-4 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4"
-                >
-                  <Link href="/diary/billing">
-                    <CreditCard />
-                    <span>Billing</span>
-                  </Link>
-                </SidebarMenuButton>
-                <ThemeToggle />
+                <ThemeToggle className="h-16 gap-6 pl-8 text-xl font-medium text-muted-foreground hover:font-semibold [&>svg]:size-6 [&>svg]:stroke-[2]" />
                 <Separator className="m-auto my-1 w-[calc(100%-1rem)]" />
                 <SidebarMenuButton
                   asChild
-                  className="h-12 pl-4 group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-4"
+                  className="group/signout h-16 gap-6 pl-8 text-xl font-medium text-muted-foreground hover:font-semibold [&>svg]:size-6"
                 >
                   <Link href="/api/auth/signout">
-                    <LogOut />
+                    <LogOut className="stroke-[2.25] group-hover/signout:stroke-[2.75]" />
                     <span>Sign out</span>
                   </Link>
                 </SidebarMenuButton>

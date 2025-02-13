@@ -1,23 +1,18 @@
-import { Share, Printer } from "lucide-react";
-import { SidebarTrigger } from "../shadcn/sidebar";
+import { Download, Send } from "lucide-react";
 import { Button } from "../shadcn/button";
 import LogBpFormTrigger from "../log-bp/log-bp-form-trigger";
 import LogBpFormProvider from "../log-bp/log-bp-form";
 import BaseHeader from "../header/base-header";
+import CalendarShare from "./calendar-share";
+import CalendarExport from "./calendar-export";
 
 export default function CalendarHeader() {
   return (
-    <BaseHeader>
+    <BaseHeader className="rounded-md border shadow-sm">
       <LogBpFormProvider>
         <LogBpFormTrigger />
-        <Button className="gap-2">
-          <Share width="1.5em" height="1.5em" />
-          <span className="hidden xs:flex">Share</span>
-        </Button>
-        <Button className="gap-2">
-          <Printer width="1.5em" height="1.5em" />
-          <span className="hidden xs:flex">Print</span>
-        </Button>
+        <CalendarShare />
+        <CalendarExport />
       </LogBpFormProvider>
     </BaseHeader>
   );

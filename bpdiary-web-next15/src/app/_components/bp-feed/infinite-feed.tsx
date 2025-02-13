@@ -53,7 +53,7 @@ export default function InfiniteFeed() {
 
   return (
     <ScrollArea
-      className="h-full max-h-screen overflow-y-auto rounded-md border"
+      className="h-full max-h-screen overflow-y-auto border-l-[0.15rem]"
       ref={viewPortRef}
       onScrollCapture={(event) => {
         sessionStorage.setItem(
@@ -62,19 +62,19 @@ export default function InfiniteFeed() {
         );
       }}
     >
-      <div className="flex flex-col items-center gap-2">
-        <BaseHeader className="h-14 justify-center border-none shadow-none">
-          <h1 className="text-2xl font-semibold leading-none tracking-tight">
-            Blood Pressure Measurements
+      <div className="flex flex-col items-center">
+        <BaseHeader className="my-10 h-10 justify-center border-none shadow-none">
+          <h1 className="text-3xl font-semibold leading-none tracking-tight">
+            Measurements
           </h1>
         </BaseHeader>
         <DisplayCard data={flattenedData} />
         <div
           ref={bottom}
-          className="relative flex h-[3rem] w-full items-center justify-center gap-2 px-2 pb-2"
+          className="relative flex h-[6rem] w-full items-center justify-center gap-2 px-2 pb-2"
         >
           {isFetchingNextPage || hasNextPage || isPending || isFetching ? (
-            <HeartLoader variant="pulse" className="flex w-8 justify-center" />
+            <HeartLoader variant="pulse" className="flex w-12 justify-center" />
           ) : (
             <>
               <span className="text-center text-muted-foreground">

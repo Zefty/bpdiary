@@ -5,7 +5,6 @@ import HomeHeader from "../_components/header/home-header";
 import BpChart from "../_components/charts/bp-chart";
 import HeartRateChart from "../_components/charts/heart-rate-chart";
 import MeasurementsChart from "../_components/charts/measurements-charts";
-import { auth } from "~/server/auth";
 import { endOfDay, startOfDay, startOfYear, subDays } from "date-fns";
 
 export default async function DiaryHomePage() {
@@ -27,17 +26,17 @@ export default async function DiaryHomePage() {
 
   return (
     <HydrateClient>
-      <div className="grid h-screen grid-cols-3 grid-rows-1 gap-2 p-2">
-        <div className="col-span-3 flex flex-col items-center gap-2 md:col-span-2">
+      <div className="grid h-screen grid-cols-3 grid-rows-1">
+        <div className="col-span-5 flex flex-col items-center gap-14 px-[5rem] py-10 shadow-sm md:col-span-2">
           <HomeHeader />
-          <div className="grid h-full w-full grid-cols-3 grid-rows-1 gap-2">
-            <div className="col-span-2">
-              <BpStockChart />
-            </div>
-            <div className="col-span-1 grid grid-cols-1 grid-rows-3 gap-2">
+          <div className="grid h-full w-full grid-rows-3 gap-14">
+            <div className="row-span-1 grid grid-cols-3 grid-rows-1 gap-4">
               <BpChart />
               <HeartRateChart />
               <MeasurementsChart />
+            </div>
+            <div className="row-span-2">
+              <BpStockChart />
             </div>
           </div>
         </div>

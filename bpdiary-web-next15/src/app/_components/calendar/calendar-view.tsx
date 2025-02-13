@@ -5,6 +5,7 @@ import { DayFlag, DayPicker, SelectionState, UI } from "react-day-picker";
 import { useBpCalendarContext } from "../../_contexts/bpCaldendarContext";
 import CalendarNav from "./calendar-nav";
 import CalendarDay from "./calendar-day";
+import { tw } from "~/lib/utils";
 
 export default function CalendarView() {
   const calendarContext = useBpCalendarContext();
@@ -17,33 +18,30 @@ export default function CalendarView() {
       selected={calendarContext.selectedDate}
       onSelect={calendarContext.setSelectedDate}
       classNames={{
-        [UI.Root]: "h-full border rounded-md p-2",
+        [UI.Root]: tw`h-full rounded-md border`,
 
-        [UI.Nav]: "",
-        [UI.MonthCaption]: "hidden",
+        [UI.Nav]: tw`p-2`,
+        [UI.MonthCaption]: tw`hidden`,
 
-        [UI.MonthGrid]: "h-full mt-2",
-        [UI.Months]: "flex flex-col h-full",
-        [UI.Month]: "flex flex-col h-full",
+        [UI.MonthGrid]: tw`h-full`,
+        [UI.Months]: tw`flex h-full flex-col`,
+        [UI.Month]: tw`flex h-full flex-col border-t p-2`,
 
-        [UI.Weeks]: "flex flex-col h-full",
-        [UI.Week]: "flex flex-1",
+        [UI.Weeks]: tw`flex h-full flex-col`,
+        [UI.Week]: tw`flex flex-1`,
 
-        [UI.Weekdays]: "flex rounded-md bg-accent py-[0.4375rem] mt-2",
-        [UI.Weekday]: "rounded-md w-full font-normal font-semibold",
+        [UI.Weekdays]: tw`flex py-[0.4375rem]`,
+        [UI.Weekday]: tw`w-full rounded-md font-normal font-semibold`,
 
-        [UI.Day]: "mt-2 w-full text-center rounded-md text-sm p-0",
+        [UI.Day]: tw`mt-2 w-full rounded-md p-0 text-center text-sm`,
 
-        [SelectionState.range_end]: "day-range-end",
-        [SelectionState.selected]:
-          "bg-accent text-accent-foreground border-2 border-ring hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-        [SelectionState.range_middle]:
-          "aria-selected:bg-accent aria-selected:text-accent-foreground",
+        [SelectionState.range_end]: tw`day-range-end`,
+        [SelectionState.selected]: tw`border-2 border-ring bg-accent text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground`,
+        [SelectionState.range_middle]: tw`aria-selected:bg-accent aria-selected:text-accent-foreground`,
 
-        [DayFlag.outside]:
-          "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
-        [DayFlag.disabled]: "text-muted-foreground opacity-50",
-        [DayFlag.hidden]: "invisible",
+        [DayFlag.outside]: tw`day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30`,
+        [DayFlag.disabled]: tw`text-muted-foreground opacity-50`,
+        [DayFlag.hidden]: tw`invisible`,
       }}
       month={calendarContext.selectedMonth}
       onMonthChange={(month) => {

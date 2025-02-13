@@ -26,13 +26,14 @@ import {
 } from "~/app/_components/shadcn/tooltip";
 import { useIsTablet } from "../../_hooks/use-tablet";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
-const SIDEBAR_WIDTH = "14rem";
+const SIDEBAR_WIDTH = "17.5rem";
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "4rem";
-const MAX_SIDEBAR_WIDTH = "20rem";
+const MAX_SIDEBAR_WIDTH = "21rem";
 const SIDEBAR_RESIZE_HANDLE_WIDTH = "0.5rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 const convertRemToPixels = (rem: string) => {
@@ -62,6 +63,7 @@ type SidebarContext = {
   setTrack: (track: boolean) => void;
   width: string;
   setWidth: (width: string) => void;
+  pathname: string;
 };
 
 const SidebarContext = React.createContext<SidebarContext | null>(null);
@@ -99,7 +101,8 @@ const SidebarProvider = React.forwardRef<
     const isTablet = useIsTablet();
     const [openMobile, setOpenMobile] = React.useState(false);
     const [track, setTrack] = useState(false);
-    const [width, setWidth] = useState(SIDEBAR_WIDTH);
+    const [width, setWidth] = useState(MAX_SIDEBAR_WIDTH);
+    const pathname = usePathname();
 
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.
@@ -115,7 +118,7 @@ const SidebarProvider = React.forwardRef<
         }
 
         // This sets the cookie to keep the sidebar state.
-        document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
+        document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/diary; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
       },
       [setOpenProp, open],
     );
@@ -161,6 +164,7 @@ const SidebarProvider = React.forwardRef<
         setTrack,
         width,
         setWidth,
+        pathname,
       }),
       [
         state,
@@ -175,6 +179,7 @@ const SidebarProvider = React.forwardRef<
         setTrack,
         width,
         setWidth,
+        pathname,
       ],
     );
 
@@ -237,6 +242,7 @@ const Sidebar = React.forwardRef<
       setTrack,
       setWidth,
       setOpen,
+      pathname,
     } = useSidebar();
 
     useEffect(() => {
@@ -292,6 +298,7 @@ const Sidebar = React.forwardRef<
             <SheetContent
               data-sidebar="sidebar"
               data-mobile="true"
+              data-pathname={pathname}
               className="w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
               style={
                 {
@@ -316,6 +323,7 @@ const Sidebar = React.forwardRef<
           data-collapsible={state === "collapsed" ? collapsible : ""}
           data-variant={variant}
           data-side={side}
+          data-pathname={pathname}
         >
           {/* This is what handles the sidebar gap on desktop */}
           <div
@@ -360,8 +368,10 @@ const Sidebar = React.forwardRef<
                 document.body.style.userSelect = "none";
               }}
               className={cn(
-                "absolute inset-y-0 z-50 h-full w-[--sidebar-resize-handle-width] cursor-col-resize py-2",
-                "left-[calc(var(--sidebar-width)_+_0.5rem_-_var(--sidebar-resize-handle-width))] group-data-[collapsible=icon]:left-[calc(var(--sidebar-width-icon)_-_var(--sidebar-resize-handle-width)_+_theme(spacing.4)_-0.25rem)]",
+                "absolute inset-y-0 z-50 h-full w-[--sidebar-resize-handle-width] cursor-col-resize group-data-[variant=floating]:py-2",
+                variant === "floating" || variant === "inset"
+                  ? "left-[calc(var(--sidebar-width)_+_0.5rem_-_var(--sidebar-resize-handle-width))] group-data-[collapsible=icon]:left-[calc(var(--sidebar-width-icon)_-_var(--sidebar-resize-handle-width)_+_0.5rem_+_2px)]"
+                  : "left-[calc(var(--sidebar-width)_-_var(--sidebar-resize-handle-width))] group-data-[collapsible=icon]:left-[calc(var(--sidebar-width-icon))]",
                 !isMobile && !isTablet
                   ? ""
                   : "group-data-[collapsible=icon]:hidden",

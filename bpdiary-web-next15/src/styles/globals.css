@@ -83,7 +83,7 @@
     --accent-foreground: 0 0% 9%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
+    --border: 0 0% 96.1%;
     --input: 0 0% 89.8%;
     --ring: 0 72.2% 50.6%;
     --radius: 0.5rem;
@@ -92,7 +92,10 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --sidebar-background: 0 0% 98%;
+    --chart-bp: 0 84.2% 60.2%;
+    --chart-hr: 173.4 80.4% 40%;
+    --chart-m: 217.2 91.2% 59.8%;
+    --background: 0 0% 100%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
     --sidebar-primary-foreground: 0 0% 98%;
@@ -127,6 +130,7 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --chart-bp: var(--primary);
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -140,43 +144,47 @@
 @layer base {
   * {
     @apply border-border;
+    @apply tracking-wide;
   }
   body {
     @apply bg-background text-foreground;
   }
 }
 /*==== All-In-One (FHD, UHD, 2K, 4K, 8K) => {4:3, 16:9, 21:9, 5:3} Responsive Scaling ====*/
-/* @media screen and (min-width: 1800px) {
-  body, html {font-size: 1.1vw;}
-} */
+@media screen and (min-width: 1800px) {
+  body, html {font-size: calc((100vw/1920)*16);}
+}
+ /* @media screen and (min-width: 1800px) {
+   body,
+   html {
+     font-size: 1.1vw;
+   }
+ } */
 /*==== FHD/UHD (6:9) Responsive Support ====*/
-@media screen and (min-width: 1921px) {
+/* @media screen and (min-width: 1800px) {
   body,
   html {
-    font-size: 1.1vw;
+    font-size: 2.5vh;
   }
-}
-
+} */
 /*==== FHD/2K (4:3) Responsive Support ====*/
-@media screen and (min-width: 1900px) and (min-height: 1400px) {
+/* @media screen and (min-width: 1900px) and (min-height: 1400px) {
   body,
   html {
     font-size: 1.5vh;
   }
-}
-
+} */
 /*==== FHD/2K (5:3) Responsive Support ====*/
-@media screen and (min-width: 1900px) and (min-height: 2000px) {
+/* @media screen and (min-width: 1900px) and (min-height: 2000px) {
   body,
   html {
     font-size: 1.25vh;
   }
-}
-
+} */
 /*==== 2K/4K (6:9) Responsive Support ====*/
-@media screen and (min-width: 1990px) {
+/* @media screen and (min-width: 1990px) {
   body,
   html {
     font-size: 2vh;
   }
-}
+} */

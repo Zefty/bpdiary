@@ -15,7 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "~/app/_components/shadcn/chart";
-import { DateMonthShortFormat } from "~/lib/utils";
+import { cn, DateMonthShortFormat } from "~/lib/utils";
 import { api, RouterOutputs } from "~/trpc/react";
 import { Switch } from "../shadcn/switch";
 import { Label } from "../shadcn/label";
@@ -27,15 +27,15 @@ export const description = "A linear line chart";
 const chartConfig = {
   systolic: {
     label: "Systolic",
-    color: "hsl(var(--chart-3))",
+    color: "hsl(var(--chart-bp))",
   },
   diastolic: {
     label: "Diastolic",
-    color: "hsl(var(--chart-2))",
+    color: "hsl(var(--chart-m))",
   },
   pulse: {
     label: "Pulse",
-    color: "hsl(var(--chart-1))",
+    color: "hsl(var(--chart-hr))",
   },
 } satisfies ChartConfig;
 type ChartTypes = keyof typeof chartConfig;
@@ -99,11 +99,10 @@ export default function BpStockChart() {
   }));
 
   return (
-    <Card className="flex h-full w-full flex-col">
-      <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
-        <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
+    <Card className="flex h-full w-full flex-col border-none shadow-none">
+      <CardHeader className="flex flex-col items-stretch space-y-0 p-0 sm:flex-row">
+        <div className="flex flex-1 flex-col justify-center gap-1 px-2 py-2 sm:py-2">
           <CardTitle>Blood Pressure</CardTitle>
-          <CardDescription>Past 7 Days (Average per day)</CardDescription>
         </div>
         <div className="flex">
           {TIMEFRAMES.map((chart) => {
@@ -111,7 +110,7 @@ export default function BpStockChart() {
               <button
                 key={chart}
                 data-active={timeframe === chart}
-                className="flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-6 sm:py-6"
+                className="flex flex-1 flex-col justify-center gap-1 px-6 py-4 text-left hover:bg-muted data-[active=true]:bg-muted sm:rounded-md sm:px-6 sm:py-6"
                 onClick={() => setTimeframe(chart)}
               >
                 <span className="text-xs text-muted-foreground">{chart}</span>
@@ -134,7 +133,6 @@ export default function BpStockChart() {
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
             />
-            <CartesianGrid vertical={false} />
             <XAxis
               dataKey="date"
               tickLine={false}
@@ -186,7 +184,17 @@ export default function BpStockChart() {
               <div key={key} className="flex items-center space-x-2">
                 <Switch
                   id={key.toLocaleLowerCase()}
-                  className={`data-[state=checked]:bg-[${chartConfig[keyTyped].color}]`}
+                  className={cn(
+                    key === "systolic"
+                      ? "data-[state=checked]:bg-[hsl(var(--chart-bp))]"
+                      : "",
+                    key === "diastolic"
+                      ? "data-[state=checked]:bg-[hsl(var(--chart-m))]"
+                      : "",
+                    key === "pulse"
+                      ? "data-[state=checked]:bg-[hsl(var(--chart-hr))]"
+                      : "",
+                  )}
                   checked={visibility[keyTyped]}
                   onCheckedChange={() =>
                     setVisibility({
@@ -195,9 +203,7 @@ export default function BpStockChart() {
                     })
                   }
                 />
-                <Label htmlFor="airplane-mode">
-                  {chartConfig[keyTyped].label}
-                </Label>
+                <Label>{chartConfig[keyTyped].label}</Label>
               </div>
             );
           })}

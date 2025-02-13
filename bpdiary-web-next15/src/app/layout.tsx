@@ -1,10 +1,19 @@
 import "~/styles/globals.css";
 
+import { Poppins } from "next/font/google";
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 
 import { RouterOutputs, TRPCReactProvider } from "~/trpc/react";
 import { ThemeProvider } from "./_contexts/themeProvider";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
+  variable: "--font-poppins",
+});
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -23,7 +32,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${GeistSans.variable} ${theme.settingValue}`}
+      className={`${GeistSans.variable} ${poppins.variable} ${theme.settingValue}`}
       style={{ colorScheme: theme.settingValue }}
       suppressHydrationWarning
     >

@@ -15,14 +15,14 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "~/app/_components/shadcn/chart";
-import { Gauge } from "lucide-react";
+import { Activity, Gauge } from "lucide-react";
 import { api } from "~/trpc/react";
 import { endOfDay, startOfDay, subDays } from "date-fns";
 
 const chartConfig = {
   systolic: {
     label: "Systolic",
-    color: "hsl(var(--chart-1))",
+    color: "hsl(var(--chart-bp))",
   },
 } satisfies ChartConfig;
 
@@ -40,13 +40,13 @@ export default function BpChart() {
     pulse: Math.ceil(entry.avgPulse),
   }));
   return (
-    <Card className="flex h-full w-full flex-col">
+    <Card className="flex h-full w-full flex-col border-none bg-muted/50 shadow-none">
       <CardHeader className="items-start p-4 pb-0">
-        <div className="flex items-center gap-2">
-          <div className="flex aspect-square size-10 items-center justify-center rounded-md bg-primary text-sidebar-primary-foreground">
-            <Gauge width="1.5em" height="1.5em" />
+        <div className="flex items-center gap-3">
+          <div className="flex aspect-square size-10 items-center justify-center rounded-md bg-red-100 text-sidebar-primary-foreground">
+            <Activity className="h-[1.5rem] w-[1.5rem] text-primary" />
           </div>
-          <CardTitle className="text-md">Blood Pressure</CardTitle>
+          <CardTitle className="text-lg">Blood Pressure</CardTitle>
         </div>
       </CardHeader>
       <CardContent className="flex h-full w-full flex-col p-4">

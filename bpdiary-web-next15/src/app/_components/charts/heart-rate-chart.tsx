@@ -24,7 +24,7 @@ import { endOfDay, startOfDay, subDays } from "date-fns";
 const chartConfig = {
   pulse: {
     label: "Pulse",
-    color: "hsl(var(--chart-2))",
+    color: "hsl(var(--chart-hr))",
   },
 } satisfies ChartConfig;
 
@@ -42,13 +42,13 @@ export default function HeartRateChart() {
     pulse: Math.ceil(entry.avgPulse),
   }));
   return (
-    <Card className="flex h-full w-full flex-col">
+    <Card className="flex h-full w-full flex-col border-none bg-muted/50 shadow-none">
       <CardHeader className="items-start p-4 pb-0">
-        <div className="flex items-center gap-2">
-          <div className="flex aspect-square size-10 items-center justify-center rounded-md bg-primary text-sidebar-primary-foreground">
-            <HeartPulse width="1.5em" height="1.5em" />
+        <div className="flex items-center gap-3">
+          <div className="flex aspect-square size-10 items-center justify-center rounded-md bg-teal-100 text-sidebar-primary-foreground">
+            <HeartPulse className="h-[1.5rem] w-[1.5rem] text-teal-500" />
           </div>
-          <CardTitle className="text-md">Heart Rate</CardTitle>
+          <CardTitle className="text-lg">Heart Rate</CardTitle>
         </div>
       </CardHeader>
       <CardContent className="flex h-full w-full flex-col p-4">

@@ -11,7 +11,7 @@ export default function BaseHeader({
     <header className="sticky inset-x-0 bottom-0 flex w-full justify-start">
       <nav
         className={cn(
-          "flex w-full items-center justify-start gap-2 rounded-md border p-2 shadow-sm",
+          "flex w-full items-center justify-start gap-2 p-2",
           className,
         )}
       >
