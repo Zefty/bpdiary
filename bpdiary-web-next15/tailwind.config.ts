@@ -70,7 +70,7 @@ export default {
         xxs: "360px",
         xs: "540px",
         laptop: "1024px",
-        // mobile: { raw: "(aspect-ratio < 1)" },
+        mobile: { raw: "(aspect-ratio < 1)" },
       },
     },
   },
