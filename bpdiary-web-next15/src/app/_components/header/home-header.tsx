@@ -12,10 +12,8 @@ export default async function HomeHeader() {
       <LogBpFormProvider>
         <div className="flex w-full justify-start gap-4">
           <div className="mr-auto align-middle">
-            <h1 className="text-xl font-semibold leading-none tracking-tight md:text-[40px]">
-              <span>
-                {Greeting()}, {session?.user?.name?.split(" ")[0]}!
-              </span>
+            <h1 className="text-xl leading-none font-semibold tracking-tight md:text-[2.5rem]">
+              {Greeting()}, {session?.user?.name?.split(" ")[0]}!
             </h1>
           </div>
           <LogBpFormTrigger />

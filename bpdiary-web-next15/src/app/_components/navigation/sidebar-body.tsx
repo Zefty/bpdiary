@@ -37,7 +37,7 @@ export default function SidebarBody() {
           <SidebarMenuButton
             asChild
             className={cn(
-              "h-16 gap-6 pl-8 text-xl font-medium group-data-[collapsible=icon]:!size-12 group-data-[collapsible=icon]:!pl-[0.75rem] [&>svg]:size-6",
+              "h-16 gap-6 pl-8 text-xl font-medium group-data-[collapsible=icon]:size-12! group-data-[collapsible=icon]:pl-[0.75rem]! [&>svg]:size-6",
             )}
           >
             <Link href={item.url}>

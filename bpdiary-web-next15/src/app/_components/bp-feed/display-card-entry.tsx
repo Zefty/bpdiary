@@ -17,7 +17,7 @@ export default function DisplayCardEntry({
   return (
     <div className="group px-4 py-2">
       <div
-        className="rounded-md bg-muted px-6 py-6 hover:bg-accent"
+        className="bg-muted hover:bg-accent rounded-md px-6 py-6"
         onClick={() => {
           if (bpEntryContext) {
             bpEntryContext.setBpEntryData(entry);
@@ -35,7 +35,7 @@ export default function DisplayCardEntry({
               <ChevronRight width="1.5em" height="1.5em" />
             </Button>
           </div>
-          <div className="mb-2 flex items-center justify-between gap-2 text-muted-foreground">
+          <div className="text-muted-foreground mb-2 flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <Gauge className="text-primary" width="1.5em" height="1.5em" />
               <span className="font-medium">
@@ -52,12 +52,12 @@ export default function DisplayCardEntry({
             </div>
           </div>
         </div>
-        <div className="text-sm">
+        {/* <div className="text-sm">
           <span className="font-medium underline underline-offset-2">
             Notes:
           </span>
           <Note note={entry.notes} className="text-muted-foreground" />
-        </div>
+        </div> */}
         {/* <Separator className="mt-6 group-last:invisible" /> */}
       </div>
     </div>

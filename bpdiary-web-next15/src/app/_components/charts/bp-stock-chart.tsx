@@ -19,7 +19,7 @@ import { cn, DateMonthShortFormat } from "~/lib/utils";
 import { api, RouterOutputs } from "~/trpc/react";
 import { Switch } from "../shadcn/switch";
 import { Label } from "../shadcn/label";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { endOfDay, startOfDay, startOfYear, subDays } from "date-fns";
 
 export const description = "A linear line chart";
@@ -110,23 +110,24 @@ export default function BpStockChart() {
               <button
                 key={chart}
                 data-active={timeframe === chart}
-                className="flex flex-1 flex-col justify-center gap-1 px-6 py-4 text-left hover:bg-muted data-[active=true]:bg-muted sm:rounded-md sm:px-6 sm:py-6"
+                className="hover:bg-muted data-[active=true]:bg-muted flex flex-1 flex-col justify-center gap-1 px-6 py-4 text-left sm:rounded-md sm:px-6 sm:py-6"
                 onClick={() => setTimeframe(chart)}
               >
-                <span className="text-xs text-muted-foreground">{chart}</span>
+                <span className="text-muted-foreground text-xs">{chart}</span>
               </button>
             );
           })}
         </div>
       </CardHeader>
       <CardContent className="flex-1 p-5">
-        <ChartContainer config={chartConfig} className="h-[99%] w-full">
+        <ChartContainer config={chartConfig} className="h-full w-full">
           <LineChart
             accessibilityLayer
             data={chartData}
             margin={{
               left: -20,
               right: 12,
+              top: 12,
             }}
           >
             <ChartTooltip
@@ -146,33 +147,39 @@ export default function BpStockChart() {
               height={45}
             />
             <YAxis tickLine={false} axisLine={false} tickMargin={8} />
-            {visibility.systolic && (
+            {
               <Line
                 dataKey="systolic"
                 type="natural"
                 stroke="var(--color-systolic)"
                 strokeWidth={2}
                 dot={false}
+                key={`systolic-${visibility.systolic}-${timeframe}`}
+                className={cn(!visibility.systolic && "hidden")}
               />
-            )}
-            {visibility.diastolic && (
+            }
+            {
               <Line
                 dataKey="diastolic"
                 type="natural"
                 stroke="var(--color-diastolic)"
                 strokeWidth={2}
                 dot={false}
+                key={`diastolic-${visibility.diastolic}-${timeframe}`}
+                className={cn(!visibility.diastolic && "hidden")}
               />
-            )}
-            {visibility.pulse && (
+            }
+            {
               <Line
                 dataKey="pulse"
                 type="natural"
                 stroke="var(--color-pulse)"
                 strokeWidth={2}
                 dot={false}
+                key={`pulse-${visibility.pulse}-${timeframe}`}
+                className={cn(!visibility.pulse && "hidden")}
               />
-            )}
+            }
           </LineChart>
         </ChartContainer>
       </CardContent>

@@ -49,21 +49,21 @@ export default function MeasurementsChart() {
     { month: currentMonth, measurements: data?.data?.length ?? 0 },
   ];
   return (
-    <Card className="flex h-full w-full flex-col border-none bg-muted/50 shadow-none">
+    <Card className="bg-muted/50 flex h-full w-full flex-col border-none shadow-none">
       <CardHeader className="items-start p-4 pb-0">
         <div className="flex items-center gap-3">
-          <div className="flex aspect-square size-10 items-center justify-center rounded-md bg-blue-100 text-sidebar-primary-foreground">
+          <div className="text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-md bg-blue-100">
             <LineChart className="h-[1.5rem] w-[1.5rem] text-blue-500" />
           </div>
           <CardTitle className="text-lg">Measurements</CardTitle>
         </div>
       </CardHeader>
       <CardContent className="flex h-full w-full p-4">
-        <div className="flex flex-col">
+        <div className="mb-2 flex flex-col justify-center">
           <span className="text-md font-semibold">
             {DateMonthLongFormat.format(currentDate)}
           </span>
-          <span className="text-sm text-muted-foreground">This Month</span>
+          <span className="text-muted-foreground text-sm">This Month</span>
         </div>
         <div className="flex-1">
           <ChartContainer config={chartConfig} className="h-[99%] w-full">
@@ -71,8 +71,8 @@ export default function MeasurementsChart() {
               data={chartData}
               startAngle={90}
               endAngle={-270}
-              innerRadius={40}
-              outerRadius={60}
+              innerRadius="90%"
+              outerRadius="135%"
               margin={{
                 left: 0,
                 right: 0,
@@ -113,7 +113,7 @@ export default function MeasurementsChart() {
               <RadialBar
                 dataKey="measurements"
                 background={{
-                  className: "!fill-blue-100",
+                  className: "fill-blue-100!",
                 }}
                 className="fill-blue-500"
                 cornerRadius={10}

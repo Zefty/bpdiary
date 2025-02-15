@@ -27,7 +27,7 @@ export default async function DiaryHomePage() {
   return (
     <HydrateClient>
       <div className="grid h-screen grid-cols-3 grid-rows-1">
-        <div className="col-span-5 flex flex-col items-center gap-14 px-[5rem] py-10 shadow-sm md:col-span-2">
+        <div className="col-span-5 flex flex-col items-center gap-14 px-[5rem] py-10 shadow-xs md:col-span-2">
           <HomeHeader />
           <div className="grid h-full w-full grid-rows-3 gap-14">
             <div className="row-span-1 grid grid-cols-3 grid-rows-1 gap-4">
@@ -41,7 +41,7 @@ export default async function DiaryHomePage() {
           </div>
         </div>
         <div className="relative hidden w-full md:block">
-          <div className="absolute bottom-0 left-0 right-0 top-0">
+          <div className="absolute top-0 right-0 bottom-0 left-0">
             <InfiniteFeed />
           </div>
         </div>
