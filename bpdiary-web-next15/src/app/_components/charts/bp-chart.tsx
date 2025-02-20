@@ -40,28 +40,31 @@ export default function BpChart() {
     pulse: Math.ceil(entry.avgPulse),
   }));
   return (
-    <Card className="flex h-full w-full flex-col border-none bg-muted/50 shadow-none">
+    <Card className="bg-muted flex h-full w-full min-w-[10rem] flex-col border-none shadow-none">
       <CardHeader className="items-start p-4 pb-0">
         <div className="flex items-center gap-3">
-          <div className="flex aspect-square size-10 items-center justify-center rounded-md bg-red-100 text-sidebar-primary-foreground">
-            <Activity className="h-[1.5rem] w-[1.5rem] text-primary" />
+          <div className="text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-md bg-red-100">
+            <Activity className="text-primary h-[1.5rem] w-[1.5rem]" />
           </div>
-          <CardTitle className="text-lg">Blood Pressure</CardTitle>
+          <CardTitle className="max-desktop:block hidden text-lg">
+            Blood P.
+          </CardTitle>
+          <CardTitle className="desktop:block hidden text-lg">
+            Blood Pressure
+          </CardTitle>
         </div>
       </CardHeader>
       <CardContent className="flex h-full w-full flex-col p-4">
         <div className="pb-2">
           {chartData?.length ? (
             <>
-              <span className="text-md font-semibold">
-                {chartData[chartData.length - 1]?.systolic}{" "}
+              <span className="text-lg font-semibold">
+                {`${chartData[chartData.length - 1]?.systolic}/${chartData[chartData.length - 1]?.diastolic} `}
               </span>
-              <span className="text-muted-foreground">
-                /{chartData[chartData.length - 1]?.diastolic} mmHg
-              </span>
+              <span className="text-muted-foreground text-sm">mmHg</span>
             </>
           ) : (
-            <span className="line-clamp-1 text-muted-foreground">
+            <span className="text-muted-foreground line-clamp-1">
               no recent measurement...
             </span>
           )}
@@ -82,12 +85,12 @@ export default function BpChart() {
                   <stop
                     offset="5%"
                     stopColor="var(--color-systolic)"
-                    stopOpacity={0.8}
+                    stopOpacity={0.4}
                   />
                   <stop
                     offset="95%"
                     stopColor="var(--color-systolic)"
-                    stopOpacity={0.1}
+                    stopOpacity={0.05}
                   />
                 </linearGradient>
               </defs>
@@ -97,6 +100,7 @@ export default function BpChart() {
                 fill="url(#fillSystolic)"
                 fillOpacity={0.4}
                 stroke="var(--color-systolic)"
+                strokeWidth="0.125rem"
                 stackId="a"
               />
             </AreaChart>

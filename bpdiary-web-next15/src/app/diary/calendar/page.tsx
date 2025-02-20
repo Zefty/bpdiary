@@ -6,6 +6,7 @@ import CalendarView from "~/app/_components/calendar/calendar-view";
 import CalendarHeader from "~/app/_components/calendar/calendar-header";
 import DailyFeed from "~/app/_components/bp-feed/daily-feed";
 import { BpEntryContextProvider } from "~/app/_contexts/bpEntryContext";
+import { Separator } from "~/app/_components/shadcn/separator";
 
 export default async function CalendarPage() {
   const today = new Date();
@@ -25,19 +26,13 @@ export default async function CalendarPage() {
     <HydrateClient>
       <BpCalendarContextProvider initialDate={today}>
         <BpCalendarDataContextProvider>
-          <div className="flex h-full w-full flex-col gap-2 py-2">
-            <div className="px-2">
-              <CalendarHeader />
+          <div className="laptop:grid-cols-3 laptop:grid-rows-1 laptop:items-center laptop:gap-0 grid h-full w-full grid-cols-1 grid-rows-3 gap-2.5">
+            <div className="laptop:col-span-2 col-span-1 row-span-2 h-full flex-1">
+              <CalendarView />
             </div>
-            <div className="grid h-full w-full grid-cols-3 grid-rows-1 items-center gap-2 px-2">
-              <div className="col-span-3 h-full flex-1 md:col-span-2">
-                <CalendarView />
-              </div>
-
-              <div className="relative col-span-1 hidden h-full flex-1 md:flex">
-                <div className="absolute bottom-0 left-0 right-0 top-0">
-                  <DailyFeed />
-                </div>
+            <div className="relative col-span-1 row-span-1 h-full flex-1 md:flex">
+              <div className="absolute top-0 right-0 bottom-0 left-0">
+                <DailyFeed />
               </div>
             </div>
           </div>

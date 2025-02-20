@@ -11,6 +11,12 @@
 }; */
 
 @theme {
+  /* --breakpoint-*: initial; */
+  --breakpoint-foo: 1234px;
+  --breakpoint-xxs: 360px;
+  --breakpoint-laptop: 1024px;
+  --breakpoint-desktop: 1800px;
+
   --font-sans:
     var(--font-poppins), ui-sans-serif, system-ui, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -61,10 +67,6 @@
   --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
   --color-sidebar-border: hsl(var(--sidebar-border));
   --color-sidebar-ring: hsl(var(--sidebar-ring));
-
-  --breakpoint-xxs: 360px;
-  --breakpoint-xs: 540px;
-  --breakpoint-laptop: 1024px;
 }
 
 /*
@@ -116,6 +118,7 @@
     --chart-hr: 173.4 80.4% 40%;
     --chart-m: 217.2 91.2% 59.8%;
     --background: 0 0% 100%;
+    --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
     --sidebar-primary-foreground: 0 0% 98%;
@@ -169,20 +172,18 @@
   body {
     @apply bg-background text-foreground;
   }
-  button, [role='button'] {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
     cursor: pointer;
-  }
-  button:disabled, [role='button']:disabled {
-    cursor: default;
   }
 }
 
-/* @media screen and (aspect-ratio < 1) {
+@media screen and (max-width: 500px) and (orientation: portrait) {
   body,
   html {
-    font-size: 1.1vw;
+    font-size: 1.7vh;
   }
-}  */
+} 
 @media screen and (min-width: 1920px) and (orientation: landscape) {
   body,
   html {

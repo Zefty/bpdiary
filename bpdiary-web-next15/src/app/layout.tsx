@@ -6,6 +6,7 @@ import { type Metadata } from "next";
 
 import { RouterOutputs, TRPCReactProvider } from "~/trpc/react";
 import { ThemeProvider } from "./_contexts/themeProvider";
+import { api } from "~/trpc/server";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -27,8 +28,14 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   let theme = { settingValue: "light" } as Theme;
-  // const ret = (await api.setting.retrieveSetting({ settingName: "theme" }))[0];
-  // if (ret !== undefined) theme = ret;
+  // try {
+  //   const ret = (
+  //     await api.setting.retrieveSetting({ settingName: "theme" })
+  //   )[0];
+  //   if (ret !== undefined) theme = ret;
+  // } catch (e) {
+  //   console.log(e);
+  // }
   return (
     <html
       lang="en"

@@ -10,9 +10,9 @@ export default async function HomeHeader() {
   return (
     <BaseHeader className="flex-col items-start p-0">
       <LogBpFormProvider>
-        <div className="flex w-full justify-start gap-4">
+        <div className="flex w-full items-start justify-start gap-4">
           <div className="mr-auto align-middle">
-            <h1 className="text-xl leading-none font-semibold tracking-tight md:text-[2.5rem]">
+            <h1 className="laptop:text-[2.5rem] text-3xl leading-none font-semibold tracking-tight">
               {Greeting()}, {session?.user?.name?.split(" ")[0]}!
             </h1>
           </div>
@@ -44,6 +44,7 @@ const Reminders = () => {
     "Have you taken your blood pressure today?",
     "Don't forget to take your medication",
   ];
-  const idx = randomInteger(0, rems.length);
+
+  const idx = randomInteger(0, rems.length - 1);
   return rems[idx];
 };

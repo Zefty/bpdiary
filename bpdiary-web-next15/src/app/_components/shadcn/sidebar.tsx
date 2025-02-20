@@ -30,14 +30,17 @@ import { usePathname } from "next/navigation";
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
-const SIDEBAR_WIDTH = "17.5rem";
+const INITIAL_SIDEBAR_WIDTH = "17.5vw";
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "4rem";
+const MIN_SIDEBAR_WIDTH = "17rem";
 const MAX_SIDEBAR_WIDTH = "21rem";
+const SIDEBAR_EXPAND_COLLAPSE_THRESHOLD = "8.75rem";
 const SIDEBAR_RESIZE_HANDLE_WIDTH = "0.5rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
+
 const convertRemToPixels = (rem: string) => {
-  const r = Number(rem.match(/(\d+)/)?.[0]);
+  const r = Number(rem.replace("rem", ""));
   if (typeof getComputedStyle === "undefined") {
     return r * 16;
   }
@@ -48,6 +51,41 @@ const convertPixelsToRem = (pixels: number) => {
     return `${pixels / 16}rem`;
   }
   return `${pixels / parseFloat(getComputedStyle(document.documentElement).fontSize)}rem`;
+};
+const convertViewportWidthToPixels = (vw: string) => {
+  const w = Number(vw.replace("vw", ""));
+  if (typeof window === "undefined") {
+    return 0;
+  }
+  return (w * window.innerWidth) / 100;
+};
+const convertPixelsToViewportWidth = (pixels: number) => {
+  if (typeof window === "undefined") {
+    return "0vw";
+  }
+  return `${(pixels * 100) / window.innerWidth}vw`;
+};
+const convertCSSWidthToPixels = (width: string | number) => {
+  if (typeof width === "string") {
+    if (width.endsWith("rem")) {
+      return convertRemToPixels(width);
+    }
+    if (width.endsWith("vw")) {
+      return convertViewportWidthToPixels(width);
+    }
+  }
+  if (typeof width === "number") {
+    return width;
+  }
+
+  throw new Error("Non-standard CSS width value used!");
+};
+const useIsFirstRender = () => {
+  const [isFirst, setIsFirst] = useState(true);
+  useEffect(() => {
+    setIsFirst(false);
+  }, []);
+  return isFirst;
 };
 
 type SidebarContext = {
@@ -61,8 +99,8 @@ type SidebarContext = {
   toggleSidebar: () => void;
   track: boolean;
   setTrack: (track: boolean) => void;
-  width: string;
-  setWidth: (width: string) => void;
+  width: string | number;
+  setWidth: (width: string | number) => void;
   pathname: string;
 };
 
@@ -101,9 +139,11 @@ const SidebarProvider = React.forwardRef<
     const isTablet = useIsTablet();
     const [openMobile, setOpenMobile] = React.useState(false);
     const [track, setTrack] = useState(false);
-    const [width, setWidth] = useState(MAX_SIDEBAR_WIDTH);
+    const [width, setWidth] = useState<string | number>(INITIAL_SIDEBAR_WIDTH);
     const pathname = usePathname();
+    const isFirstRender = useIsFirstRender();
 
+    console.log(pathname);
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.
     const [_open, _setOpen] = React.useState(defaultOpen);
@@ -183,13 +223,24 @@ const SidebarProvider = React.forwardRef<
       ],
     );
 
+    const sidebarWidth = isFirstRender
+      ? width
+      : convertPixelsToRem(
+          Math.max(
+            convertCSSWidthToPixels(MIN_SIDEBAR_WIDTH),
+            Math.min(
+              convertCSSWidthToPixels(width),
+              convertCSSWidthToPixels(MAX_SIDEBAR_WIDTH),
+            ),
+          ),
+        );
     return (
       <SidebarContext.Provider value={contextValue}>
         <TooltipProvider delayDuration={0}>
           <div
             style={
               {
-                "--sidebar-width": width,
+                "--sidebar-width": sidebarWidth,
                 "--sidebar-width-icon": SIDEBAR_WIDTH_ICON,
                 "--sidebar-resize-handle-width": SIDEBAR_RESIZE_HANDLE_WIDTH,
                 ...style,
@@ -259,11 +310,7 @@ const Sidebar = React.forwardRef<
           if (e.clientX > 140) {
             setOpen(true);
           }
-          const newWidth = Math.max(
-            convertRemToPixels(SIDEBAR_WIDTH),
-            Math.min(e.clientX, convertRemToPixels(MAX_SIDEBAR_WIDTH)),
-          );
-          setWidth(convertPixelsToRem(newWidth));
+          setWidth(e.clientX);
         }
       };
 
@@ -271,18 +318,20 @@ const Sidebar = React.forwardRef<
         if (track) {
           const touchClientX =
             e.changedTouches[0]?.clientX ??
-            convertRemToPixels(MAX_SIDEBAR_WIDTH);
-          if (touchClientX <= 140) {
+            convertCSSWidthToPixels(MAX_SIDEBAR_WIDTH);
+          if (
+            touchClientX <=
+            convertCSSWidthToPixels(SIDEBAR_EXPAND_COLLAPSE_THRESHOLD)
+          ) {
             setOpen(false);
           }
-          if (touchClientX > 140) {
+          if (
+            touchClientX >
+            convertCSSWidthToPixels(SIDEBAR_EXPAND_COLLAPSE_THRESHOLD)
+          ) {
             setOpen(true);
           }
-          const newWidth = Math.max(
-            convertRemToPixels(SIDEBAR_WIDTH),
-            Math.min(touchClientX, convertRemToPixels(MAX_SIDEBAR_WIDTH)),
-          );
-          setWidth(convertPixelsToRem(newWidth));
+          setWidth(touchClientX);
         }
       };
 
@@ -437,7 +486,7 @@ const SidebarTrigger = React.forwardRef<
       }}
       {...props}
     >
-      <Menu />
+      <Menu width="1.5em" height="1.5em" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );

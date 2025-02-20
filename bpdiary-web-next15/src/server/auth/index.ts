@@ -30,12 +30,12 @@ const {
         };
       },
       signIn: async ({ user, account, profile, email, credentials }) => {
-        const cookieStore = await cookies();
-        const tz = cookieStore.get("tz");
-        const settingName = tz?.name ?? "tz";
-        const settingValue = tz?.value ?? "localtime";
-
         if (user.id) {
+          const cookieStore = await cookies();
+          const tz = cookieStore.get("tz");
+          const settingName = tz?.name ?? "tz";
+          const settingValue = tz?.value ?? "localtime";
+
           await db
             .insert(setting)
             .values({
@@ -47,12 +47,24 @@ const {
               target: [setting.userId, setting.settingName],
               set: { settingValue, updatedAt: new Date() },
             });
+
+          await db
+            .insert(setting)
+            .values({
+              userId: user.id,
+              settingName: "theme",
+              settingValue: "light",
+            })
+            .onConflictDoUpdate({
+              target: [setting.userId, setting.settingName],
+              set: { settingValue, updatedAt: new Date() },
+            });
         }
         return true;
       },
     },
     session: { strategy: "database" },
-  } satisfies NextAuthConfig;
+  } as NextAuthConfig;
   return authConfig;
 });
 

@@ -49,21 +49,28 @@ export default function MeasurementsChart() {
     { month: currentMonth, measurements: data?.data?.length ?? 0 },
   ];
   return (
-    <Card className="bg-muted/50 flex h-full w-full flex-col border-none shadow-none">
+    <Card className="bg-muted flex h-full w-full min-w-[10rem] flex-col border-none shadow-none">
       <CardHeader className="items-start p-4 pb-0">
         <div className="flex items-center gap-3">
           <div className="text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-md bg-blue-100">
             <LineChart className="h-[1.5rem] w-[1.5rem] text-blue-500" />
           </div>
-          <CardTitle className="text-lg">Measurements</CardTitle>
+          <CardTitle className="max-desktop:block hidden text-lg">
+            Meas.
+          </CardTitle>
+          <CardTitle className="desktop:block hidden text-lg">
+            Measurements
+          </CardTitle>
         </div>
       </CardHeader>
       <CardContent className="flex h-full w-full p-4">
         <div className="mb-2 flex flex-col justify-center">
-          <span className="text-md font-semibold">
+          <span className="desktop:block text-md hidden font-semibold">
             {DateMonthLongFormat.format(currentDate)}
           </span>
-          <span className="text-muted-foreground text-sm">This Month</span>
+          <span className="text-muted-foreground desktop:block hidden text-sm">
+            This Month
+          </span>
         </div>
         <div className="flex-1">
           <ChartContainer config={chartConfig} className="h-[99%] w-full">
@@ -100,7 +107,7 @@ export default function MeasurementsChart() {
                           <tspan
                             x={viewBox.cx}
                             y={viewBox.cy}
-                            className="text-2xl font-bold"
+                            className="text-2xl font-bold dark:text-white"
                           >
                             {chartData[0]?.measurements ?? 0}
                           </tspan>

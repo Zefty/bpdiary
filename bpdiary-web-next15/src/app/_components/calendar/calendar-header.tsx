@@ -8,7 +8,7 @@ import CalendarExport from "./calendar-export";
 
 export default function CalendarHeader() {
   return (
-    <BaseHeader className="rounded-md border shadow-xs">
+    <BaseHeader className="rounded-lg border-[0.15rem] shadow-xs">
       <LogBpFormProvider>
         <LogBpFormTrigger />
         <CalendarShare />

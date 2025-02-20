@@ -42,26 +42,31 @@ export default function HeartRateChart() {
     pulse: Math.ceil(entry.avgPulse),
   }));
   return (
-    <Card className="flex h-full w-full flex-col border-none bg-muted/50 shadow-none">
+    <Card className="bg-muted flex h-full w-full min-w-[10rem] flex-col border-none shadow-none">
       <CardHeader className="items-start p-4 pb-0">
         <div className="flex items-center gap-3">
-          <div className="flex aspect-square size-10 items-center justify-center rounded-md bg-teal-100 text-sidebar-primary-foreground">
+          <div className="text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-md bg-teal-100">
             <HeartPulse className="h-[1.5rem] w-[1.5rem] text-teal-500" />
           </div>
-          <CardTitle className="text-lg">Heart Rate</CardTitle>
+          <CardTitle className="max-desktop:block hidden text-lg">
+            Heart R.
+          </CardTitle>
+          <CardTitle className="desktop:block hidden text-lg">
+            Heart Rate
+          </CardTitle>
         </div>
       </CardHeader>
       <CardContent className="flex h-full w-full flex-col p-4">
         <div className="pb-2">
           {chartData?.length ? (
             <>
-              <span className="text-md font-semibold">
-                {chartData[chartData.length - 1]?.pulse}{" "}
+              <span className="text-lg font-semibold">
+                {`${chartData[chartData.length - 1]?.pulse} `}
               </span>
-              <span className="text-muted-foreground">bpm</span>
+              <span className="text-muted-foreground text-sm">bpm</span>
             </>
           ) : (
-            <span className="line-clamp-1 text-muted-foreground">
+            <span className="text-muted-foreground line-clamp-1">
               no recent measurement...
             </span>
           )}
@@ -82,12 +87,12 @@ export default function HeartRateChart() {
                   <stop
                     offset="5%"
                     stopColor="var(--color-pulse)"
-                    stopOpacity={0.8}
+                    stopOpacity={0.4}
                   />
                   <stop
                     offset="95%"
                     stopColor="var(--color-pulse)"
-                    stopOpacity={0.1}
+                    stopOpacity={0.05}
                   />
                 </linearGradient>
               </defs>
@@ -97,6 +102,7 @@ export default function HeartRateChart() {
                 fill="url(#fillPulse)"
                 fillOpacity={0.4}
                 stroke="var(--color-pulse)"
+                strokeWidth="0.125rem"
                 stackId="a"
               />
             </AreaChart>

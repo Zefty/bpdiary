@@ -16,15 +16,15 @@ export default function DailyFeed() {
     (dataContext?.dataFilteredBySelectedDate?.length ?? 0) === 0;
 
   return (
-    <ScrollArea className="h-full max-h-screen overflow-y-auto rounded-md border">
+    <ScrollArea className="h-full max-h-screen overflow-y-auto border-l-[0.15rem]">
       <div className="flex h-full flex-col items-center">
-        <BaseHeader className="h-14 justify-center gap-3 border border-none shadow-none">
-          <h1 className="text-2xl font-semibold leading-none tracking-tight">
+        <BaseHeader className="laptop:flex my-10 hidden h-10 justify-center gap-3 border border-none shadow-none">
+          <h1 className="text-2xl leading-none font-semibold tracking-tight">
             {format(calendarContext.selectedDate, "E, LLL d")}
           </h1>
         </BaseHeader>
         {noMeasurements ? (
-          <h1 className="absolute top-[40%] text-xl font-semibold leading-none tracking-tight text-muted-foreground opacity-50">
+          <h1 className="text-muted-foreground absolute top-[40%] text-xl leading-none font-semibold tracking-tight opacity-50">
             No measurements ...
           </h1>
         ) : (

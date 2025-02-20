@@ -52,12 +52,12 @@ export default function DisplayCardEntry({
             </div>
           </div>
         </div>
-        {/* <div className="text-sm">
+        <div className="text-sm">
           <span className="font-medium underline underline-offset-2">
             Notes:
           </span>
           <Note note={entry.notes} className="text-muted-foreground" />
-        </div> */}
+        </div>
         {/* <Separator className="mt-6 group-last:invisible" /> */}
       </div>
     </div>
