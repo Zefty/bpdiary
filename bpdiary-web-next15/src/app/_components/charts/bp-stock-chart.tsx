@@ -3,16 +3,12 @@
 import {
   Area,
   AreaChart,
-  CartesianGrid,
-  Line,
-  LineChart,
   XAxis,
   YAxis,
 } from "recharts";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -27,8 +23,9 @@ import { cn, DateMonthShortFormat } from "~/lib/utils";
 import { api, RouterOutputs } from "~/trpc/react";
 import { Switch } from "../shadcn/switch";
 import { Label } from "../shadcn/label";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { endOfDay, startOfDay, startOfYear, subDays } from "date-fns";
+import { Button } from "../shadcn/button";
 
 export const description = "A linear line chart";
 
@@ -118,14 +115,14 @@ export default function BpStockChart() {
         <div className="flex">
           {TIMEFRAMES.map((chart) => {
             return (
-              <button
+              <Button
                 key={chart}
                 data-active={timeframe === chart}
-                className="hover:bg-muted data-[active=true]:bg-muted flex h-12 w-12 flex-1 flex-col justify-center gap-1 rounded-lg text-center"
+                className="bg-transparent hover:bg-muted data-[active=true]:bg-muted flex h-12 w-12 flex-1 flex-col justify-center gap-1 rounded-lg text-center"
                 onClick={() => setTimeframe(chart)}
               >
                 <span className="text-muted-foreground text-xs">{chart}</span>
-              </button>
+              </Button>
             );
           })}
         </div>

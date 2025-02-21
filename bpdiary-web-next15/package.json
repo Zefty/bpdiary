@@ -10,7 +10,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "db:seed": "set -a && source .env && set +a && npx tsx src/server/db/seed.ts",
+    "db:seed": "set -a && /bin/bash -c 'source .env' && set +a && npx tsx src/server/db/seed.ts",
     "dev": "next dev --turbopack",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mdx}\" --cache",
     "format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,mdx}\" --cache",

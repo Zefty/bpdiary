@@ -107,7 +107,8 @@ export default function MeasurementsChart() {
                           <tspan
                             x={viewBox.cx}
                             y={viewBox.cy}
-                            className="text-2xl font-bold dark:text-white"
+                            className="text-2xl font-bold"
+                            fill="var(--color-foreground)"
                           >
                             {chartData[0]?.measurements ?? 0}
                           </tspan>

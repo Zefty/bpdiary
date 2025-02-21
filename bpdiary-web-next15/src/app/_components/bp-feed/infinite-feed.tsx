@@ -32,6 +32,8 @@ export default function InfiniteFeed() {
 
   const flattenedData = data?.pages.flatMap((page) => page.data);
 
+  console.log(viewPortRef.current?.scrollTop);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -80,7 +82,8 @@ export default function InfiniteFeed() {
               <span className="text-center text-muted-foreground">
                 End of diary ...
               </span>
-              <Button
+              {
+                (viewPortRef.current && viewPortRef.current?.scrollTop > 0) && <Button
                 className="absolute right-2 flex h-[2.5rem] w-[2.5gitrem] items-center justify-center rounded-md bg-background hover:bg-muted"
                 onClick={() => {
                   if (viewPortRef.current) {
@@ -93,6 +96,7 @@ export default function InfiniteFeed() {
               >
                 <ChevronsUp className="text-primary" />
               </Button>
+              }
             </>
           )}
         </div>

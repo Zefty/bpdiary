@@ -143,7 +143,6 @@ const SidebarProvider = React.forwardRef<
     const pathname = usePathname();
     const isFirstRender = useIsFirstRender();
 
-    console.log(pathname);
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.
     const [_open, _setOpen] = React.useState(defaultOpen);
