@@ -55,6 +55,6 @@ docker run -d \
   --name $DB_CONTAINER_NAME \
   -e POSTGRES_USER="postgres" \
   -e POSTGRES_PASSWORD="$DB_PASSWORD" \
-  -e POSTGRES_DB=bpdiary-web-next15 \
+  -e POSTGRES_DB=bpdiary \
   -p "$DB_PORT":5432 \
   docker.io/postgres && echo "Database container '$DB_CONTAINER_NAME' was successfully created"

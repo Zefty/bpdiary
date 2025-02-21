@@ -23,7 +23,7 @@ export default function SignIn() {
         </Button>
       )}
       {loading && (
-        <HeartLoader variant="pulse" className="flex justify-center" />
+        <HeartLoader variant="pulse" className="flex w-24 justify-center" />
       )}
     </div>
   );
