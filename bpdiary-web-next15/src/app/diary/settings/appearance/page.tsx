@@ -1,9 +1,7 @@
 import { AppearanceForm } from "~/app/_components/settings/appearance-form";
 import { Separator } from "~/app/_components/shadcn/separator";
-import { auth } from "~/server/auth";
 
 export default async function Appearance() {
-  const session = await auth();
   return (
     <div className="w-full space-y-6">
       <div>

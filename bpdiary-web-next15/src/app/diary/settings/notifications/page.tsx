@@ -1,3 +1,3 @@
-export default function Notifications() {
+export default async function Notifications() {
   return <></>;
 }

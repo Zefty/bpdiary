@@ -14,9 +14,9 @@ export default async function middleware(req: NextRequest) {
   );
   const isPublicRoute = publicRoutes.includes(path);
 
-  const cookie = await cookies();
-  const csfrToken = await cookie.get("authjs.csfr-token")?.value;
-  const sessionToken = await cookie.get("authjs.session-token")?.value;
+  const cookieStore = await cookies();
+  const csfrToken = cookieStore.get("authjs.csfr-token")?.value;
+  const sessionToken = cookieStore.get("authjs.session-token")?.value;
 
   const url = encodeURI(`${baseUrl}/api/trpc/session.validate`);
   const res = await fetch(url, {
@@ -42,6 +42,29 @@ export default async function middleware(req: NextRequest) {
     !req.nextUrl.pathname.startsWith("/diary")
   ) {
     return NextResponse.redirect(new URL("/diary", req.nextUrl));
+  }
+
+  if (validSession && req.nextUrl.pathname === "/diary/settings") {
+    const lastVisitedSetting = cookieStore.get(
+      "bpdiary.settings-last-visited",
+    )?.value;
+    if (lastVisitedSetting) {
+      return NextResponse.redirect(
+        new URL(`/diary/settings/${lastVisitedSetting}`, req.nextUrl),
+      );
+    }
+
+    return NextResponse.redirect(
+      new URL(`/diary/settings/profile`, req.nextUrl),
+    );
+  }
+
+  if (validSession && req.nextUrl.pathname.startsWith("/diary/settings")) {
+    const lastVisitedSetting = req.nextUrl.pathname.replace(
+      "/diary/settings/",
+      "",
+    );
+    cookieStore.set("bpdiary.settings-last-visited", lastVisitedSetting);
   }
 
   return NextResponse.next();
