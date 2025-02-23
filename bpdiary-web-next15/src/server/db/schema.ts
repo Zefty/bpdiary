@@ -1,5 +1,6 @@
 import { relations, sql } from "drizzle-orm";
 import {
+  boolean,
   index,
   integer,
   pgTableCreator,
@@ -164,3 +165,32 @@ export const bloodPressure = createTable("blood_pressure", {
   pulse: integer("pulse"),
   notes: text("notes"),
 });
+
+export const reminder = createTable(
+  "reminder",
+  {
+    id: serial("id").primaryKey(),
+    createdByUserId: varchar("logged_by_user_id", { length: 255 })
+      .notNull()
+      .references(() => users.id),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+      () => new Date(),
+    ),
+    type: varchar("type").notNull(),
+    reminderTime: timestamp("reminder_time", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    sunday: boolean("sunday").default(false).notNull(),
+    monday: boolean("monday").default(false).notNull(),
+    tuesday: boolean("tuesday").default(false).notNull(),
+    wednesday: boolean("wednesday").default(false).notNull(),
+    thursday: boolean("thursday").default(false).notNull(),
+    friday: boolean("friday").default(false).notNull(),
+    saturday: boolean("saturday").default(false).notNull(),
+    active: boolean("active").default(true).notNull(),
+  },
+  (r) => [unique().on(r.id)],
+);

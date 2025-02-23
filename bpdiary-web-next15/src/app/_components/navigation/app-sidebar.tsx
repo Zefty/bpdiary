@@ -13,6 +13,7 @@ import {
   CreditCard,
   Sun,
   Droplet,
+  AlarmClockPlus,
 } from "lucide-react";
 import {
   Sidebar,
@@ -91,6 +92,22 @@ export default async function AppSidebar() {
                     <Calendar className="stroke-[2.25] group-hover/calendar:stroke-[2.75] group-data-[pathname=/diary/calendar]:stroke-[2.75]" />
                     <span className="group-data-[collapsible=icon]:hidden">
                       Calendar
+                    </span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  className={cn(
+                    "group/reminders text-muted-foreground h-16 gap-6 pl-8 text-xl font-medium group-data-[collapsible=icon]:size-12! group-data-[collapsible=icon]:pl-[0.75rem]! hover:font-semibold [&>svg]:size-6",
+                    "group-data-[pathname=/diary/reminders]:bg-muted group-data-[pathname=/diary/reminders]:font-semibold group-data-[pathname=/diary/reminders]:text-current",
+                  )}
+                >
+                  <Link href="/diary/reminders">
+                    <AlarmClockPlus className="stroke-[2.25] group-hover/reminders:stroke-[2.75] group-data-[pathname=/diary/reminders]:stroke-[2.75]" />
+                    <span className="group-data-[collapsible=icon]:hidden">
+                      Reminders
                     </span>
                   </Link>
                 </SidebarMenuButton>

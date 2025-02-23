@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { BpMeasurement } from "../api/shared/types";
 import { parseData, preprocessFormData } from "~/lib/utils";
 import { api } from "~/trpc/server";
+import { remindersFormSchema, RemindersFormValues } from "~/lib/types";
 
 export async function LogBp(formData: FormData) {
   console.log("Logging BP entry");
@@ -36,6 +37,22 @@ export async function EditBp(entryId: number | undefined, formData: FormData) {
     );
     await api.bloodPressure.editMeasurement({ ...bpMeasurement, id: entryId });
     revalidatePath("/diary");
+    return { message: "success" };
+  } catch (error) {
+    console.error("Failed to parse data", error);
+    return { message: "failed" };
+  }
+}
+
+export async function CreateOrUpdateReminders(formData: RemindersFormValues) {
+  console.log("Creating or updating reminders");
+
+  console.log(formData);
+
+  // const reminders = parseData(formData, remindersFormSchema);
+  try {
+    await api.reminder.createOrUpdateReminders(formData);
+    revalidatePath("/diary/reminders");
     return { message: "success" };
   } catch (error) {
     console.error("Failed to parse data", error);

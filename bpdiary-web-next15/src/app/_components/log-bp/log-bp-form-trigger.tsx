@@ -1,5 +1,5 @@
 "use client";
-import { CirclePlus } from "lucide-react";
+import { CalendarPlus2 } from "lucide-react";
 import { useBpEntryContext } from "~/app/_contexts/bpEntryContext";
 import { Button } from "../shadcn/button";
 import { useBpCalendarContext } from "~/app/_contexts/bpCaldendarContext";
@@ -34,7 +34,7 @@ export default function LogBpFormTrigger() {
         }
       }}
     >
-      <CirclePlus className="h-[1.5rem] w-[1.5rem]" />
+      <CalendarPlus2 className="h-[1.5rem] w-[1.5rem]" />
       <span className="laptop:flex hidden">New Reading</span>
     </Button>
   );

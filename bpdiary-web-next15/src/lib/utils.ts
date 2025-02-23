@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { DayOfWeek } from "react-day-picker";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 

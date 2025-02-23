@@ -6,6 +6,7 @@ import { sessionRouter } from "./routers/session";
 import { feedRouter } from "./routers/feed";
 import { calendarRouter } from "./routers/calendar";
 import { chartRouter } from "./routers/chart";
+import { reminderRouter } from "./routers/reminder";
 
 /**
  * This is the primary router for your server.
@@ -20,6 +21,7 @@ export const appRouter = createTRPCRouter({
   feed: feedRouter,
   calendar: calendarRouter,
   chart: chartRouter,
+  reminder: reminderRouter,
 });
 
 // export type definition of API
