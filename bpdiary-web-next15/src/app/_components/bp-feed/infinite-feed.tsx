@@ -73,7 +73,7 @@ export default function InfiniteFeed() {
           ref={bottom}
           className="relative flex h-[6rem] w-full items-center justify-center gap-2 px-2 pb-2"
         >
-          {isFetchingNextPage || hasNextPage || isPending || isFetching ? (
+          {isFetchingNextPage || isFetching ? (
             <HeartLoader variant="pulse" className="flex w-12 justify-center" />
           ) : (
             <>

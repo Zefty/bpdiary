@@ -15,7 +15,7 @@ export default function DisplayCardEntry({
 }) {
   const bpEntryContext = useBpEntryContext();
   return (
-    <div className="group px-4 py-2">
+    <div className="group px-4 py-2 hover:cursor-pointer">
       <div
         className="bg-muted hover:bg-accent rounded-md px-6 py-6"
         onClick={() => {
