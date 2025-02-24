@@ -1,169 +1,230 @@
 "use client";
 
-import { Label } from "~/app/_components/shadcn/label";
-import {
-  Sheet,
-  SheetContent,
-  SheetFooter,
-  SheetHeader,
-} from "~/app/_components/shadcn/sheet";
 import {
   DatetimePicker,
   DatetimePickerRefs,
 } from "../custom-inputs/datetime-picker";
-import { NumberPicker, NumberPickerRefs } from "../custom-inputs/number-picker";
 import { Textarea } from "../shadcn/textarea";
-import { forwardRef, useImperativeHandle, useRef } from "react";
-import { RouterOutputs } from "~/trpc/react";
-import { LoaderCircle } from "lucide-react";
-
-type BloodPressureDiary = RouterOutputs["feed"]["getInfiniteDiary"];
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+} from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+} from "../shadcn/dialog";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  bpLogFormSchema,
+  BpLogFormValues,
+  ServerActionSuccess,
+} from "~/lib/types";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../shadcn/form";
+import { toast } from "~/app/_hooks/use-toast";
+import {
+  NumberPickerInput,
+  NumberPickerInputRefs,
+} from "../custom-inputs/number-picker-input";
+import { useServerAction } from "~/app/_hooks/use-server-action";
+import { CreateOrUpdateBpMeasurement } from "~/server/actions/server-actions";
 
 export interface BpEntryBaseRefs {
   resetForm: () => void;
 }
 
 export interface BpEntryBaseProps {
-  openSheet: boolean;
-  setOpenSheet: (open: boolean) => void;
-  sheetHeader: React.ReactNode;
-  sheetFooter: React.ReactNode;
-  bpEntryData?: BloodPressureDiary["data"][0];
-  addOrUpdateEntryAction: (formData: FormData) => void;
-  isSubmitting?: boolean;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  header: React.ReactNode;
+  footer: React.ReactNode;
+  bpFormData?: BpLogFormValues;
 }
 
 export const BaseBpForm = forwardRef<BpEntryBaseRefs, BpEntryBaseProps>(
-  (
-    {
-      openSheet,
-      setOpenSheet,
-      sheetHeader,
-      sheetFooter,
-      bpEntryData,
-      addOrUpdateEntryAction,
-      isSubmitting,
-    },
-    ref,
-  ) => {
+  ({ open, setOpen, header, footer, bpFormData }, ref) => {
+    const form = useForm<BpLogFormValues>({
+      resolver: zodResolver(bpLogFormSchema),
+      defaultValues: useMemo(() => {
+        return bpFormData;
+      }, [bpFormData]),
+    });
     const dateTimePickerRef = useRef<DatetimePickerRefs>(null);
-    const systolicRef = useRef<NumberPickerRefs>(null);
-    const diastolicRef = useRef<NumberPickerRefs>(null);
-    const pulseRef = useRef<NumberPickerRefs>(null);
+    const systolicRef = useRef<NumberPickerInputRefs>(null);
+    const diastolicRef = useRef<NumberPickerInputRefs>(null);
+    const pulseRef = useRef<NumberPickerInputRefs>(null);
     const notesRef = useRef<HTMLTextAreaElement>(null);
+    const [action, isRunning] = useServerAction(CreateOrUpdateBpMeasurement);
 
-    const resetForm = () => {
-      if (dateTimePickerRef.current) {
-        dateTimePickerRef.current.reset();
-      }
-      if (systolicRef.current) {
-        systolicRef.current.reset();
-      }
-      if (diastolicRef.current) {
-        diastolicRef.current.reset();
-      }
-      if (pulseRef.current) {
-        pulseRef.current.reset();
-      }
-      if (notesRef.current) {
-        notesRef.current.value = "";
-      }
-    };
+    useEffect(() => {
+      form.reset(bpFormData);
+    }, [bpFormData]);
 
     useImperativeHandle(
       ref,
       () => ({
-        resetForm,
+        resetForm: () => form.reset(),
       }),
       [],
     );
 
+    async function submit(data: BpLogFormValues) {
+      sessionStorage.removeItem("scrollPosition");
+      const response = await action(data);
+      if (response === ServerActionSuccess) {
+        setOpen(!open);
+        toast({
+          description: data.id
+            ? "Edited blood pressure measurement!"
+            : "Logged new blood pressure measurement!",
+        });
+      }
+    }
+
     return (
-      <Sheet open={openSheet} onOpenChange={setOpenSheet}>
-        <SheetContent side="right" className="p-0 sm:max-w-[750px]">
-          <div
-            className={`flex h-full w-full flex-col items-center gap-3 p-9 ${isSubmitting ? "bg-slate-50 bg-opacity-50" : ""}`}
-          >
-            <SheetHeader className="w-full sm:text-center">
-              {sheetHeader}
-            </SheetHeader>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
+          <DialogHeader>{header}</DialogHeader>
+          <Form {...form}>
             <form
-              className="relative w-full"
+              onSubmit={form.handleSubmit(submit)}
+              className="flex flex-col gap-6"
               id="bp-entry-base-form"
-              action={addOrUpdateEntryAction}
             >
-              {isSubmitting && (
-                <div className="absolute bottom-0 left-0 right-0 top-0">
-                  <div className="absolute left-1/2 top-1/2">
-                    <LoaderCircle className="animate-spin" />
-                  </div>
-                </div>
-              )}
-              <fieldset
-                className="grid w-full items-center gap-4"
-                disabled={isSubmitting}
-              >
-                <div className="flex flex-row items-center">
-                  <Label htmlFor="name" className="grow">
-                    Date
-                  </Label>
-                  <DatetimePicker
-                    name="datetime"
-                    defaultDate={bpEntryData?.measuredAt ?? new Date()}
-                    ref={dateTimePickerRef}
-                  />
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="name">Blood Pressure</Label>
-                </div>
-                <div className="flex flex-row items-center">
-                  <Label htmlFor="name" className="grow">
-                    Systolic
-                  </Label>
-                  <NumberPicker
-                    name="systolic"
-                    ref={systolicRef}
-                    initialValue={bpEntryData?.systolic}
-                    onNextFocus={() => diastolicRef.current?.focus()}
-                  />
-                </div>
-                <div className="flex flex-row items-center">
-                  <Label htmlFor="name" className="grow">
-                    Diastolic
-                  </Label>
-                  <NumberPicker
-                    name="diastolic"
-                    ref={diastolicRef}
-                    initialValue={bpEntryData?.diastolic}
-                    onNextFocus={() => pulseRef.current?.focus()}
-                  />
-                </div>
-                <div className="flex flex-row items-center">
-                  <Label htmlFor="name" className="grow">
-                    Pulse
-                  </Label>
-                  <NumberPicker
-                    name="pulse"
-                    ref={pulseRef}
-                    initialValue={bpEntryData?.pulse}
-                    onNextFocus={() => notesRef.current?.focus()}
-                  />
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="name">Notes</Label>
-                  <Textarea
-                    name="notes"
-                    placeholder="Add some notes here ..."
-                    ref={notesRef}
-                    defaultValue={bpEntryData?.notes ?? ""}
-                  />
-                </div>
-              </fieldset>
+              <FormField
+                control={form.control}
+                name="datetime"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Date</FormLabel>
+                    <FormControl>
+                      <DatetimePicker
+                        name="datetime"
+                        selectedDate={field.value}
+                        onDateChange={field.onChange}
+                        ref={dateTimePickerRef}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      This is the name that will be displayed on your profile.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="systolic"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Systolic</FormLabel>
+                    <FormControl>
+                      <NumberPickerInput
+                        name="systolic"
+                        number={field.value}
+                        setNumber={field.onChange}
+                        ref={systolicRef}
+                        onRightFocus={() => diastolicRef.current?.focus()}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      This is the name that will be displayed on your profile.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="diastolic"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Diastolic</FormLabel>
+                    <FormControl>
+                      <NumberPickerInput
+                        name="diastolic"
+                        number={field.value}
+                        setNumber={field.onChange}
+                        ref={diastolicRef}
+                        onRightFocus={() => pulseRef.current?.focus()}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      This is the name that will be displayed on your profile.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="pulse"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Pulse</FormLabel>
+                    <FormControl>
+                      <NumberPickerInput
+                        name="pulse"
+                        number={field.value}
+                        setNumber={field.onChange}
+                        ref={pulseRef}
+                        onRightFocus={() => notesRef.current?.focus()}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      This is the name that will be displayed on your profile.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="notes"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Notes</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        name="notes"
+                        placeholder="Add some notes here ..."
+                        ref={notesRef}
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      This is the name that will be displayed on your profile.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </form>
-            <SheetFooter className="w-full">{sheetFooter}</SheetFooter>
-          </div>
-        </SheetContent>
-      </Sheet>
+            <DialogFooter className="w-full">
+              <fieldset
+                className="flex w-full justify-between"
+                disabled={isRunning}
+              >
+                {footer}
+              </fieldset>
+            </DialogFooter>
+          </Form>
+        </DialogContent>
+      </Dialog>
     );
   },
 );

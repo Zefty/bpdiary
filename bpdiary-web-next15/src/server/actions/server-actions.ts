@@ -1,61 +1,38 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { BpMeasurement } from "../api/shared/types";
-import { parseData, preprocessFormData } from "~/lib/utils";
 import { api } from "~/trpc/server";
-import { remindersFormSchema, RemindersFormValues } from "~/lib/types";
+import {
+  BpLogFormValues,
+  RemindersFormValues,
+  ServerActionFailed,
+  ServerActionSuccess,
+} from "~/lib/types";
 
-export async function LogBp(formData: FormData) {
+export async function CreateOrUpdateBpMeasurement(formData: BpLogFormValues) {
   console.log("Logging BP entry");
   console.log(formData);
 
   try {
-    const bpMeasurement = parseData(
-      preprocessFormData(formData, BpMeasurement),
-      BpMeasurement,
-    );
-    await api.bloodPressure.logMeasurement(bpMeasurement);
+    await api.bloodPressure.createOrUpdateMeasurement(formData);
     revalidatePath("/diary");
-    return { message: "success" };
+    return ServerActionSuccess;
   } catch (error) {
     console.error("Failed to parse data", error);
-    return { message: "failed" };
-  }
-}
-
-export async function EditBp(entryId: number | undefined, formData: FormData) {
-  console.log("Editing BP entry");
-  console.log(entryId);
-  console.log(formData);
-
-  try {
-    if (entryId === undefined) throw new Error("Entry ID is undefined");
-    const bpMeasurement = parseData(
-      preprocessFormData(formData, BpMeasurement),
-      BpMeasurement,
-    );
-    await api.bloodPressure.editMeasurement({ ...bpMeasurement, id: entryId });
-    revalidatePath("/diary");
-    return { message: "success" };
-  } catch (error) {
-    console.error("Failed to parse data", error);
-    return { message: "failed" };
+    return ServerActionFailed;
   }
 }
 
 export async function CreateOrUpdateReminders(formData: RemindersFormValues) {
   console.log("Creating or updating reminders");
-
   console.log(formData);
 
-  // const reminders = parseData(formData, remindersFormSchema);
   try {
     await api.reminder.createOrUpdateReminders(formData);
     revalidatePath("/diary/reminders");
-    return { message: "success" };
+    return ServerActionSuccess;
   } catch (error) {
     console.error("Failed to parse data", error);
-    return { message: "failed" };
+    return ServerActionFailed;
   }
 }

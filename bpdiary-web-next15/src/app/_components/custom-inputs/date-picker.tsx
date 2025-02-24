@@ -27,8 +27,9 @@ export interface DatePickerRefs {
 export interface DatePickerProps {
   children?: React.ReactNode;
   name?: string;
-  defaultDate?: Date;
   showSeconds?: boolean;
+  selectedDate: Date;
+  onDateChange: (date: Date | undefined) => void;
 }
 
 export interface DateContext {
@@ -39,13 +40,12 @@ export interface DateContext {
 export const DateContext = createContext<DateContext | undefined>(undefined);
 
 export const DatePicker = forwardRef<DatePickerRefs, DatePickerProps>(
-  ({ children, name, defaultDate, showSeconds }, ref) => {
-    const [date, setDate] = useState<Date | undefined>(defaultDate);
+  ({ children, name, showSeconds, selectedDate, onDateChange }, ref) => {
     useImperativeHandle(
       ref,
       () => ({
-        value: date,
-        reset: () => setDate(new Date()),
+        value: selectedDate,
+        reset: () => onDateChange?.(new Date()),
       }),
       [],
     );
@@ -54,55 +54,47 @@ export const DatePicker = forwardRef<DatePickerRefs, DatePickerProps>(
      * carry over the current time when a user clicks a new day
      * instead of resetting to 00:00
      */
-    const handleSelect = (newDay: Date | undefined) => {
-      if (!newDay) return;
-      if (!date) {
-        setDate(newDay);
+    const handleSelect = (newDate: Date | undefined) => {
+      if (!newDate) return;
+      if (!selectedDate) {
+        onDateChange(newDate);
         return;
       }
-      const diff = newDay.getTime() - date.getTime();
+      const diff = newDate.getTime() - selectedDate.getTime();
       const diffInDays = diff / (1000 * 60 * 60 * 24);
-      const newDateFull = add(date, { days: Math.ceil(diffInDays) });
-      setDate(newDateFull);
+      const newDateFull = add(selectedDate, { days: Math.ceil(diffInDays) });
+      onDateChange(newDateFull);
     };
 
     return (
-      <DateContext.Provider value={{ date, setDate, showSeconds }}>
-        <Input
-          value={date ? date.toISOString() : ""}
-          readOnly
-          type="hidden"
-          name={name}
-        />
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant={"outline"}
-              className={cn(
-                "w-[14.75rem] justify-start text-left font-normal",
-                !date && "text-muted-foreground",
-              )}
-            >
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {date ? (
-                format(date, showSeconds ? "PPP HH:mm:ss" : "PPP HH:mm")
-              ) : (
-                <span>Pick a date</span>
-              )}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0">
-            <Calendar
-              mode="single"
-              selected={date}
-              month={date}
-              onSelect={(d) => handleSelect(d)}
-              autoFocus
-            />
-            {children}
-          </PopoverContent>
-        </Popover>
-      </DateContext.Provider>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            variant={"outline"}
+            className={cn(
+              "w-[17.25rem] justify-start text-left font-normal",
+              !selectedDate && "text-muted-foreground",
+            )}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {selectedDate ? (
+              format(selectedDate, showSeconds ? "PPP HH:mm:ss" : "PPP HH:mm")
+            ) : (
+              <span>Pick a date</span>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0">
+          <Calendar
+            mode="single"
+            selected={selectedDate}
+            month={selectedDate}
+            onSelect={(d) => handleSelect(d)}
+            autoFocus
+          />
+          {children}
+        </PopoverContent>
+      </Popover>
     );
   },
 );

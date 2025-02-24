@@ -29,7 +29,7 @@ export function Toaster() {
           </Toast>
         );
       })}
-      <ToastViewport />
+      <ToastViewport className="md:laptop:max-w-[30rem]" />
     </ToastProvider>
   );
 }

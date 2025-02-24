@@ -1,7 +1,7 @@
 import { RouterOutputs } from "~/trpc/react";
 import { Card, CardContent } from "../shadcn/card";
 import DisplayCardEntry from "./display-card-entry";
-import EditBpFormProvider from "../log-bp/edit-bp-form";
+import { EditBpFormProvider } from "~/app/_contexts/bpEntryContext";
 
 type BloodPressureDiary = RouterOutputs["feed"]["getInfiniteDiary"]["data"];
 

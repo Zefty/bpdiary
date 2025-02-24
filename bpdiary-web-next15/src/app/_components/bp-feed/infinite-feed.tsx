@@ -32,8 +32,6 @@ export default function InfiniteFeed() {
 
   const flattenedData = data?.pages.flatMap((page) => page.data);
 
-  console.log(viewPortRef.current?.scrollTop);
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -66,7 +64,7 @@ export default function InfiniteFeed() {
     >
       <div className="flex flex-col items-center">
         <BaseHeader className="my-10 h-10 justify-center border-none shadow-none">
-          <h1 className="text-3xl font-semibold leading-none tracking-tight">
+          <h1 className="text-3xl leading-none font-semibold tracking-tight">
             Measurements
           </h1>
         </BaseHeader>
@@ -79,24 +77,24 @@ export default function InfiniteFeed() {
             <HeartLoader variant="pulse" className="flex w-12 justify-center" />
           ) : (
             <>
-              <span className="text-center text-muted-foreground">
+              <span className="text-muted-foreground text-center">
                 End of diary ...
               </span>
-              {
-                (viewPortRef.current && viewPortRef.current?.scrollTop > 0) && <Button
-                className="absolute right-2 flex h-[2.5rem] w-[2.5gitrem] items-center justify-center rounded-md bg-background hover:bg-muted"
-                onClick={() => {
-                  if (viewPortRef.current) {
-                    viewPortRef.current.scrollTo({
-                      top: 0,
-                      behavior: "smooth",
-                    });
-                  }
-                }}
-              >
-                <ChevronsUp className="text-primary" />
-              </Button>
-              }
+              {viewPortRef.current && viewPortRef.current?.scrollTop > 0 && (
+                <Button
+                  className="bg-background hover:bg-muted absolute right-2 flex h-[2.5rem] w-[2.5gitrem] items-center justify-center rounded-md"
+                  onClick={() => {
+                    if (viewPortRef.current) {
+                      viewPortRef.current.scrollTo({
+                        top: 0,
+                        behavior: "smooth",
+                      });
+                    }
+                  }}
+                >
+                  <ChevronsUp className="text-primary" />
+                </Button>
+              )}
             </>
           )}
         </div>

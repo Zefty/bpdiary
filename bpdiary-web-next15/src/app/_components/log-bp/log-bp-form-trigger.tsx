@@ -13,24 +13,21 @@ export default function LogBpFormTrigger() {
       className="flex items-center justify-between gap-3"
       onClick={() => {
         if (context) {
+          const now = new Date();
           if (calendarContext) {
-            const now = new Date();
-            context.setBpEntryData({
-              createdAt: set(calendarContext.selectedDate, {
+            context.setBpFormData({
+              datetime: set(calendarContext.selectedDate, {
                 hours: now.getHours(),
                 minutes: now.getMinutes(),
                 seconds: now.getSeconds(),
               }),
-              id: 0,
-              updatedAt: null,
-              loggedByUserId: "",
-              systolic: null,
-              diastolic: null,
-              pulse: null,
-              notes: null,
+            });
+          } else {
+            context.setBpFormData({
+              datetime: now,
             });
           }
-          context.setOpenSheet(!context.openSheet);
+          context.setOpen(!context.open);
         }
       }}
     >

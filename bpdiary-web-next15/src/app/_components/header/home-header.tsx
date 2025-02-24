@@ -1,9 +1,9 @@
 import { auth } from "~/server/auth";
-import LogBpFormProvider from "../log-bp/log-bp-form";
 import LogBpFormTrigger from "../log-bp/log-bp-form-trigger";
 import BaseHeader from "./base-header";
 import { Button } from "../shadcn/button";
 import { Bell } from "lucide-react";
+import { LogBpFormProvider } from "~/app/_contexts/bpEntryContext";
 
 export default async function HomeHeader() {
   const session = await auth();
@@ -46,5 +46,6 @@ const Reminders = () => {
   ];
 
   const idx = randomInteger(0, rems.length - 1);
+
   return rems[idx];
 };

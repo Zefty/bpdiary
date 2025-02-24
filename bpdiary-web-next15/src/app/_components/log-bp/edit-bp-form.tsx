@@ -1,51 +1,34 @@
 "use client";
 
 import { Button } from "~/app/_components/shadcn/button";
-import { EditBp } from "~/server/actions/server-actions";
+import { CreateOrUpdateBpMeasurement } from "~/server/actions/server-actions";
 import { BaseBpForm, BpEntryBaseRefs } from "./base-bp-form";
 import React, { useRef } from "react";
-import {
-  BpEntryContextProvider,
-  useBpEntryContext,
-} from "~/app/_contexts/bpEntryContext";
-import { SheetClose, SheetDescription, SheetTitle } from "../shadcn/sheet";
-import { useServerAction } from "~/app/_hooks/use-server-action";
-import { useToast } from "~/app/_hooks/use-toast";
-
-export default function EditBpFormProvider({
-  children,
-}: {
-  children?: React.ReactNode;
-}) {
-  return (
-    <BpEntryContextProvider>
-      <EditBpForm />
-      {children}
-    </BpEntryContextProvider>
-  );
-}
+import { useBpEntryContext } from "~/app/_contexts/bpEntryContext";
+import { DialogTitle } from "../shadcn/dialog";
+import { DialogDescription } from "@radix-ui/react-dialog";
+import { BpLogFormValues } from "~/lib/types";
 
 export function EditBpForm() {
   const bpEntryBaseRef = useRef<BpEntryBaseRefs>(null);
   const context = useBpEntryContext();
-  const bpEntryData = context.bpEntryData;
-  const EditBpWithId = EditBp.bind(null, bpEntryData?.id);
-  const [EditBpWithIdAction, isEditing] = useServerAction(EditBpWithId);
-  const { toast } = useToast();
+  const bpFormData = context.bpFormData;
 
   return (
     <BaseBpForm
       ref={bpEntryBaseRef}
-      openSheet={context.openSheet}
-      setOpenSheet={context.setOpenSheet}
-      sheetHeader={
+      open={context.open}
+      setOpen={context.setOpen}
+      header={
         <div className="flex w-full flex-col justify-items-center">
-          <SheetTitle>Edit Measurement</SheetTitle>
-          <SheetDescription>Edit blood pressure measurement.</SheetDescription>
+          <DialogTitle>Edit Measurement</DialogTitle>
+          <DialogDescription>
+            Edit blood pressure measurement.
+          </DialogDescription>
         </div>
       }
-      sheetFooter={
-        <fieldset className="flex w-full justify-between" disabled={isEditing}>
+      footer={
+        <>
           <Button
             variant="outline"
             type="reset"
@@ -57,20 +40,9 @@ export function EditBpForm() {
           <Button type="submit" form="bp-entry-base-form">
             Save changes
           </Button>
-        </fieldset>
+        </>
       }
-      bpEntryData={bpEntryData}
-      addOrUpdateEntryAction={async (formData: FormData) => {
-        const res = await EditBpWithIdAction(formData);
-        if (res?.message === "success") {
-          bpEntryBaseRef.current?.resetForm();
-          context.setOpenSheet(!context.openSheet);
-          toast({
-            title: "Edited entry!",
-          });
-        }
-      }}
-      isSubmitting={isEditing}
+      bpFormData={context.bpFormData}
     />
   );
 }

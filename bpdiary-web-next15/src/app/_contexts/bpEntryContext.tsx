@@ -1,23 +1,26 @@
 "use client";
 import { createContext, useContext, useState } from "react";
 import { RouterOutputs } from "~/trpc/react";
+import { EditBpForm } from "../_components/log-bp/edit-bp-form";
+import { LogBpForm } from "../_components/log-bp/log-bp-form";
+import { BpLogFormValues } from "~/lib/types";
 
-type BloodPressureDiary = RouterOutputs["bloodPressure"]["getInfiniteDiary"];
+type BloodPressureDiary = RouterOutputs["feed"]["getInfiniteDiary"];
 
 export interface BpEntryContext {
-  openSheet: boolean;
-  setOpenSheet: (open: boolean) => void;
-  bpEntryData?: BloodPressureDiary["data"][0];
-  setBpEntryData: (data: BloodPressureDiary["data"][0]) => void;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  bpFormData?: BpLogFormValues;
+  setBpFormData: (data: BpLogFormValues) => void;
 }
 
 export const BpEntryContext = createContext<BpEntryContext>({
-  openSheet: false,
-  setOpenSheet: function () {
-    this.openSheet = !this.openSheet;
+  open: false,
+  setOpen: function () {
+    this.open = !this.open;
   },
-  setBpEntryData: function (data: BloodPressureDiary["data"][0]) {
-    this.bpEntryData = data;
+  setBpFormData: function (data: BpLogFormValues) {
+    this.bpFormData = data;
   },
 });
 
@@ -28,17 +31,16 @@ interface BpEntryContextProviderProps {
 export const BpEntryContextProvider: React.FC<BpEntryContextProviderProps> = ({
   children,
 }) => {
-  const [openSheet, setOpenSheet] = useState<boolean>(false);
-  const [bpEntryData, setBpEntryData] =
-    useState<BloodPressureDiary["data"][0]>();
+  const [open, setOpen] = useState<boolean>(false);
+  const [bpFormData, setBpFormData] = useState<BpLogFormValues>();
 
   return (
     <BpEntryContext.Provider
       value={{
-        openSheet,
-        setOpenSheet,
-        bpEntryData,
-        setBpEntryData,
+        open,
+        setOpen,
+        bpFormData,
+        setBpFormData,
       }}
     >
       {children}
@@ -49,3 +51,29 @@ export const BpEntryContextProvider: React.FC<BpEntryContextProviderProps> = ({
 export const useBpEntryContext = () => {
   return useContext(BpEntryContext);
 };
+
+export function EditBpFormProvider({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
+  return (
+    <BpEntryContextProvider>
+      <EditBpForm />
+      {children}
+    </BpEntryContextProvider>
+  );
+}
+
+export function LogBpFormProvider({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
+  return (
+    <BpEntryContextProvider>
+      <LogBpForm />
+      {children}
+    </BpEntryContextProvider>
+  );
+}

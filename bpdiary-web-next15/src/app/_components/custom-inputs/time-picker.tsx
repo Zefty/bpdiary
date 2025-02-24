@@ -8,21 +8,19 @@ import { DateContext } from "./date-picker";
 
 interface TimePickerProps {
   showSeconds?: boolean;
+  selectedDate: Date;
+  onDateChange: (date: Date | undefined) => void;
 }
 
-export function TimePicker({ showSeconds }: TimePickerProps) {
+export function TimePicker({
+  showSeconds,
+  selectedDate,
+  onDateChange,
+}: TimePickerProps) {
   const dateContext = useContext(DateContext);
   const minuteRef = useRef<TimePickerInputRefs>(null);
   const hourRef = useRef<TimePickerInputRefs>(null);
   const secondRef = useRef<TimePickerInputRefs>(null);
-  showSeconds = showSeconds ?? dateContext?.showSeconds ?? false;
-
-  const date = dateContext?.date;
-  const setDate =
-    dateContext?.setDate ??
-    (() => {
-      console.log("setDate not implemented");
-    });
 
   return (
     <div className="flex items-end gap-2">
@@ -32,8 +30,8 @@ export function TimePicker({ showSeconds }: TimePickerProps) {
         </Label>
         <TimePickerInput
           picker="hours"
-          date={date}
-          setDate={setDate}
+          date={selectedDate}
+          setDate={onDateChange}
           ref={hourRef}
           onRightFocus={() => minuteRef.current?.focus()}
         />
@@ -44,8 +42,8 @@ export function TimePicker({ showSeconds }: TimePickerProps) {
         </Label>
         <TimePickerInput
           picker="minutes"
-          date={date}
-          setDate={setDate}
+          date={selectedDate}
+          setDate={onDateChange}
           ref={minuteRef}
           onLeftFocus={() => hourRef.current?.focus()}
           onRightFocus={() => secondRef.current?.focus()}
@@ -58,8 +56,8 @@ export function TimePicker({ showSeconds }: TimePickerProps) {
           </Label>
           <TimePickerInput
             picker="seconds"
-            date={date}
-            setDate={setDate}
+            date={selectedDate}
+            setDate={onDateChange}
             ref={secondRef}
             onLeftFocus={() => minuteRef.current?.focus()}
           />

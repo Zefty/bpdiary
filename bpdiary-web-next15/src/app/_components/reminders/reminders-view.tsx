@@ -114,32 +114,27 @@ export default function RemindersView({
                     name={formKey}
                     render={({ field }) => (
                       <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                        <div className="mr-auto space-y-0.5">
-                          <FormLabel
-                            className="text-base"
-                            onClick={(event) => {
-                              event.preventDefault();
-                              event.stopPropagation();
-                            }}
-                          >
-                            {format(
-                              field.value?.[index]?.reminderTime ?? new Date(),
-                              "HH:mm",
-                            )}
-                          </FormLabel>
-                          {/* <TimePicker
-                            value={field.value?.[index]?.reminderTime}
-                            onChange={(value) => {
+                        <div className="mr-auto space-y-4">
+                          <TimePicker
+                            showSeconds={false}
+                            selectedDate={
+                              field.value?.[index]?.reminderTime ?? new Date()
+                            }
+                            onDateChange={(value) => {
+                              console.log(value);
                               const newFields = field.value
                                 ? [...field.value]
                                 : [];
                               if (newFields[index]) {
-                                newFields[index].reminderTime = value;
+                                newFields[index].reminderTime =
+                                  value ?? new Date();
                               }
                               field.onChange(newFields);
-                            }} /> */}
+                            }}
+                          />
                           <FormControl>
                             <ToggleGroup
+                              className="flex gap-2"
                               type="multiple"
                               value={mapReminderToToggleGroupValues(
                                 field.value?.[index],
@@ -166,6 +161,7 @@ export default function RemindersView({
                             >
                               {longDow.map((day) => (
                                 <ToggleGroupItem
+                                  className="w-[3rem] rounded-lg"
                                   value={mapLongDowToShortDow[day]}
                                   aria-label={day}
                                   key={day}

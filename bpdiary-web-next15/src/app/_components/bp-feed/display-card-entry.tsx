@@ -20,8 +20,15 @@ export default function DisplayCardEntry({
         className="bg-muted hover:bg-accent rounded-md px-6 py-6"
         onClick={() => {
           if (bpEntryContext) {
-            bpEntryContext.setBpEntryData(entry);
-            bpEntryContext.setOpenSheet(!bpEntryContext.openSheet);
+            bpEntryContext.setBpFormData({
+              datetime: entry.measuredAt,
+              systolic: entry.systolic ?? undefined,
+              diastolic: entry.diastolic ?? undefined,
+              pulse: entry.pulse ?? undefined,
+              notes: entry.notes ?? undefined,
+              id: entry.id,
+            });
+            bpEntryContext.setOpen(!bpEntryContext.open);
           }
         }}
       >

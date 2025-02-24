@@ -3,20 +3,27 @@
 import { TimePicker } from "./time-picker";
 import { DatePicker, DatePickerRefs } from "./date-picker";
 import { forwardRef, useRef } from "react";
+import { Input } from "../shadcn/input";
 
 export interface DatetimePickerRefs extends DatePickerRefs {}
 
 export interface DatetimePickerProps {
   name?: string;
-  defaultDate?: Date;
+  selectedDate: Date;
+  onDateChange: (date: Date | undefined) => void;
 }
 
 export const DatetimePicker = forwardRef<DatePickerRefs, DatetimePickerProps>(
-  ({ name, defaultDate }, ref) => {
+  ({ name, selectedDate, onDateChange }, ref) => {
     return (
-      <DatePicker name={name} defaultDate={defaultDate} ref={ref}>
-        <div className="border-t border-border p-3">
-          <TimePicker />
+      <DatePicker
+        name={name}
+        selectedDate={selectedDate}
+        onDateChange={onDateChange}
+        ref={ref}
+      >
+        <div className="border-border border-t p-3">
+          <TimePicker selectedDate={selectedDate} onDateChange={onDateChange} />
         </div>
       </DatePicker>
     );
