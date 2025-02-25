@@ -10,7 +10,8 @@ export default async function Reminders() {
       <div>
         <h2 className="text-2xl font-bold">Reminders</h2>
         <p className="text-muted-foreground">
-          Setup reminders to help you stay on track.
+          Setup reminders to help you stay on track. Note: This page is a work
+          in progress and reminders are not yet fully functional.
         </p>
       </div>
       <Separator className="mt-2 mb-8 h-[0.15rem]" />

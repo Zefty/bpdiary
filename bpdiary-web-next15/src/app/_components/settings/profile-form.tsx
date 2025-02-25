@@ -35,6 +35,7 @@ import {
 } from "~/lib/types";
 import { useServerAction } from "~/app/_hooks/use-server-action";
 import { UpdateProfile } from "~/server/actions/server-actions";
+import { UI } from "react-day-picker";
 
 const timezones = Intl.supportedValuesOf("timeZone").map((timezone) => ({
   label: timezone,
@@ -135,6 +136,10 @@ export function ProfileForm({ user }: { user?: AdapterUser }) {
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
+                      captionLayout="dropdown"
+                      classNames={{
+                        [UI.CaptionLabel]: "hidden",
+                      }}
                       selected={field.value}
                       onSelect={field.onChange}
                       disabled={(date) =>

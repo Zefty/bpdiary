@@ -20,6 +20,10 @@ const sidebarNavItems = [
     title: "Appearance",
     href: "/diary/settings/appearance",
   },
+  {
+    title: "About & Support",
+    href: "/diary/settings/about",
+  },
 ];
 
 export default function SettingsLayout({
