@@ -1,7 +1,7 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { reminder } from "~/server/db/schema";
-import { and, desc, eq, sql } from "drizzle-orm";
-import { DayOfWeek, remindersFormSchema } from "~/lib/types";
+import { and, eq, sql } from "drizzle-orm";
+import { remindersFormSchema } from "~/lib/types";
 
 export const reminderRouter = createTRPCRouter({
   createOrUpdateReminders: protectedProcedure

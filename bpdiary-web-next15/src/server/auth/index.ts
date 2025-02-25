@@ -1,4 +1,8 @@
-import NextAuth, { DefaultSession, NextAuthConfig } from "next-auth";
+import NextAuth, {
+  AdapterUser,
+  DefaultSession,
+  NextAuthConfig,
+} from "next-auth";
 import { AdapterUser as NextAuthAdapterUser } from "next-auth/adapters";
 import GitHubProvider from "next-auth/providers/github";
 import { cache } from "react";
@@ -34,7 +38,10 @@ declare module "next-auth" {
   interface AdapterUser extends NextAuthAdapterUser {
     // ...other properties
     // role: UserRole;
+    createdAt: Date;
+    updatedAt: Date;
     dob?: Date;
+    timezone?: string;
   }
 }
 
@@ -58,7 +65,10 @@ const {
 } = NextAuth(async (req: NextRequest | undefined) => {
   if (req?.url.startsWith(`${env.BASE_URL}/api/auth/signin`)) {
     const cookieStore = await cookies();
-    cookieStore.set("tz", req?.nextUrl.searchParams.get("tz") ?? "localtime");
+    cookieStore.set(
+      "timezone",
+      req?.nextUrl.searchParams.get("timezone") ?? "localtime",
+    );
   }
   const authConfig = {
     providers: [
@@ -66,11 +76,14 @@ const {
         clientId: process.env.GITHUB_CLIENT_ID,
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
         profile(profile) {
+          const now = new Date();
           return {
             id: profile.id.toString(),
             name: profile.name,
             email: profile.email,
             image: profile.avatar_url,
+            createdAt: now,
+            updatedAt: now,
           };
         },
       }),
@@ -86,27 +99,13 @@ const {
     ],
     adapter: {
       ...DbAdapter,
-      createUser: async (profile) => {
+      createUser: async (profile: AdapterUser) => {
+        const cookieStore = await cookies();
+        const tz = cookieStore.get("timezone");
+        profile.timezone = tz?.value ?? "localtime";
         const createdUser = await DbAdapter.createUser!(profile);
 
         if (createdUser) {
-          const cookieStore = await cookies();
-          const tz = cookieStore.get("tz");
-          const settingName = tz?.name ?? "tz";
-          const settingValue = tz?.value ?? "localtime";
-
-          await db
-            .insert(setting)
-            .values({
-              userId: createdUser.id,
-              settingName,
-              settingValue,
-            })
-            .onConflictDoUpdate({
-              target: [setting.userId, setting.settingName],
-              set: { settingValue, updatedAt: new Date() },
-            });
-
           await db
             .insert(setting)
             .values({
@@ -116,7 +115,7 @@ const {
             })
             .onConflictDoUpdate({
               target: [setting.userId, setting.settingName],
-              set: { settingValue, updatedAt: new Date() },
+              set: { settingValue: "light", updatedAt: new Date() },
             });
         }
 

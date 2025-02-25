@@ -1,6 +1,5 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { bloodPressure } from "~/server/db/schema";
-import { BpMeasurement, BpMeasurementWithId } from "../shared/types";
 import { and, eq, sql } from "drizzle-orm";
 import { z } from "zod";
 import { bpLogFormSchema } from "~/lib/types";

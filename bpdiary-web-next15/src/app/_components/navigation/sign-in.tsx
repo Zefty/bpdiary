@@ -13,10 +13,10 @@ export default function SignIn() {
       {!loading && (
         <Button
           onClick={() => {
-            signIn("github", undefined, { tz });
+            signIn("github", undefined, { timezone: tz });
             setLoading(true);
           }}
-          className="rounded-full bg-primary px-10 py-3 font-semibold text-white no-underline transition hover:bg-primary/70"
+          className="bg-primary hover:bg-primary/70 rounded-full px-10 py-3 font-semibold text-white no-underline transition"
           disabled={loading}
         >
           Sign in

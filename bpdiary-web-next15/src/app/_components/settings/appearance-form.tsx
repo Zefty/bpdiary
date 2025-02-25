@@ -17,18 +17,13 @@ import { toast } from "~/app/_hooks/use-toast";
 import { RadioGroup, RadioGroupItem } from "../shadcn/radio-group";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-
-const appearanceFormSchema = z.object({
-  theme: z.enum(["light", "dark"], {
-    required_error: "Please select a theme.",
-  }),
-  // font: z.enum(["inter", "manrope", "system"], {
-  //   invalid_type_error: "Select a font",
-  //   required_error: "Please select a font.",
-  // }),
-});
-
-type AppearanceFormValues = z.infer<typeof appearanceFormSchema>;
+import {
+  AppearanceFormValues,
+  ServerActionSuccess,
+  appearanceFormSchema,
+} from "~/lib/types";
+import { useServerAction } from "~/app/_hooks/use-server-action";
+import { UpdateAppearance } from "~/server/actions/server-actions";
 
 // This can come from your database or API.
 
@@ -36,12 +31,13 @@ export function AppearanceForm() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
   const defaultValues: Partial<AppearanceFormValues> = {
-    theme: theme ?? "light",
+    theme: theme === "light" ? "light" : "dark",
   };
   const form = useForm<AppearanceFormValues>({
     resolver: zodResolver(appearanceFormSchema),
     defaultValues,
   });
+  const [action, isRunning] = useServerAction(UpdateAppearance);
 
   // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
@@ -52,50 +48,14 @@ export function AppearanceForm() {
     return null;
   }
 
-  function onSubmit(data: AppearanceFormValues) {
+  async function submit(data: AppearanceFormValues) {
     setTheme(data.theme);
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    const response = await action(data);
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {/* <FormField
-          control={form.control}
-          name="font"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Font</FormLabel>
-              <div className="relative w-max">
-                <FormControl>
-                  <select
-                    className={cn(
-                      buttonVariants({ variant: "outline" }),
-                      "w-[200px] appearance-none font-normal",
-                    )}
-                    {...field}
-                  >
-                    <option value="inter">Inter</option>
-                    <option value="manrope">Manrope</option>
-                    <option value="system">System</option>
-                  </select>
-                </FormControl>
-                <ChevronDown className="absolute top-2.5 right-3 h-4 w-4 opacity-50" />
-              </div>
-              <FormDescription>
-                Set the font you want to use in the dashboard.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
+      <form onSubmit={form.handleSubmit(submit)} className="space-y-8">
         <FormField
           control={form.control}
           name="theme"

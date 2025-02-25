@@ -1,4 +1,3 @@
-import { postRouter } from "~/server/api/routers/post";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { bloodPressureRouter } from "./routers/blood-pressure";
 import { settingRouter } from "./routers/setting";
@@ -7,6 +6,7 @@ import { feedRouter } from "./routers/feed";
 import { calendarRouter } from "./routers/calendar";
 import { chartRouter } from "./routers/chart";
 import { reminderRouter } from "./routers/reminder";
+import { userRouter } from "./routers/user";
 
 /**
  * This is the primary router for your server.
@@ -14,7 +14,6 @@ import { reminderRouter } from "./routers/reminder";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  post: postRouter,
   bloodPressure: bloodPressureRouter,
   setting: settingRouter,
   session: sessionRouter,
@@ -22,6 +21,7 @@ export const appRouter = createTRPCRouter({
   calendar: calendarRouter,
   chart: chartRouter,
   reminder: reminderRouter,
+  user: userRouter,
 });
 
 // export type definition of API

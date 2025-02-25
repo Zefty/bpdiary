@@ -68,3 +68,57 @@ export type RemindersFormValues = z.infer<typeof remindersFormSchema>;
 export type Reminders = z.infer<typeof remindersSchema>;
 
 export type Reminder = Reminders[0];
+
+/* Profile form schema */
+export const profileFormSchema = z.object({
+  name: z
+    .string()
+    .min(2, {
+      message: "Name must be at least 2 characters.",
+    })
+    .max(30, {
+      message: "Name must not be longer than 30 characters.",
+    }),
+  email: z
+    .string({
+      required_error: "An email is required.",
+    })
+    .email({
+      message: "Please enter a valid email address.",
+    }),
+  dob: z.date({
+    required_error: "A date of birth is required.",
+  }),
+  timezone: z.string({
+    required_error: "Please select a timezone.",
+  }),
+});
+
+export type ProfileFormValues = z.infer<typeof profileFormSchema>;
+
+/* Appearance form schema */
+export const appearanceFormSchema = z.object({
+  theme: z.enum(["light", "dark"], {
+    required_error: "Please select a theme.",
+  }),
+  // font: z.enum(["inter", "manrope", "system"], {
+  //   invalid_type_error: "Select a font",
+  //   required_error: "Please select a font.",
+  // }),
+});
+
+export type AppearanceFormValues = z.infer<typeof appearanceFormSchema>;
+
+/* Notifications form schema */
+export const notificationToggleTypes = z.enum(["all", "bp", "med", "none"], {
+  required_error: "You need to select a notification type.",
+});
+
+export const notificationsFormSchema = z.object({
+  toggle: notificationToggleTypes,
+  app: z.boolean().default(false).optional(),
+  email: z.boolean().default(false).optional(),
+  mobile: z.boolean().default(false).optional(),
+});
+
+export type NotificationsFormValues = z.infer<typeof notificationsFormSchema>;

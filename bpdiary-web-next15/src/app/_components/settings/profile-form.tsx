@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react";
-import { z } from "zod";
 import { toast } from "~/app/_hooks/use-toast";
 import { cn } from "~/lib/utils";
 import {
@@ -28,77 +27,46 @@ import {
   CommandItem,
   CommandList,
 } from "../shadcn/command";
-import { Session } from "next-auth";
-
-const languages = [
-  { label: "English", value: "en" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
-] as const;
+import { AdapterUser } from "next-auth";
+import {
+  profileFormSchema,
+  ProfileFormValues,
+  ServerActionSuccess,
+} from "~/lib/types";
+import { useServerAction } from "~/app/_hooks/use-server-action";
+import { UpdateProfile } from "~/server/actions/server-actions";
 
 const timezones = Intl.supportedValuesOf("timeZone").map((timezone) => ({
   label: timezone,
   value: timezone,
 }));
 
-const accountFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, {
-      message: "Name must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Name must not be longer than 30 characters.",
-    }),
-  email: z
-    .string({
-      required_error: "An email is required.",
-    })
-    .email({
-      message: "Please enter a valid email address.",
-    }),
-  dob: z.date({
-    required_error: "A date of birth is required.",
-  }),
-  timezone: z.string({
-    required_error: "Please select a timezone.",
-  }),
-});
-
-type AccountFormValues = z.infer<typeof accountFormSchema>;
-
-export function ProfileForm({ user }: { user?: Session["user"] }) {
-  const defaultValues: Partial<AccountFormValues> = {
-    name: user?.name ?? "Your name",
-    email: user?.email ?? "Your email",
+export function ProfileForm({ user }: { user?: AdapterUser }) {
+  const defaultValues: Partial<ProfileFormValues> = {
+    name: user?.name ?? undefined,
+    email: user?.email ?? undefined,
     dob: user?.dob ?? undefined,
+    timezone: user?.timezone ?? undefined,
   };
+  const [action, isRunning] = useServerAction(UpdateProfile);
 
-  const form = useForm<AccountFormValues>({
-    resolver: zodResolver(accountFormSchema),
+  const form = useForm<ProfileFormValues>({
+    resolver: zodResolver(profileFormSchema),
     defaultValues,
   });
 
-  function onSubmit(data: AccountFormValues) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  async function submit(data: ProfileFormValues) {
+    const response = await action(data);
+    if (response === ServerActionSuccess) {
+      toast({
+        description: "Your profile has been updated.",
+      });
+    }
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(submit)}>
         <div className="grid grid-cols-2 space-y-8">
           <FormField
             control={form.control}
@@ -131,6 +99,7 @@ export function ProfileForm({ user }: { user?: Session["user"] }) {
                     placeholder="Your email"
                     {...field}
                     className="w-[20rem]"
+                    disabled
                   />
                 </FormControl>
                 <FormDescription>This is your email address.</FormDescription>
@@ -202,7 +171,7 @@ export function ProfileForm({ user }: { user?: Session["user"] }) {
                           ? timezones.find(
                               (language) => language.value === field.value,
                             )?.label
-                          : "Select language"}
+                          : "Select timezone"}
                         <ChevronsUpDown className="opacity-50" />
                       </Button>
                     </FormControl>
@@ -239,14 +208,17 @@ export function ProfileForm({ user }: { user?: Session["user"] }) {
                   </PopoverContent>
                 </Popover>
                 <FormDescription>
-                  This is the language that will be used in the dashboard.
+                  This is the timezone that will be used for displaying your
+                  measurements.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
-        <Button type="submit">Update account</Button>
+        <Button type="submit" disabled={isRunning}>
+          Update account
+        </Button>
       </form>
     </Form>
   );

@@ -3,24 +3,10 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
-  publicProcedure,
   TrpcContext,
 } from "~/server/api/trpc";
 import { setting } from "~/server/db/schema";
-import {
-  and,
-  desc,
-  count,
-  eq,
-  lt,
-  sql,
-  asc,
-  gte,
-  between,
-  avg,
-  isNull,
-  or,
-} from "drizzle-orm";
+import { and, eq, isNull, or } from "drizzle-orm";
 
 export const getUserTimezone = async (ctx: TrpcContext) => {
   const defaultTz = "UTC";
@@ -33,7 +19,10 @@ export const getUserTimezone = async (ctx: TrpcContext) => {
         .where(
           and(
             eq(setting.userId, ctx.session.user.id),
-            or(eq(setting.settingName, "tz"), isNull(setting.settingName)),
+            or(
+              eq(setting.settingName, "timezone"),
+              isNull(setting.settingName),
+            ),
           ),
         )
     )[0]?.value ?? defaultTz
@@ -69,6 +58,23 @@ export const settingRouter = createTRPCRouter({
         await ctx.db
           .select()
           .from(setting)
+          .where(
+            and(
+              eq(setting.userId, ctx.session.user.id),
+              eq(setting.settingName, input.settingName),
+            ),
+          ),
+    ),
+
+  updateSetting: protectedProcedure
+    .input(
+      z.object({ settingName: z.string().min(1), settingValue: z.string() }),
+    )
+    .query(
+      async ({ ctx, input }) =>
+        await ctx.db
+          .update(setting)
+          .set({ settingValue: input.settingValue, updatedAt: new Date() })
           .where(
             and(
               eq(setting.userId, ctx.session.user.id),

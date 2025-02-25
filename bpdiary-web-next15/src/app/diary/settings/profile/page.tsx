@@ -1,3 +1,4 @@
+import { AdapterUser } from "next-auth";
 import { ProfileForm } from "~/app/_components/settings/profile-form";
 import { Separator } from "~/app/_components/shadcn/separator";
 import { auth } from "~/server/auth";
@@ -13,7 +14,7 @@ export default async function Profile() {
         </p>
       </div>
       <Separator className="h-[0.125rem] w-[35rem]" />
-      <ProfileForm user={session?.user} />
+      <ProfileForm user={session?.user as AdapterUser} />
     </div>
   );
 }

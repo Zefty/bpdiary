@@ -1,5 +1,5 @@
 import { startOfMonth, endOfMonth, subDays, addDays } from "date-fns";
-import { eq, desc, sql, and, lt, asc, avg, gte } from "drizzle-orm";
+import { eq, desc, and, lt, asc, gte } from "drizzle-orm";
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";

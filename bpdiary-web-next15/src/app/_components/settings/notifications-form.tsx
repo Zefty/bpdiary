@@ -18,52 +18,48 @@ import { Switch } from "../shadcn/switch";
 import { Checkbox } from "../shadcn/checkbox";
 import { Button } from "../shadcn/button";
 import { useForm } from "react-hook-form";
+import { Label } from "../shadcn/label";
+import {
+  notificationsFormSchema,
+  NotificationsFormValues,
+  ServerActionSuccess,
+} from "~/lib/types";
+import { UpdateNotifications } from "~/server/actions/server-actions";
+import { useServerAction } from "~/app/_hooks/use-server-action";
 
-const notificationsFormSchema = z.object({
-  type: z.enum(["all", "bp", "med", "none"], {
-    required_error: "You need to select a notification type.",
-  }),
-  mobile: z.boolean().default(false).optional(),
-  app: z.boolean().default(false).optional(),
-  email: z.boolean().default(false).optional(),
-});
-
-type NotificationsFormValues = z.infer<typeof notificationsFormSchema>;
-
-// This can come from your database or API.
-const defaultValues: Partial<NotificationsFormValues> = {
-  type: "all",
-  app: true,
-  email: false,
-};
-
-export function NotificationsForm() {
+export function NotificationsForm({
+  notificationSettings,
+}: {
+  notificationSettings: NotificationsFormValues;
+}) {
   const form = useForm<NotificationsFormValues>({
     resolver: zodResolver(notificationsFormSchema),
-    defaultValues,
+    defaultValues: notificationSettings,
   });
+  const [action, isRunning] = useServerAction(UpdateNotifications);
 
-  function onSubmit(data: NotificationsFormValues) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  async function submit(data: NotificationsFormValues) {
+    const response = await action(data);
+    if (response === ServerActionSuccess) {
+      toast({
+        description: "Your notification settings has been updated.",
+      });
+    }
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(submit)}
+        className="flex flex-col gap-6"
+      >
         <FormField
           control={form.control}
-          name="type"
+          name="toggle"
           render={({ field }) => (
             <FormItem className="space-y-3">
               <FormLabel>Notify and remind me about...</FormLabel>
-              <FormControl>
+              <FormControl className="mt-2">
                 <RadioGroup
                   onValueChange={field.onChange}
                   defaultValue={field.value}
@@ -106,7 +102,7 @@ export function NotificationsForm() {
           )}
         />
         <div>
-          <h3 className="mb-4 text-lg font-medium">Notification Types</h3>
+          <Label>Notification Types</Label>
           <div className="space-y-4">
             <FormField
               control={form.control}
@@ -114,7 +110,7 @@ export function NotificationsForm() {
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
-                    <FormLabel className="text-base">Application</FormLabel>
+                    <FormLabel>Application</FormLabel>
                     <FormDescription>
                       Notify me through the app.
                     </FormDescription>
@@ -134,7 +130,7 @@ export function NotificationsForm() {
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
-                    <FormLabel className="text-base">Email</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormDescription>
                       Receive emails for reminders.
                     </FormDescription>
@@ -154,7 +150,7 @@ export function NotificationsForm() {
           control={form.control}
           name="mobile"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-y-0 space-x-3">
+            <FormItem className="flex flex-row items-center space-y-0 space-x-3">
               <FormControl>
                 <Checkbox
                   checked={field.value}
@@ -173,7 +169,9 @@ export function NotificationsForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Update notifications</Button>
+        <Button type="submit" className="w-[12rem]" disabled={isRunning}>
+          Update notifications
+        </Button>
       </form>
     </Form>
   );
