@@ -17,9 +17,9 @@ export default function CalendarShare() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="gap-2">
+        <Button className="gap-2" disabled>
           <Send width="1.5em" height="1.5em" />
-          <span className="hidden xs:flex">Share</span>
+          <span className="xs:flex hidden">Share</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="w-[30rem]">
@@ -35,17 +35,17 @@ export default function CalendarShare() {
             />
             <Button className="col-span-1 gap-2">
               <Send width="1.5em" height="1.5em" />
-              <span className="hidden xs:flex">Invite</span>
+              <span className="xs:flex hidden">Invite</span>
             </Button>
           </div>
           <Label htmlFor="username" className="text-left">
             People with access
           </Label>
-          <div className="grid h-[5rem] grid-cols-4 items-center gap-4 rounded-md bg-muted"></div>
+          <div className="bg-muted grid h-[5rem] grid-cols-4 items-center gap-4 rounded-md"></div>
           <Label htmlFor="username" className="text-left">
             General access
           </Label>
-          <div className="grid h-[5rem] grid-cols-4 items-center gap-4 rounded-md bg-muted"></div>
+          <div className="bg-muted grid h-[5rem] grid-cols-4 items-center gap-4 rounded-md"></div>
         </div>
         <DialogFooter>
           <Button type="submit">Copy link</Button>

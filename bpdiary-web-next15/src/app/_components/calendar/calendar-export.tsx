@@ -16,9 +16,9 @@ export default function CalendarExport() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="gap-2">
+        <Button className="gap-2" disabled>
           <Download width="1.5em" height="1.5em" />
-          <span className="hidden xs:flex">Export</span>
+          <span className="xs:flex hidden">Export</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -33,11 +33,11 @@ export default function CalendarExport() {
           <Label htmlFor="username" className="text-left">
             Choose your preferred format
           </Label>
-          <div className="grid h-[5rem] grid-cols-4 items-center gap-4 rounded-md bg-muted"></div>
+          <div className="bg-muted grid h-[5rem] grid-cols-4 items-center gap-4 rounded-md"></div>
           <Label htmlFor="username" className="text-left">
             General access
           </Label>
-          <div className="grid h-[5rem] grid-cols-4 items-center gap-4 rounded-md bg-muted"></div>
+          <div className="bg-muted grid h-[5rem] grid-cols-4 items-center gap-4 rounded-md"></div>
         </div>
         <DialogFooter>
           <Button type="submit">Download</Button>
