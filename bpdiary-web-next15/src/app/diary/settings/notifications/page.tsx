@@ -35,7 +35,7 @@ export default async function Notifications() {
           pressure and/or taking your medication.
         </p>
       </div>
-      <Separator className="h-[0.125rem] w-[35rem]" />
+      <Separator className="desktop:w-[35rem] h-[0.125rem]" />
       <NotificationsForm notificationSettings={notificationSettings} />
     </div>
   );

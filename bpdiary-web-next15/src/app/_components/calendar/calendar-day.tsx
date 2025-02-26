@@ -27,10 +27,10 @@ export default function CalendarDay(props: DayProps) {
       <div className="mt-2">{props.day.date.getDate()}</div>
       {cellData && (
         <>
-          <div className="flex h-full items-center [@media(min-height:700px)]:hidden">
+          <div className="desktop:hidden mobile:flex h-full items-center">
             <HeartPulse className="text-primary h-[1.5rem] w-[1.5rem]" />
           </div>
-          <div className="text-muted-foreground my-2 hidden h-full flex-col justify-center gap-2 text-xs [@media(min-height:700px)]:flex">
+          <div className="text-muted-foreground desktop:flex mobile:hidden my-2 h-full flex-col justify-center gap-2 text-xs">
             <div className="flex items-center gap-2">
               <Gauge className="text-primary h-[1.5rem] w-[1.5rem]" />
               <span className="flex flex-col">

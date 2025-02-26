@@ -55,9 +55,7 @@ export default function MeasurementsChart() {
           <div className="text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-md bg-blue-100">
             <LineChart className="h-[1.5rem] w-[1.5rem] text-blue-500" />
           </div>
-          <CardTitle className="max-desktop:block hidden text-lg">
-            Meas.
-          </CardTitle>
+          <CardTitle className="mobile:block hidden text-lg">Meas.</CardTitle>
           <CardTitle className="desktop:block hidden text-lg">
             Measurements
           </CardTitle>

@@ -46,7 +46,7 @@ export default function BpChart() {
           <div className="text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-md bg-red-100">
             <Activity className="text-primary h-[1.5rem] w-[1.5rem]" />
           </div>
-          <CardTitle className="max-desktop:block hidden text-lg">
+          <CardTitle className="mobile:block hidden text-lg">
             Blood P.
           </CardTitle>
           <CardTitle className="desktop:block hidden text-lg">

@@ -72,7 +72,7 @@ export default function RemindersView({
 }) {
   const [deleteMode, setDeleteMode] = useState(false);
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex h-full flex-col gap-6">
       <BaseHeader className="flex justify-between px-0">
         <h3 className="text-lg font-medium">{header}</h3>
         <div className="flex gap-2">
@@ -104,7 +104,7 @@ export default function RemindersView({
       </BaseHeader>
       <div className="relative flex-1">
         <div className="absolute top-0 right-0 bottom-0 left-0">
-          <ScrollArea className="h-full overflow-y-auto">
+          <ScrollArea className="h-full">
             {fields.length > 0 ? (
               <div className="flex flex-col gap-4">
                 {fields.map((field, index) => (

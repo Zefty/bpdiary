@@ -18,7 +18,7 @@ export default function CalendarView() {
       selected={calendarContext.selectedDate}
       onSelect={calendarContext.setSelectedDate}
       classNames={{
-        [UI.Root]: tw`laptop:border-b-0 h-full border-b-[0.15rem]`,
+        [UI.Root]: tw`desktop:border-b-0 h-full border-b-[0.15rem]`,
 
         [UI.MonthCaption]: tw`hidden`,
         [UI.MonthGrid]: tw`h-full`,

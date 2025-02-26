@@ -10,7 +10,7 @@ export default async function Appearance() {
           Customize the theme of the app.
         </p>
       </div>
-      <Separator className="h-[0.125rem] w-[35rem]" />
+      <Separator className="desktop:w-[35rem] h-[0.125rem]" />
       <AppearanceForm />
     </div>
   );

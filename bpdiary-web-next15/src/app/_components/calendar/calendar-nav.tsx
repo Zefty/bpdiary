@@ -24,7 +24,10 @@ export default function CalendarNav(props: NavProps) {
     <div className="flex flex-col items-center">
       <BaseHeader className="flex justify-between">
         <LogBpFormProvider>
-          <SidebarTrigger variant="default" className="h-10 px-6 py-2" />
+          <SidebarTrigger
+            variant="default"
+            className="desktop:hidden mobile:flex h-10 px-6 py-2"
+          />
           <LogBpFormTrigger />
           <CalendarShare />
           <CalendarExport />
@@ -34,7 +37,7 @@ export default function CalendarNav(props: NavProps) {
             </Button>
             <Button onClick={resetToToday}>
               <Calendar1 width="1.5em" height="1.5em" />
-              <span className="laptop:block hidden">Today</span>
+              <span className="desktop:block hidden">Today</span>
             </Button>
             <Button onClick={props.onNextClick}>
               <ChevronRight width="1.5em" height="1.5em" />

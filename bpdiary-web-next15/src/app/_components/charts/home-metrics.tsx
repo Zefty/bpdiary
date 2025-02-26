@@ -6,7 +6,7 @@ import { ScrollArea, ScrollBar } from "../shadcn/scroll-area";
 
 export default function HomeMetrics({ className }: { className?: string }) {
   return (
-    <ScrollArea className="laptop:w-full h-full">
+    <ScrollArea className="h-full">
       <div className={className}>
         <BpChart />
         <HeartRateChart />

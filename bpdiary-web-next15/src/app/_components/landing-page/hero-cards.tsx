@@ -16,7 +16,7 @@ import { auth } from "~/server/auth";
 export const HeroCards = async () => {
   const session = await auth();
   return (
-    <div className="laptop:flex relative hidden h-[31.25rem] w-[43.75rem] flex-row flex-wrap gap-8">
+    <div className="desktop:flex relative hidden h-[31.25rem] w-[43.75rem] flex-row flex-wrap gap-8">
       {/* Testimonial */}
       <Card className="absolute -top-[1.5rem] w-[21.25rem] shadow-black/10 drop-shadow-xl dark:shadow-white/10">
         <CardHeader className="flex flex-row items-center gap-4 pb-2">

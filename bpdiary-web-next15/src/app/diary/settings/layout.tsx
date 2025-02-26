@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import SettingsNav from "~/app/_components/navigation/settings-nav";
 import { Separator } from "~/app/_components/shadcn/separator";
+import { SidebarTrigger } from "~/app/_components/shadcn/sidebar";
 
 export const metadata: Metadata = {
   title: "Forms",
@@ -32,9 +33,15 @@ export default function SettingsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="laptop:block hidden px-20 pt-10 pb-16">
+    <div className="desktop:px-20 desktop:pt-10 desktop:pb-16 mobile:px-5 mobile:pt-5 mobile:pb-8">
       <div>
-        <h2 className="text-2xl font-bold">Settings</h2>
+        <div className="flex items-center gap-4">
+          <SidebarTrigger
+            variant="default"
+            className="mobile:flex hidden h-10 px-6 py-2"
+          />
+          <h2 className="text-2xl font-bold">Settings</h2>
+        </div>
         <p className="text-muted-foreground">
           Manage your account settings and set preferences.
         </p>

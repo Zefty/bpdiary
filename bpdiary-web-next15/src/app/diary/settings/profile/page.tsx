@@ -13,7 +13,7 @@ export default async function Profile() {
           Update your profile and set your preferred timezone.
         </p>
       </div>
-      <Separator className="h-[0.125rem] w-[35rem]" />
+      <Separator className="desktop:w-[35rem] h-[0.125rem]" />
       <ProfileForm user={session?.user as AdapterUser} />
     </div>
   );

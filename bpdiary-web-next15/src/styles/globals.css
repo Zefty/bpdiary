@@ -4,17 +4,21 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* @custom-variant mobile {
-  @media screen and (aspect-ratio < 1) {
+@custom-variant mobile {
+  @media screen and (orientation: portrait) {
     @slot
   }
-}; */
+};
+
+@custom-variant desktop {
+  @media screen and (orientation: landscape) {
+    @slot
+  }
+};
 
 @theme {
   /* --breakpoint-*: initial; */
-  --breakpoint-foo: 1234px;
-  --breakpoint-xxs: 360px;
-  --breakpoint-laptop: 1024px;
+  /* --breakpoint-laptop: 1024px; */
   --breakpoint-desktop: 1800px;
 
   --font-sans:

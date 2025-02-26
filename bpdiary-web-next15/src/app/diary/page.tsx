@@ -28,18 +28,18 @@ export default async function DiaryHomePage() {
   return (
     <HydrateClient>
       <div className="grid h-screen grid-cols-3 grid-rows-1">
-        <div className="laptop:px-[5rem] col-span-5 flex flex-col items-center gap-10 px-6 py-10 shadow-xs md:col-span-2">
+        <div className="desktop:px-[5rem] desktop:col-span-2 desktop:py-10 mobile:py-6 col-span-5 flex flex-col items-center gap-10 px-6 shadow-xs">
           <HomeHeader />
           <div className="grid h-full w-full grid-rows-3 gap-10">
             <div className="row-span-1">
-              <HomeMetrics className="laptop:grid laptop:grid-cols-3 laptop:grid-rows-1 laptop:w-full laptop:pb-0 flex h-full max-w-[calc(100vw_-_3rem)] gap-6 pb-4" />
+              <HomeMetrics className="desktop:grid desktop:grid-cols-3 desktop:grid-rows-1 desktop:w-full desktop:pb-0 flex h-full max-w-[calc(100vw_-_3rem)] gap-6 pb-4" />
             </div>
             <div className="row-span-2">
               <BpStockChart />
             </div>
           </div>
         </div>
-        <div className="relative hidden w-full md:block">
+        <div className="desktop:block relative hidden w-full">
           <div className="absolute top-0 right-0 bottom-0 left-0">
             <InfiniteFeed />
           </div>

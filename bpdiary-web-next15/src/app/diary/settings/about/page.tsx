@@ -7,7 +7,7 @@ export default function AboutAndSupport() {
           Reach out to us for any questions or feedback.
         </p>
       </div>
-      <p className="w-[50rem]">
+      <p className="desktop:w-[50rem]">
         This is a simple and user-friendly hobby project designed to help you
         keep tabs on your blood pressure without hassle.
         <br />

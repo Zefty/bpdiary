@@ -48,7 +48,7 @@ export default function HeartRateChart() {
           <div className="text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-md bg-teal-100">
             <HeartPulse className="h-[1.5rem] w-[1.5rem] text-teal-500" />
           </div>
-          <CardTitle className="max-desktop:block hidden text-lg">
+          <CardTitle className="mobile:block hidden text-lg">
             Heart R.
           </CardTitle>
           <CardTitle className="desktop:block hidden text-lg">

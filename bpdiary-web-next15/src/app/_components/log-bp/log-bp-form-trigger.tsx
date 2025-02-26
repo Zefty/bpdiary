@@ -32,7 +32,7 @@ export default function LogBpFormTrigger() {
       }}
     >
       <CalendarPlus2 className="h-[1.5rem] w-[1.5rem]" />
-      <span className="laptop:flex hidden">New Reading</span>
+      <span className="desktop:flex hidden">New Reading</span>
     </Button>
   );
 }

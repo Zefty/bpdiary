@@ -17,7 +17,7 @@ export default function CalendarShare() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="gap-2" disabled>
+        <Button className="mobile:hidden gap-2" disabled>
           <Send width="1.5em" height="1.5em" />
           <span className="xs:flex hidden">Share</span>
         </Button>
