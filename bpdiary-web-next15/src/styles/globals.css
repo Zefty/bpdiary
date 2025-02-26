@@ -235,3 +235,30 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* HeroCards background shadow */
+.shadow {
+  position: absolute;
+  background: hsl(var(--primary) / 0%);
+  border-radius: 1.5rem;
+  rotate: 35deg;
+  z-index: -1;
+  width: 16rem;
+  top: 20rem;
+  height: 25rem;
+  filter: blur(10rem);
+  will-change: transform;
+  animation: shadow-slide infinite 4s linear alternate;
+}
+
+@keyframes shadow-slide {
+  from {
+    background: hsl(var(--primary) / 20%);
+    right: 30rem;
+  }
+
+  to {
+    background: hsl(var(--primary) / 80%);
+    right: 20rem;
+  }
+}

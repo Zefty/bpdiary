@@ -9,7 +9,7 @@ export default function AboutAndSupport() {
       </div>
       <p className="w-[50rem]">
         This is a simple and user-friendly hobby project designed to help you
-        keep tabs on your blood pressure without the hassle.
+        keep tabs on your blood pressure without hassle.
         <br />
         <br />
         Whether you're monitoring for health reasons or just staying informed,
