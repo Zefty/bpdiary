@@ -4,12 +4,10 @@ import { Calendar1, ChevronLeft, ChevronRight } from "lucide-react";
 import { format } from "date-fns";
 import { useBpCalendarContext } from "~/app/_contexts/bpCaldendarContext";
 import { cn } from "~/lib/utils";
-import CalendarHeader from "./calendar-header";
 import BaseHeader from "../header/base-header";
 import LogBpFormTrigger from "../log-bp/log-bp-form-trigger";
 import CalendarExport from "./calendar-export";
 import CalendarShare from "./calendar-share";
-import { Separator } from "../shadcn/separator";
 import { SidebarTrigger } from "../shadcn/sidebar";
 import { LogBpFormProvider } from "~/app/_contexts/bpEntryContext";
 

@@ -33,23 +33,22 @@ export default function SettingsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="desktop:px-20 desktop:pt-10 desktop:pb-16 mobile:px-5 mobile:pt-5 mobile:pb-8">
-      <div>
-        <div className="flex items-center gap-4">
-          <SidebarTrigger
-            variant="default"
-            className="mobile:flex hidden h-10 px-6 py-2"
-          />
-          <h2 className="text-2xl font-bold">Settings</h2>
-        </div>
-        <p className="text-muted-foreground">
+    <div className="desktop:px-20 desktop:pt-10 desktop:pb-16 flex h-full flex-col p-6">
+      <div className="desktop:flex-col desktop:items-start flex items-center">
+        <SidebarTrigger
+          variant="default"
+          className="mobile:flex hidden h-10 px-6 py-2"
+        />
+        <h2 className="desktop:text-start w-full text-center text-2xl font-bold">
+          Settings
+        </h2>
+        <p className="desktop:block text-muted-foreground hidden">
           Manage your account settings and set preferences.
         </p>
       </div>
-      <aside className="my-2 -ml-2">
+      <aside className="mb-6 -ml-2">
         <SettingsNav items={sidebarNavItems} />
       </aside>
-      <Separator className="mb-8 h-[0.15rem]" />
       <div className="w-full flex-1">{children}</div>
     </div>
   );

@@ -29,9 +29,7 @@ export const Hero = async () => {
           keep tabs on your blood pressure without hassle.
         </p>
 
-        <div className="space-y-4 md:space-y-0 md:space-x-4">
-          {!session && <SignIn />}
-        </div>
+        <div className="mb-10 md:space-x-4">{!session && <SignIn />}</div>
       </div>
 
       {/* Hero cards sections */}

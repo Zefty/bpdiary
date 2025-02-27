@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Area,
-  AreaChart,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Area, AreaChart, XAxis, YAxis } from "recharts";
 import {
   Card,
   CardContent,
@@ -26,6 +21,8 @@ import { Label } from "../shadcn/label";
 import { useState } from "react";
 import { endOfDay, startOfDay, startOfYear, subDays } from "date-fns";
 import { Button } from "../shadcn/button";
+import { Popover, PopoverContent, PopoverTrigger } from "../shadcn/popover";
+import { ChevronDown } from "lucide-react";
 
 export const description = "A linear line chart";
 
@@ -105,20 +102,36 @@ export default function BpStockChart() {
 
   return (
     <Card className="flex h-full w-full flex-col border-none shadow-none">
-      <CardHeader className="flex flex-col items-stretch space-y-0 p-0 sm:flex-row">
+      <CardHeader className="flex flex-row items-stretch space-y-0 p-0">
         <div className="bg-muted mr-auto flex items-center gap-1 rounded-lg px-2 py-2 sm:py-2">
           <CardTitle>Blood Pressure</CardTitle>
         </div>
-        {/* <div className="bg-muted mx-auto flex items-center rounded-lg">
-          <span className="px-4 font-semibold">Feb</span>
-        </div> */}
-        <div className="flex">
+        <Popover>
+          <PopoverTrigger className="desktop:hidden flex w-[3rem] items-center justify-center rounded-lg border">
+            <ChevronDown />
+          </PopoverTrigger>
+          <PopoverContent className="flex p-2" align="end">
+            {TIMEFRAMES.map((chart) => {
+              return (
+                <Button
+                  key={chart}
+                  data-active={timeframe === chart}
+                  className="hover:bg-muted data-[active=true]:bg-muted flex h-12 w-12 flex-1 flex-col justify-center gap-1 rounded-lg bg-transparent text-center"
+                  onClick={() => setTimeframe(chart)}
+                >
+                  <span className="text-muted-foreground text-xs">{chart}</span>
+                </Button>
+              );
+            })}
+          </PopoverContent>
+        </Popover>
+        <div className="mobile:hidden desktop:flex">
           {TIMEFRAMES.map((chart) => {
             return (
               <Button
                 key={chart}
                 data-active={timeframe === chart}
-                className="bg-transparent hover:bg-muted data-[active=true]:bg-muted flex h-12 w-12 flex-1 flex-col justify-center gap-1 rounded-lg text-center"
+                className="hover:bg-muted data-[active=true]:bg-muted flex h-12 w-12 flex-1 flex-col justify-center gap-1 rounded-lg bg-transparent text-center"
                 onClick={() => setTimeframe(chart)}
               >
                 <span className="text-muted-foreground text-xs">{chart}</span>
@@ -129,68 +142,11 @@ export default function BpStockChart() {
       </CardHeader>
       <CardContent className="flex-1 px-0 py-6">
         <ChartContainer config={chartConfig} className="h-full w-full">
-          {/* <LineChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              left: -18,
-              right: 12,
-              top: 12,
-            }}
-          >
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="line" />}
-            />
-            <XAxis
-              dataKey="date"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={16}
-              tickFormatter={(value: Date) =>
-                `${value.getDate()} ${DateMonthShortFormat.format(value)}`
-              }
-              interval="equidistantPreserveStart"
-              angle={-45}
-              height={45}
-            />
-            <YAxis tickLine={false} axisLine={false} tickMargin={8} />
-            {
-              <Line
-                dataKey={visibility.systolic ? "systolic" : ""}
-                type="natural"
-                stroke="var(--color-systolic)"
-                strokeWidth={2}
-                dot={false}
-                key={`systolic-${visibility.systolic}-${timeframe}`}
-              />
-            }
-            {
-              <Line
-                dataKey={visibility.diastolic ? "diastolic" : ""}
-                type="natural"
-                stroke="var(--color-diastolic)"
-                strokeWidth={2}
-                dot={false}
-                key={`diastolic-${visibility.diastolic}-${timeframe}`}
-              />
-            }
-            {
-              <Line
-                dataKey={visibility.pulse ? "pulse" : ""}
-                type="natural"
-                stroke="var(--color-pulse)"
-                strokeWidth={2}
-                dot={false}
-                key={`pulse-${visibility.pulse}-${timeframe}`}
-              />
-            }
-          </LineChart> */}
           <AreaChart
             accessibilityLayer
             data={chartData}
             margin={{
-              left: -18,
+              left: -16,
               right: 12,
               top: 12,
             }}
@@ -311,12 +267,12 @@ export default function BpStockChart() {
           </AreaChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex space-x-2">
+      <CardFooter className="flex-col items-start gap-2 p-0 text-sm">
+        <div className="flex gap-2">
           {Object.keys(chartConfig).map((key) => {
             const keyTyped = key as ChartTypes;
             return (
-              <div key={key} className="flex items-center space-x-2">
+              <div key={key} className="flex items-center gap-2">
                 <Switch
                   id={key.toLocaleLowerCase()}
                   className={cn(
