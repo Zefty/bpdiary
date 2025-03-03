@@ -1,10 +1,11 @@
 import { auth } from "~/server/auth";
 import LogBpFormTrigger from "../log-bp/log-bp-form-trigger";
 import BaseHeader from "./base-header";
-import { Button } from "../shadcn/button";
+import { Button, buttonVariants } from "../shadcn/button";
 import { Bell } from "lucide-react";
 import { LogBpFormProvider } from "~/app/_contexts/bpEntryContext";
 import { SidebarTrigger } from "../shadcn/sidebar";
+import { cn } from "~/lib/utils";
 
 export default async function HomeHeader() {
   const session = await auth();
@@ -13,15 +14,17 @@ export default async function HomeHeader() {
       <LogBpFormProvider>
         <div className="flex w-full items-start justify-start gap-2">
           <SidebarTrigger
-            variant="default"
-            className="desktop:hidden mobile:flex mr-auto h-10 px-6 py-2"
+            className={cn(
+              "desktop:hidden mobile:flex mr-auto",
+              buttonVariants({ size: "circular", variant: "muted" }),
+            )}
           />
           <h1 className="mobile:hidden desktop:text-[2.5rem] mr-auto align-middle text-3xl leading-none font-semibold tracking-tight">
             {Greeting()}, {session?.user?.name?.split(" ")[0]}!
           </h1>
-          <LogBpFormTrigger />
-          <Button>
-            <Bell className="h-[1.5rem] w-[1.5rem]" />
+          <LogBpFormTrigger variant="muted" size="circular" />
+          <Button variant="muted" size="circular">
+            <Bell className="size-[1.5rem]" />
           </Button>
         </div>
         <h1 className="mobile:text-[1.5rem] desktop:hidden mr-auto pt-4 align-middle text-3xl leading-none font-semibold tracking-tight">

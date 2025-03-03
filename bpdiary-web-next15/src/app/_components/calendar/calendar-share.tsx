@@ -12,12 +12,20 @@ import { Label } from "../shadcn/label";
 import { Button } from "../shadcn/button";
 import { Send } from "lucide-react";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { cn } from "~/lib/utils";
 
-export default function CalendarShare() {
+export default function CalendarShare({
+  className,
+  ...props
+}: React.ComponentProps<typeof Button>) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="mobile:hidden gap-2" disabled>
+        <Button
+          disabled
+          className={cn("mobile:hidden gap-2", className)}
+          {...props}
+        >
           <Send width="1.5em" height="1.5em" />
           <span className="xs:flex hidden">Share</span>
         </Button>

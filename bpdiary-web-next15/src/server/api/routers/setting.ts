@@ -7,26 +7,12 @@ import {
 } from "~/server/api/trpc";
 import { setting } from "~/server/db/schema";
 import { and, eq, isNull, or } from "drizzle-orm";
+import { AdapterUser } from "next-auth";
 
 export const getUserTimezone = async (ctx: TrpcContext) => {
   const defaultTz = "UTC";
   if (!ctx.session) return defaultTz;
-  return (
-    (
-      await ctx.db
-        .select({ value: setting.settingValue })
-        .from(setting)
-        .where(
-          and(
-            eq(setting.userId, ctx.session.user.id),
-            or(
-              eq(setting.settingName, "timezone"),
-              isNull(setting.settingName),
-            ),
-          ),
-        )
-    )[0]?.value ?? defaultTz
-  );
+  return ctx.session.user.timezone ?? defaultTz;
 };
 
 export const settingRouter = createTRPCRouter({

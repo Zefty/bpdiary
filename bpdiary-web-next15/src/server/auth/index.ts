@@ -32,6 +32,7 @@ declare module "next-auth" {
       // ...other properties
       // role: UserRole;
       dob?: Date;
+      timezone?: string;
     } & DefaultSession["user"];
   }
 

@@ -1,17 +1,10 @@
 import {
   User2,
   ChevronUp,
-  ChevronDown,
   Home,
   Calendar,
-  Inbox,
-  Search,
   Settings,
-  HeartPulse,
-  ChartLine,
   LogOut,
-  CreditCard,
-  Sun,
   Droplet,
   AlarmClockPlus,
 } from "lucide-react";
@@ -21,7 +14,6 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -30,13 +22,10 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../shadcn/dropdown-menu";
 import Link from "next/link";
 import { auth } from "~/server/auth";
-import { Separator } from "../shadcn/separator";
-import ThemeToggle from "./theme-toggle";
 import { cn } from "~/lib/utils";
 
 export default async function AppSidebar() {
@@ -50,9 +39,9 @@ export default async function AppSidebar() {
     >
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem className="rouded-md flex flex-row items-center gap-4 p-[1.75rem] duration-200 ease-linear group-data-[collapsible=icon]:justify-normal group-data-[collapsible=icon]:px-0">
-            <div className="bg-primary text-sidebar-primary-foreground flex aspect-square size-12 items-center justify-center rounded-md">
-              <Droplet className="h-[1.75rem] w-[1.75rem] fill-white stroke-[2.25]" />
+          <SidebarMenuItem className="flex flex-row items-center gap-4 p-[1.75rem] duration-200 ease-linear group-data-[collapsible=icon]:justify-normal group-data-[collapsible=icon]:px-0">
+            <div className="bg-primary text-sidebar-primary-foreground flex aspect-square size-12 items-center justify-center rounded-lg">
+              <Droplet className="size-[1.75rem] fill-white stroke-[2.25]" />
             </div>
             <span className="text-3xl font-bold whitespace-nowrap group-data-[collapsible=icon]:hidden">
               BP Diary
@@ -68,7 +57,7 @@ export default async function AppSidebar() {
                 <SidebarMenuButton
                   asChild
                   className={cn(
-                    "group/diary text-muted-foreground h-16 gap-6 pl-8 text-xl font-medium group-data-[collapsible=icon]:size-12! group-data-[collapsible=icon]:pl-[0.75rem]! hover:font-semibold [&>svg]:size-6",
+                    "group/diary text-muted-foreground h-16 gap-6 rounded-full pl-8 text-xl font-medium group-data-[collapsible=icon]:size-12! group-data-[collapsible=icon]:pl-[0.75rem]! hover:font-semibold [&>svg]:size-6",
                     "group-data-[pathname=/diary]:bg-muted group-data-[pathname=/diary]:font-semibold group-data-[pathname=/diary]:text-current",
                   )}
                 >
@@ -84,7 +73,7 @@ export default async function AppSidebar() {
                 <SidebarMenuButton
                   asChild
                   className={cn(
-                    "group/calendar text-muted-foreground h-16 gap-6 pl-8 text-xl font-medium group-data-[collapsible=icon]:size-12! group-data-[collapsible=icon]:pl-[0.75rem]! hover:font-semibold [&>svg]:size-6",
+                    "group/calendar text-muted-foreground h-16 gap-6 rounded-full pl-8 text-xl font-medium group-data-[collapsible=icon]:size-12! group-data-[collapsible=icon]:pl-[0.75rem]! hover:font-semibold [&>svg]:size-6",
                     "group-data-[pathname=/diary/calendar]:bg-muted group-data-[pathname=/diary/calendar]:font-semibold group-data-[pathname=/diary/calendar]:text-current",
                   )}
                 >
@@ -100,7 +89,7 @@ export default async function AppSidebar() {
                 <SidebarMenuButton
                   asChild
                   className={cn(
-                    "group/reminders text-muted-foreground h-16 gap-6 pl-8 text-xl font-medium group-data-[collapsible=icon]:size-12! group-data-[collapsible=icon]:pl-[0.75rem]! hover:font-semibold [&>svg]:size-6",
+                    "group/reminders text-muted-foreground h-16 gap-6 rounded-full pl-8 text-xl font-medium group-data-[collapsible=icon]:size-12! group-data-[collapsible=icon]:pl-[0.75rem]! hover:font-semibold [&>svg]:size-6",
                     "group-data-[pathname=/diary/reminders]:bg-muted group-data-[pathname=/diary/reminders]:font-semibold group-data-[pathname=/diary/reminders]:text-current",
                   )}
                 >
@@ -116,7 +105,7 @@ export default async function AppSidebar() {
                 <SidebarMenuButton
                   asChild
                   className={cn(
-                    "group/settings text-muted-foreground h-16 gap-6 pl-8 text-xl font-medium group-data-[collapsible=icon]:size-12! group-data-[collapsible=icon]:pl-[0.75rem]! hover:font-semibold [&>svg]:size-6",
+                    "group/settings text-muted-foreground h-16 gap-6 rounded-full pl-8 text-xl font-medium group-data-[collapsible=icon]:size-12! group-data-[collapsible=icon]:pl-[0.75rem]! hover:font-semibold [&>svg]:size-6",
                     "group-data-[pathname^=/diary/settings]:bg-muted group-data-[pathname^=/diary/settings]:font-semibold group-data-[pathname^=/diary/settings]:text-current",
                   )}
                 >
@@ -137,7 +126,7 @@ export default async function AppSidebar() {
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className="group-data-[collapsible=icon]: h-16 gap-6 px-8 text-xl font-medium group-data-[collapsible=icon]:size-12! group-data-[collapsible=icon]:pl-[0.75rem]! [&>svg]:size-6">
+                <SidebarMenuButton className="group-data-[collapsible=icon]: h-16 gap-6 rounded-full px-8 text-xl font-medium group-data-[collapsible=icon]:size-12! group-data-[collapsible=icon]:pl-[0.75rem]! [&>svg]:size-6">
                   <User2 className="stroke-[2.75]" />
                   <span className="font-semibold whitespace-nowrap group-data-[collapsible=icon]:hidden">
                     {session?.user?.name}
@@ -147,14 +136,12 @@ export default async function AppSidebar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 side="top"
-                className="w-(--radix-popper-anchor-width) min-w-[230px]"
+                className="w-(--radix-popper-anchor-width) min-w-[230px] rounded-full"
                 align="start"
               >
-                {/* <ThemeToggle className="text-muted-foreground h-16 gap-6 pl-8 text-xl font-medium hover:font-semibold [&>svg]:size-6 [&>svg]:stroke-2" /> */}
-                {/* <Separator className="m-auto my-1 w-[calc(100%-1rem)]" /> */}
                 <SidebarMenuButton
                   asChild
-                  className="group/signout text-muted-foreground h-16 gap-6 pl-8 text-xl font-medium hover:font-semibold [&>svg]:size-6"
+                  className="group/signout text-muted-foreground h-16 gap-6 rounded-full pl-8 text-xl font-medium hover:font-semibold [&>svg]:size-6"
                 >
                   <Link href="/api/auth/signout">
                     <LogOut className="stroke-[2.25] group-hover/signout:stroke-[2.75]" />

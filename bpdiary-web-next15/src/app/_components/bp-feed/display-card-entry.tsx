@@ -17,7 +17,7 @@ export default function DisplayCardEntry({
   return (
     <div className="group px-4 py-2 hover:cursor-pointer">
       <div
-        className="bg-muted hover:bg-accent rounded-md px-6 py-6"
+        className="bg-muted hover:bg-accent rounded-3xl px-6 py-6"
         onClick={() => {
           if (bpEntryContext) {
             bpEntryContext.setBpFormData({
@@ -34,15 +34,9 @@ export default function DisplayCardEntry({
       >
         <div className="flex flex-col justify-between gap-2">
           <div className="flex items-center justify-between">
-            <span className="font-medium">{`${entry.measuredAt.toDateString()}, ${entry.measuredAt.toLocaleTimeString("en-us").toUpperCase()}`}</span>
-            <Button
-              variant="outline"
-              className="h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
-            >
-              <ChevronRight width="1.5em" height="1.5em" />
-            </Button>
+            <span className="truncate font-medium">{`${entry.measuredAt.toDateString()}, ${entry.measuredAt.toLocaleTimeString("en-us").toUpperCase()}`}</span>
           </div>
-          <div className="text-muted-foreground mb-2 flex items-center justify-between gap-2">
+          <div className="text-muted-foreground flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <Gauge className="text-primary" width="1.5em" height="1.5em" />
               <span className="font-medium">
@@ -59,8 +53,8 @@ export default function DisplayCardEntry({
             </div>
           </div>
         </div>
-        <div className="text-sm">
-          <span className="font-medium underline underline-offset-2">
+        <div className="pt-2 text-sm">
+          <span className="text-muted-foreground font-medium underline underline-offset-2">
             Notes:
           </span>
           <Note note={entry.notes} className="text-muted-foreground" />

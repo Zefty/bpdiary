@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  BellPlus,
-  Bold,
-  Italic,
-  PencilOff,
-  Trash2,
-  Underline,
-} from "lucide-react";
+import { BellPlus, PencilOff, Trash2 } from "lucide-react";
 import BaseHeader from "../header/base-header";
 import { Button } from "../shadcn/button";
 import { ScrollArea } from "../shadcn/scroll-area";
@@ -27,7 +20,6 @@ import {
 } from "react-hook-form";
 import { useState } from "react";
 import { Reminder, RemindersFormValues } from "~/lib/types";
-import { format } from "date-fns";
 import { ToggleGroup, ToggleGroupItem } from "../shadcn/toggle-group";
 import { TimePicker } from "../custom-inputs/time-picker";
 
@@ -74,13 +66,17 @@ export default function RemindersView({
   return (
     <div className="flex h-full flex-col gap-6">
       <BaseHeader className="flex justify-between px-0">
-        <h3 className="text-lg font-medium">{header}</h3>
+        <div className="bg-muted flex h-12 min-w-0 items-center rounded-full">
+          <h3 className="truncate px-4 text-lg font-medium">{header}</h3>
+        </div>
         <div className="flex gap-2">
-          <Button onClick={() => setDeleteMode(!deleteMode)} type="button">
+          <Button
+            onClick={() => setDeleteMode(!deleteMode)}
+            type="button"
+            variant="muted"
+            size="circular"
+          >
             <Trash2 width="1.5em" height="1.5em" />
-          </Button>
-          <Button type="button">
-            <PencilOff width="1.5em" height="1.5em" />
           </Button>
           <Button
             onClick={() =>
@@ -97,6 +93,8 @@ export default function RemindersView({
               })
             }
             type="button"
+            variant="muted"
+            size="circular"
           >
             <BellPlus width="1.5em" height="1.5em" />
           </Button>

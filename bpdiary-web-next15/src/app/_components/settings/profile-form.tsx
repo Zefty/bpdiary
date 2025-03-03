@@ -46,7 +46,7 @@ export function ProfileForm({ user }: { user?: AdapterUser }) {
   const defaultValues: Partial<ProfileFormValues> = {
     name: user?.name ?? undefined,
     email: user?.email ?? undefined,
-    dob: user?.dob ?? undefined,
+    dob: user?.dob ? new Date(user.dob) : undefined,
     timezone: user?.timezone ?? undefined,
   };
   const [action, isRunning] = useServerAction(UpdateProfile);
@@ -82,7 +82,7 @@ export function ProfileForm({ user }: { user?: AdapterUser }) {
                   <Input
                     placeholder="Your name"
                     {...field}
-                    className="w-[20rem]"
+                    className="h-12 w-[20rem]"
                   />
                 </FormControl>
                 <FormDescription>
@@ -102,7 +102,7 @@ export function ProfileForm({ user }: { user?: AdapterUser }) {
                   <Input
                     placeholder="Your email"
                     {...field}
-                    className="w-[20rem]"
+                    className="h-12 w-[20rem]"
                     disabled
                   />
                 </FormControl>
@@ -123,7 +123,7 @@ export function ProfileForm({ user }: { user?: AdapterUser }) {
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "w-[17.375rem] pl-3 text-left font-normal",
+                          "h-12 w-[17.375rem] pl-3 text-left font-normal",
                           !field.value && "text-muted-foreground",
                         )}
                       >
@@ -171,7 +171,7 @@ export function ProfileForm({ user }: { user?: AdapterUser }) {
                         variant="outline"
                         role="combobox"
                         className={cn(
-                          "w-[17.375rem] justify-between pl-3",
+                          "h-12 w-[17.375rem] justify-between pl-3",
                           !field.value && "text-muted-foreground",
                         )}
                       >
@@ -227,7 +227,7 @@ export function ProfileForm({ user }: { user?: AdapterUser }) {
         <Button
           type="submit"
           disabled={isRunning}
-          className="mobile:mt-6 w-[12rem]"
+          className="mobile:mt-6 h-12 w-[12rem] rounded-full"
         >
           Update account
         </Button>

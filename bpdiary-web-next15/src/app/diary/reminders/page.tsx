@@ -10,7 +10,7 @@ export default async function Reminders() {
     <div className="desktop:px-20 desktop:pt-10 desktop:pb-16 flex h-full flex-col p-6">
       <div className="desktop:flex-col desktop:items-start mb-6 flex items-center">
         <SidebarTrigger
-          variant="default"
+          variant="muted"
           className="mobile:flex hidden h-10 px-6 py-2"
         />
         <h2 className="desktop:text-start w-full text-center text-2xl font-bold">
@@ -22,7 +22,11 @@ export default async function Reminders() {
         </p>
       </div>
       <RemindersForm reminders={reminders} />
-      <Button type="submit" className="mt-4 w-40" form="reminders">
+      <Button
+        type="submit"
+        className="mt-4 h-12 w-40 rounded-full"
+        form="reminders"
+      >
         Update reminders
       </Button>
     </div>

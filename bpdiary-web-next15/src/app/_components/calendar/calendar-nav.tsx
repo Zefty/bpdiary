@@ -1,5 +1,5 @@
 import { type NavProps } from "react-day-picker";
-import { Button } from "../shadcn/button";
+import { Button, buttonVariants } from "../shadcn/button";
 import { Calendar1, ChevronLeft, ChevronRight } from "lucide-react";
 import { format } from "date-fns";
 import { useBpCalendarContext } from "~/app/_contexts/bpCaldendarContext";
@@ -23,21 +23,31 @@ export default function CalendarNav(props: NavProps) {
       <BaseHeader className="flex justify-between">
         <LogBpFormProvider>
           <SidebarTrigger
-            variant="default"
-            className="desktop:hidden mobile:flex h-10 px-6 py-2"
+            className={cn(
+              "desktop:hidden mobile:flex",
+              buttonVariants({ size: "circular", variant: "muted" }),
+            )}
           />
-          <LogBpFormTrigger />
-          <CalendarShare />
-          <CalendarExport />
+          <LogBpFormTrigger variant="muted" size="circular" />
+          <CalendarShare variant="muted" size="circular" />
+          <CalendarExport variant="muted" size="circular" />
           <div className="ml-auto flex gap-2">
-            <Button onClick={props.onPreviousClick}>
+            <Button
+              onClick={props.onPreviousClick}
+              variant="muted"
+              size="circular"
+            >
               <ChevronLeft width="1.5em" height="1.5em" />
             </Button>
-            <Button onClick={resetToToday}>
+            <Button
+              onClick={resetToToday}
+              variant="muted"
+              className="h-12 rounded-full"
+            >
               <Calendar1 width="1.5em" height="1.5em" />
               <span className="desktop:block hidden">Today</span>
             </Button>
-            <Button onClick={props.onNextClick}>
+            <Button onClick={props.onNextClick} variant="muted" size="circular">
               <ChevronRight width="1.5em" height="1.5em" />
             </Button>
           </div>
@@ -49,7 +59,7 @@ export default function CalendarNav(props: NavProps) {
           props.className,
         )}
       >
-        <div className="bg-muted flex items-center gap-2 rounded-md px-4 py-2">
+        <div className="bg-muted flex items-center gap-2 rounded-full px-4 py-2">
           <span className="text-3xl leading-none font-semibold tracking-tight">
             {format(calendarContext.selectedMonth, "LLLL")}
           </span>

@@ -15,7 +15,7 @@ await seed(db, { bloodPressure }, { count: 100 }).refine((funcs) => ({
   bloodPressure: {
     columns: {
       loggedByUserId: funcs.valuesFromArray({
-        values: ["d928f34a-de46-470d-8c95-369cd5490840"],
+        values: ["b0ff8c78-aa0b-49c0-a959-0fe755ba5b50"],
       }),
       systolic: funcs.int({ minValue: 100, maxValue: 160 }),
       diastolic: funcs.int({ minValue: 70, maxValue: 90 }),

@@ -19,10 +19,11 @@ import { api, RouterOutputs } from "~/trpc/react";
 import { Switch } from "../shadcn/switch";
 import { Label } from "../shadcn/label";
 import { useState } from "react";
-import { endOfDay, startOfDay, startOfYear, subDays } from "date-fns";
-import { Button } from "../shadcn/button";
+import { endOfDay, interval, startOfDay, startOfYear, subDays } from "date-fns";
+import { Button, buttonVariants } from "../shadcn/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../shadcn/popover";
 import { ChevronDown } from "lucide-react";
+import { scaleTime, scaleUtc } from "d3-scale";
 
 export const description = "A linear line chart";
 
@@ -94,29 +95,57 @@ export default function BpStockChart() {
   allChartData.set("All", all.data);
 
   const chartData = allChartData.get(timeframe)?.map((entry) => ({
-    date: entry.measuredAtDate,
+    date: entry.measuredAtDate.valueOf(),
     systolic: Math.ceil(entry.avgSystolic),
     diastolic: Math.ceil(entry.avgDiastolic),
     pulse: Math.ceil(entry.avgPulse),
   }));
 
+  const numOfTicks =
+    (chartData?.length ?? 0) >= 10 ? 10 : (chartData?.length ?? 0);
+
+  console.log(numOfTicks);
+
+  const xAxisFormatter = (value: number | Date) => {
+    const date = new Date(value);
+    return `${date.getDate()} ${DateMonthShortFormat.format(date)}`;
+  };
+
+  const numericValues = chartData?.map((d) => d.date) ?? [];
+  const timeScale = scaleUtc().domain([
+    Math.min(...numericValues),
+    Math.max(...numericValues),
+  ]);
+  const xAxisArgs = {
+    domain: timeScale.domain().map((date) => date.valueOf()),
+    // ticks: timeScale.ticks(10),
+    scale: timeScale,
+    type: "number" as const,
+  };
+
+  console.log(timeScale.ticks(10));
+
   return (
-    <Card className="flex h-full w-full flex-col border-none shadow-none">
+    <Card className="bg-muted flex h-full w-full flex-col rounded-3xl border-none p-4 shadow-none">
       <CardHeader className="flex flex-row items-stretch space-y-0 p-0">
-        <div className="bg-muted mr-auto flex items-center gap-1 rounded-lg px-2 py-2 sm:py-2">
+        <div className="mr-auto flex items-center gap-1 rounded-lg py-2 sm:py-2">
           <CardTitle>Blood Pressure</CardTitle>
         </div>
         <Popover>
-          <PopoverTrigger className="desktop:hidden flex w-[3rem] items-center justify-center rounded-lg border">
-            <ChevronDown />
+          <PopoverTrigger
+            className={cn(
+              "desktop:hidden bg-background flex size-10 items-center justify-center rounded-full border",
+            )}
+          >
+            <ChevronDown className="size-4" />
           </PopoverTrigger>
-          <PopoverContent className="flex p-2" align="end">
+          <PopoverContent className="w-full rounded-full p-2" align="end">
             {TIMEFRAMES.map((chart) => {
               return (
                 <Button
                   key={chart}
                   data-active={timeframe === chart}
-                  className="hover:bg-muted data-[active=true]:bg-muted flex h-12 w-12 flex-1 flex-col justify-center gap-1 rounded-lg bg-transparent text-center"
+                  className="hover:bg-muted data-[active=true]:bg-muted size-10 flex-col justify-center rounded-full bg-transparent text-center"
                   onClick={() => setTimeframe(chart)}
                 >
                   <span className="text-muted-foreground text-xs">{chart}</span>
@@ -125,13 +154,13 @@ export default function BpStockChart() {
             })}
           </PopoverContent>
         </Popover>
-        <div className="mobile:hidden desktop:flex">
+        <div className="mobile:hidden desktop:flex bg-background gap-2 rounded-full p-2">
           {TIMEFRAMES.map((chart) => {
             return (
               <Button
                 key={chart}
                 data-active={timeframe === chart}
-                className="hover:bg-muted data-[active=true]:bg-muted flex h-12 w-12 flex-1 flex-col justify-center gap-1 rounded-lg bg-transparent text-center"
+                className="hover:bg-muted data-[active=true]:bg-muted flex size-10 flex-col justify-center rounded-full bg-transparent text-center"
                 onClick={() => setTimeframe(chart)}
               >
                 <span className="text-muted-foreground text-xs">{chart}</span>
@@ -146,14 +175,14 @@ export default function BpStockChart() {
             accessibilityLayer
             data={chartData}
             margin={{
-              left: -16,
+              left: -12,
               right: 12,
               top: 12,
             }}
           >
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent indicator="line" />}
+              content={<ChartTooltipContent indicator="line" labelIsDate />}
             />
             <defs>
               <linearGradient
@@ -217,19 +246,21 @@ export default function BpStockChart() {
             </defs>
             <XAxis
               dataKey="date"
-              tickLine={false}
-              axisLine={false}
-              tick={{ fontSize: "1rem" }}
+              tickLine={true}
+              axisLine={true}
+              tick={{ fontSize: "0.8rem" }}
               tickMargin={16}
-              tickFormatter={(value: Date) =>
-                `${value.getDate()} ${DateMonthShortFormat.format(value)}`
-              }
-              interval="equidistantPreserveStart"
-              // angle={-45}
-              height={45}
+              tickFormatter={xAxisFormatter}
+              // scale="time"
+              // type="number"
+              // domain={["auto", "auto"]}
+              // domain={[chartData?.[0]?.date ?? 0, "dataMax"]}
+              height={35}
+              // interval="equidistantPreserveStart"
+              {...xAxisArgs}
             />
             <YAxis
-              tick={{ fontSize: "1rem" }}
+              tick={{ fontSize: "0.8rem" }}
               tickLine={false}
               axisLine={false}
               tickMargin={8}

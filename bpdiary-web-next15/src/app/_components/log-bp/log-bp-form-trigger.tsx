@@ -5,12 +5,15 @@ import { Button } from "../shadcn/button";
 import { useBpCalendarContext } from "~/app/_contexts/bpCaldendarContext";
 import { set } from "date-fns";
 
-export default function LogBpFormTrigger() {
+export default function LogBpFormTrigger({
+  className,
+  ...props
+}: React.ComponentProps<typeof Button>) {
   const context = useBpEntryContext();
   const calendarContext = useBpCalendarContext();
   return (
     <Button
-      className="flex items-center justify-between gap-3"
+      className={className}
       onClick={() => {
         if (context) {
           const now = new Date();
@@ -30,9 +33,9 @@ export default function LogBpFormTrigger() {
           context.setOpen(!context.open);
         }
       }}
+      {...props}
     >
       <CalendarPlus2 className="h-[1.5rem] w-[1.5rem]" />
-      <span className="desktop:flex hidden">New Reading</span>
     </Button>
   );
 }

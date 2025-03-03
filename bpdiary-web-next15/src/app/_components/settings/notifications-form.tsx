@@ -169,7 +169,11 @@ export function NotificationsForm({
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-[12rem]" disabled={isRunning}>
+        <Button
+          type="submit"
+          className="h-12 w-[12rem] rounded-full"
+          disabled={isRunning}
+        >
           Update notifications
         </Button>
       </form>

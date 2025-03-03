@@ -18,7 +18,7 @@ export const HeroCards = async () => {
   return (
     <div className="desktop:flex relative hidden h-[31.25rem] w-[43.75rem] flex-row flex-wrap gap-8">
       {/* Testimonial */}
-      <Card className="absolute -top-[1.5rem] w-[21.25rem] shadow-black/10 drop-shadow-xl dark:shadow-white/10">
+      <Card className="absolute -top-[1.5rem] w-[21.25rem] rounded-3xl shadow-black/10 drop-shadow-xl dark:shadow-white/10">
         <CardHeader className="flex flex-row items-center gap-4 pb-2">
           <Avatar>
             <AvatarImage alt="" src="https://github.com/shadcn.png" />
@@ -38,7 +38,7 @@ export const HeroCards = async () => {
       </Card>
 
       {/* Team */}
-      <Card className="absolute top-4 right-[1.25rem] flex w-80 flex-col items-center justify-center shadow-black/10 drop-shadow-xl dark:shadow-white/10">
+      <Card className="absolute top-4 right-[1.25rem] flex w-80 flex-col items-center justify-center rounded-3xl shadow-black/10 drop-shadow-xl dark:shadow-white/10">
         <CardHeader className="mt-8 flex items-center justify-center pb-2">
           <img
             src="https://images.aiscribbles.com/1d14b9ba76144261ba3bce1b22b3631a.png?v=e6c995"
@@ -90,11 +90,14 @@ export const HeroCards = async () => {
       </Card>
 
       {/* Pricing */}
-      <Card className="absolute top-[9.375rem] left-[3.125rem] w-72 shadow-black/10 drop-shadow-xl dark:shadow-white/10">
+      <Card className="absolute top-[9.375rem] left-[3.125rem] w-72 rounded-3xl shadow-black/10 drop-shadow-xl dark:shadow-white/10">
         <CardHeader>
           <CardTitle className="item-center flex justify-between">
             Free
-            <Badge variant="secondary" className="text-primary text-sm">
+            <Badge
+              variant="secondary"
+              className="text-primary rounded-full text-sm"
+            >
               Sign up now!
             </Badge>
           </CardTitle>
@@ -127,7 +130,7 @@ export const HeroCards = async () => {
       </Card>
 
       {/* Service */}
-      <Card className="absolute -right-[0.625rem] bottom-[2.5rem] w-[21.875rem] shadow-black/10 drop-shadow-xl dark:shadow-white/10">
+      <Card className="absolute -right-[0.625rem] bottom-[2.5rem] w-[21.875rem] rounded-3xl shadow-black/10 drop-shadow-xl dark:shadow-white/10">
         <CardHeader className="flex items-start justify-start gap-4 space-y-1 md:flex-row">
           <div>
             <CardTitle>Responsive & Optimised!</CardTitle>

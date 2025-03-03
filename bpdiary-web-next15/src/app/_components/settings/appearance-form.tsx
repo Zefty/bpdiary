@@ -127,7 +127,9 @@ export function AppearanceForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Update appearance</Button>
+        <Button type="submit" className="h-12 rounded-full">
+          Update appearance
+        </Button>
       </form>
     </Form>
   );

@@ -113,5 +113,6 @@ const getBloodPressureAdjustedByUserTimezone = async (
     )
     .groupBy(tzAdjusted.measuredAtOffset)
     .orderBy(tzAdjusted.measuredAtOffset);
+
   return data;
 };

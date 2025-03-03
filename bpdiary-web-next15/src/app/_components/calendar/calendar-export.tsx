@@ -11,12 +11,20 @@ import { Input } from "../shadcn/input";
 import { Label } from "../shadcn/label";
 import { Button } from "../shadcn/button";
 import { Download, Send } from "lucide-react";
+import { cn } from "~/lib/utils";
 
-export default function CalendarExport() {
+export default function CalendarExport({
+  className,
+  ...props
+}: React.ComponentProps<typeof Button>) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="mobile:hidden gap-2" disabled>
+        <Button
+          disabled
+          className={cn("mobile:hidden gap-2", className)}
+          {...props}
+        >
           <Download width="1.5em" height="1.5em" />
           <span className="xs:flex hidden">Export</span>
         </Button>

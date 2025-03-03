@@ -29,9 +29,9 @@ export default function CalendarView() {
         [UI.Week]: tw`flex flex-1`,
 
         [UI.Weekdays]: tw`flex py-[0.4375rem]`,
-        [UI.Weekday]: tw`w-full rounded-md font-normal font-semibold`,
+        [UI.Weekday]: tw`w-full font-normal font-semibold`,
 
-        [UI.Day]: tw`mt-2 w-full rounded-md p-0 text-center text-sm`,
+        [UI.Day]: tw`mt-2 w-full rounded-3xl p-0 text-center text-sm`,
 
         [SelectionState.range_end]: tw`day-range-end`,
         [SelectionState.selected]: tw`border-ring bg-accent text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground border-2`,
