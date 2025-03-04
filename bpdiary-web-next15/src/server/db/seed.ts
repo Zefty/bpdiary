@@ -3,19 +3,22 @@ import postgres from "postgres";
 
 import { env } from "~/env";
 import { reset, seed } from "drizzle-seed";
-import { bloodPressure } from "./schema";
+import { bloodPressure, users } from "./schema";
 import { startOfWeek, startOfYear, subYears } from "date-fns";
 
 console.log(env.DATABASE_URL);
 const conn = postgres(env.DATABASE_URL);
 const db = drizzle(conn);
 
+const userIds = (await db.select().from(users)).map(user => user.id);
+console.log(userIds); 
+
 await reset(db, { bloodPressure });
 await seed(db, { bloodPressure }, { count: 100 }).refine((funcs) => ({
   bloodPressure: {
     columns: {
       loggedByUserId: funcs.valuesFromArray({
-        values: ["b0ff8c78-aa0b-49c0-a959-0fe755ba5b50"],
+        values: userIds,
       }),
       systolic: funcs.int({ minValue: 100, maxValue: 160 }),
       diastolic: funcs.int({ minValue: 70, maxValue: 90 }),

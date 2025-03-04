@@ -22,8 +22,9 @@ import { useState } from "react";
 import { endOfDay, interval, startOfDay, startOfYear, subDays } from "date-fns";
 import { Button, buttonVariants } from "../shadcn/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../shadcn/popover";
-import { ChevronDown } from "lucide-react";
+import { CalendarHeart, ChevronDown } from "lucide-react";
 import { scaleTime, scaleUtc } from "d3-scale";
+import { Timeframes, TIMEFRAMES } from "~/lib/types";
 
 export const description = "A linear line chart";
 
@@ -43,11 +44,6 @@ const chartConfig = {
 } satisfies ChartConfig;
 type ChartTypes = keyof typeof chartConfig;
 
-const TIMEFRAMES = ["W", "M", "YTD", "Y", "All"] as const;
-type Timeframes = (typeof TIMEFRAMES)[number];
-
-type DiaryData = RouterOutputs["chart"]["getStockChartData"];
-
 export default function BpStockChart() {
   const initialVisibility = Object.keys(chartConfig).reduce(
     (acc, val) => {
@@ -59,52 +55,19 @@ export default function BpStockChart() {
   const [visibility, setVisibility] = useState(initialVisibility);
   const [timeframe, setTimeframe] = useState<Timeframes>("W");
 
-  const toDate = endOfDay(new Date());
-  const fromLastWeek = startOfDay(subDays(toDate, 7));
-  const fromLastMonth = startOfDay(subDays(toDate, 30));
-  const fromLastYear = startOfDay(subDays(toDate, 365));
-  const fromStartOfYear = startOfYear(toDate);
-  const fromAll = new Date(0);
+  
+  const allChartData = (api.chart.getStockChartData.useQuery()).data;
 
-  const week = api.chart.getStockChartData.useQuery({
-    fromDate: fromLastWeek,
-    toDate,
-  });
-  const month = api.chart.getStockChartData.useQuery({
-    fromDate: fromLastMonth,
-    toDate,
-  });
-  const year = api.chart.getStockChartData.useQuery({
-    fromDate: fromLastYear,
-    toDate,
-  });
-  const ytd = api.chart.getStockChartData.useQuery({
-    fromDate: fromStartOfYear,
-    toDate,
-  });
-  const all = api.chart.getStockChartData.useQuery({
-    fromDate: fromAll,
-    toDate,
-  });
 
-  const allChartData = new Map<Timeframes, DiaryData | undefined>();
-  allChartData.set("W", week.data);
-  allChartData.set("M", month.data);
-  allChartData.set("YTD", ytd.data);
-  allChartData.set("Y", year.data);
-  allChartData.set("All", all.data);
-
-  const chartData = allChartData.get(timeframe)?.map((entry) => ({
+  const chartData = allChartData?.get(timeframe)?.map((entry) => ({
     date: entry.measuredAtDate.valueOf(),
     systolic: Math.ceil(entry.avgSystolic),
     diastolic: Math.ceil(entry.avgDiastolic),
     pulse: Math.ceil(entry.avgPulse),
   }));
 
-  const numOfTicks =
-    (chartData?.length ?? 0) >= 10 ? 10 : (chartData?.length ?? 0);
+  const numOfTicks = ["W", "M"].includes(timeframe) ? 5 : 10;
 
-  console.log(numOfTicks);
 
   const xAxisFormatter = (value: number | Date) => {
     const date = new Date(value);
@@ -118,12 +81,10 @@ export default function BpStockChart() {
   ]);
   const xAxisArgs = {
     domain: timeScale.domain().map((date) => date.valueOf()),
-    // ticks: timeScale.ticks(10),
+    ticks: timeScale.ticks(numOfTicks),
     scale: timeScale,
     type: "number" as const,
   };
-
-  console.log(timeScale.ticks(10));
 
   return (
     <Card className="bg-muted flex h-full w-full flex-col rounded-3xl border-none p-4 shadow-none">
@@ -170,133 +131,146 @@ export default function BpStockChart() {
         </div>
       </CardHeader>
       <CardContent className="flex-1 px-0 py-6">
-        <ChartContainer config={chartConfig} className="h-full w-full">
-          <AreaChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              left: -12,
-              right: 12,
-              top: 12,
-            }}
-          >
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="line" labelIsDate />}
-            />
-            <defs>
-              <linearGradient
-                id="fillSystolicStockChart"
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
-              >
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-systolic)"
-                  stopOpacity={0.4}
-                />
-                <stop
-                  offset="30%"
-                  stopColor="var(--color-systolic)"
-                  stopOpacity={0}
-                />
-              </linearGradient>
-            </defs>
-            <defs>
-              <linearGradient
-                id="fillDiastolicStockChart"
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
-              >
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-diastolic)"
-                  stopOpacity={0.4}
-                />
-                <stop
-                  offset="30%"
-                  stopColor="var(--color-diastolic)"
-                  stopOpacity={0}
-                />
-              </linearGradient>
-            </defs>
-            <defs>
-              <linearGradient
-                id="fillPulseStockChart"
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
-              >
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-pulse)"
-                  stopOpacity={0.4}
-                />
-                <stop
-                  offset="30%"
-                  stopColor="var(--color-pulse)"
-                  stopOpacity={0}
-                />
-              </linearGradient>
-            </defs>
-            <XAxis
-              dataKey="date"
-              tickLine={true}
-              axisLine={true}
-              tick={{ fontSize: "0.8rem" }}
-              tickMargin={16}
-              tickFormatter={xAxisFormatter}
-              // scale="time"
-              // type="number"
-              // domain={["auto", "auto"]}
-              // domain={[chartData?.[0]?.date ?? 0, "dataMax"]}
-              height={35}
-              // interval="equidistantPreserveStart"
-              {...xAxisArgs}
-            />
-            <YAxis
-              tick={{ fontSize: "0.8rem" }}
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-            />
-            <Area
-              dataKey={visibility.systolic ? "systolic" : ""}
-              type="natural"
-              fill="url(#fillSystolicStockChart)"
-              fillOpacity={0.4}
-              stroke="var(--color-systolic)"
-              strokeWidth="0.125rem"
-              dot={false}
-              key={`systolic-${visibility.systolic}-${timeframe}`}
-            />
-            <Area
-              dataKey={visibility.diastolic ? "diastolic" : ""}
-              type="natural"
-              fill="url(#fillDiastolicStockChart)"
-              fillOpacity={0.4}
-              stroke="var(--color-diastolic)"
-              strokeWidth="0.125rem"
-              dot={false}
-              key={`diastolic-${visibility.diastolic}-${timeframe}`}
-            />
-            <Area
-              dataKey={visibility.pulse ? "pulse" : ""}
-              type="natural"
-              fill="url(#fillPulseStockChart)"
-              fillOpacity={0.4}
-              stroke="var(--color-pulse)"
-              strokeWidth="0.125rem"
-              dot={false}
-              key={`pulse-${visibility.pulse}-${timeframe}`}
-            />
-          </AreaChart>
-        </ChartContainer>
+        {chartData?.length === 0 &&
+          (
+            <div className="flex flex-col items-center justify-center w-full h-full text-muted-foreground gap-2">
+              <CalendarHeart className="size-8 stroke-[1.5]" />
+              <span className="line-clamp-1">
+                No data...
+              </span>
+            </div>
+          )
+        }
+        {(chartData && chartData?.length > 0) && (
+          <ChartContainer config={chartConfig} className="h-full w-full">
+            <AreaChart
+              accessibilityLayer
+              data={chartData}
+              margin={{
+                left: -12,
+                right: 12,
+                top: 12,
+              }}
+            >
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent indicator="line" labelIsDate />}
+              />
+              <defs>
+                <linearGradient
+                  id="fillSystolicStockChart"
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop
+                    offset="5%"
+                    stopColor="var(--color-systolic)"
+                    stopOpacity={0.4}
+                  />
+                  <stop
+                    offset="30%"
+                    stopColor="var(--color-systolic)"
+                    stopOpacity={0}
+                  />
+                </linearGradient>
+              </defs>
+              <defs>
+                <linearGradient
+                  id="fillDiastolicStockChart"
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop
+                    offset="5%"
+                    stopColor="var(--color-diastolic)"
+                    stopOpacity={0.4}
+                  />
+                  <stop
+                    offset="30%"
+                    stopColor="var(--color-diastolic)"
+                    stopOpacity={0}
+                  />
+                </linearGradient>
+              </defs>
+              <defs>
+                <linearGradient
+                  id="fillPulseStockChart"
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop
+                    offset="5%"
+                    stopColor="var(--color-pulse)"
+                    stopOpacity={0.4}
+                  />
+                  <stop
+                    offset="30%"
+                    stopColor="var(--color-pulse)"
+                    stopOpacity={0}
+                  />
+                </linearGradient>
+              </defs>
+              <XAxis
+                dataKey="date"
+                tickLine={true}
+                axisLine={true}
+                tick={{ fontSize: "0.8rem" }}
+                tickMargin={16}
+                tickFormatter={xAxisFormatter}
+                // scale="time"
+                // type="number"
+                // domain={["auto", "auto"]}
+                // domain={[chartData?.[0]?.date ?? 0, "dataMax"]}
+                height={35}
+                // interval="equidistantPreserveStart"
+                {...xAxisArgs}
+              />
+              <YAxis
+                tick={{ fontSize: "0.8rem" }}
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+              />
+              <Area
+                dataKey={visibility.systolic ? "systolic" : ""}
+                type="natural"
+                fill="url(#fillSystolicStockChart)"
+                fillOpacity={0.4}
+                stroke="var(--color-systolic)"
+                strokeWidth="0.125rem"
+                dot={false}
+                key={`systolic-${visibility.systolic}-${timeframe}`}
+              />
+              <Area
+                dataKey={visibility.diastolic ? "diastolic" : ""}
+                type="natural"
+                fill="url(#fillDiastolicStockChart)"
+                fillOpacity={0.4}
+                stroke="var(--color-diastolic)"
+                strokeWidth="0.125rem"
+                dot={false}
+                key={`diastolic-${visibility.diastolic}-${timeframe}`}
+              />
+              <Area
+                dataKey={visibility.pulse ? "pulse" : ""}
+                type="natural"
+                fill="url(#fillPulseStockChart)"
+                fillOpacity={0.4}
+                stroke="var(--color-pulse)"
+                strokeWidth="0.125rem"
+                dot={false}
+                key={`pulse-${visibility.pulse}-${timeframe}`}
+              />
+            </AreaChart>
+          </ChartContainer>
+        )
+        }
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 p-0 text-sm">
         <div className="flex gap-2">

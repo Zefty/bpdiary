@@ -2,26 +2,12 @@ import { api, HydrateClient } from "~/trpc/server";
 import BpStockChart from "../_components/charts/bp-stock-chart";
 import InfiniteFeed from "../_components/bp-feed/infinite-feed";
 import HomeHeader from "../_components/header/home-header";
-import BpChart from "../_components/charts/bp-chart";
-import HeartRateChart from "../_components/charts/heart-rate-chart";
-import MeasurementsChart from "../_components/charts/measurements-charts";
-import { endOfDay, startOfDay, startOfYear, subDays } from "date-fns";
 import HomeMetrics from "../_components/charts/home-metrics";
 
 export default async function DiaryHomePage() {
-  const toDate = endOfDay(new Date());
-  const fromLastWeek = startOfDay(subDays(toDate, 7));
-  const fromLastMonth = startOfDay(subDays(toDate, 30));
-  const fromLastYear = startOfDay(subDays(toDate, 365));
-  const fromStartOfYear = startOfYear(toDate);
-  const fromAll = new Date(0);
-
   await Promise.all([
-    api.chart.getStockChartData.prefetch({ fromDate: fromLastWeek, toDate }),
-    api.chart.getStockChartData.prefetch({ fromDate: fromLastMonth, toDate }),
-    api.chart.getStockChartData.prefetch({ fromDate: fromLastYear, toDate }),
-    api.chart.getStockChartData.prefetch({ fromDate: fromStartOfYear, toDate }),
-    api.chart.getStockChartData.prefetch({ fromDate: fromAll, toDate }),
+    api.chart.getPastSevenDaysData.prefetch(),
+    api.chart.getStockChartData.prefetch(),
     api.feed.getInfiniteDiary.prefetchInfinite({ limit: 10 }),
   ]);
 

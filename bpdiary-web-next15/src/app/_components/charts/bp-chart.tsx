@@ -15,7 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "~/app/_components/shadcn/chart";
-import { Activity, Gauge } from "lucide-react";
+import { Activity, CalendarHeart, Gauge } from "lucide-react";
 import { api } from "~/trpc/react";
 import { endOfDay, startOfDay, subDays } from "date-fns";
 
@@ -27,12 +27,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function BpChart() {
-  const toDate = endOfDay(new Date());
-  const fromLastWeek = startOfDay(subDays(toDate, 7));
-  const dataPastSevenDays = api.chart.getStockChartData.useQuery({
-    fromDate: fromLastWeek,
-    toDate,
-  });
+  const dataPastSevenDays = api.chart.getPastSevenDaysData.useQuery();
   const chartData = dataPastSevenDays.data?.map((entry) => ({
     date: entry.measuredAtDate,
     systolic: Math.ceil(entry.avgSystolic),
@@ -56,55 +51,65 @@ export default function BpChart() {
       </CardHeader>
       <CardContent className="flex h-full w-full flex-col p-4">
         <div className="pb-2">
-          {chartData?.length ? (
+          {(chartData && chartData?.length > 0) && (
             <>
               <span className="text-lg font-semibold">
                 {`${chartData[chartData.length - 1]?.systolic}/${chartData[chartData.length - 1]?.diastolic} `}
               </span>
               <span className="text-muted-foreground text-sm">mmHg</span>
             </>
-          ) : (
-            <span className="text-muted-foreground line-clamp-1">
-              no recent measurement...
-            </span>
           )}
         </div>
         <div className="flex-1">
-          <ChartContainer config={chartConfig} className="h-[99%] w-full">
-            <AreaChart
-              accessibilityLayer
-              data={chartData}
-              margin={{
-                left: 0,
-                right: 0,
-              }}
-            >
-              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-              <defs>
-                <linearGradient id="fillSystolic" x1="0" y1="0" x2="0" y2="1">
-                  <stop
-                    offset="5%"
-                    stopColor="var(--color-systolic)"
-                    stopOpacity={0.4}
+          {chartData?.length === 0 &&
+            (
+              <div className="flex flex-col items-center w-full h-full text-muted-foreground gap-2">
+                <CalendarHeart className="size-8 stroke-[1.5]" />
+                <span className="line-clamp-1">
+                  No data...
+                </span>
+              </div>
+            )
+          }
+          {
+            (chartData && chartData?.length > 0) && (
+              <ChartContainer config={chartConfig} className="h-[99%] w-full">
+                <AreaChart
+                  accessibilityLayer
+                  data={chartData}
+                  margin={{
+                    left: 0,
+                    right: 0,
+                  }}
+                >
+                  <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+                  <defs>
+                    <linearGradient id="fillSystolic" x1="0" y1="0" x2="0" y2="1">
+                      <stop
+                        offset="5%"
+                        stopColor="var(--color-systolic)"
+                        stopOpacity={0.4}
+                      />
+                      <stop
+                        offset="95%"
+                        stopColor="var(--color-systolic)"
+                        stopOpacity={0.05}
+                      />
+                    </linearGradient>
+                  </defs>
+                  <Area
+                    dataKey="systolic"
+                    type="natural"
+                    fill="url(#fillSystolic)"
+                    fillOpacity={0.4}
+                    stroke="var(--color-systolic)"
+                    strokeWidth="0.125rem"
+                    stackId="a"
                   />
-                  <stop
-                    offset="95%"
-                    stopColor="var(--color-systolic)"
-                    stopOpacity={0.05}
-                  />
-                </linearGradient>
-              </defs>
-              <Area
-                dataKey="systolic"
-                type="natural"
-                fill="url(#fillSystolic)"
-                fillOpacity={0.4}
-                stroke="var(--color-systolic)"
-                strokeWidth="0.125rem"
-                stackId="a"
-              />
-            </AreaChart>
-          </ChartContainer>
+                </AreaChart>
+              </ChartContainer>
+            )
+          }
         </div>
       </CardContent>
     </Card>

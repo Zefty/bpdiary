@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { RouterOutputs } from "~/trpc/react";
 
 export const ServerActionSuccess = "success";
 
@@ -13,6 +14,9 @@ export const DayOfWeek = [
   "Fri",
   "Sat",
 ] as const;
+
+export const TIMEFRAMES = ["W", "M", "YTD", "Y", "All"] as const;
+export type Timeframes = (typeof TIMEFRAMES)[number];
 
 /* Blood pressure log form schema */
 
