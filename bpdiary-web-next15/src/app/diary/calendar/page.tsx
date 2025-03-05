@@ -26,11 +26,11 @@ export default async function CalendarPage() {
     <HydrateClient>
       <BpCalendarContextProvider initialDate={today}>
         <BpCalendarDataContextProvider>
-          <div className="desktop:grid-cols-3 desktop:grid-rows-1 desktop:items-center desktop:gap-0 grid h-full w-full grid-cols-1 grid-rows-3 gap-2.5">
-            <div className="desktop:col-span-2 col-span-1 row-span-2 h-full flex-1">
+          <div className="laptop:grid-cols-3 laptop:grid-rows-1 laptop:items-center laptop:gap-0 grid h-full w-full grid-cols-1 grid-rows-3 gap-2.5">
+            <div className="laptop:col-span-2 col-span-1 row-span-2 h-full flex-1">
               <CalendarView />
             </div>
-            <div className="relative col-span-1 row-span-1 h-full flex-1 md:flex">
+            <div className="laptop:flex relative col-span-1 row-span-1 h-full flex-1">
               <div className="absolute top-0 right-0 bottom-0 left-0">
                 <DailyFeed />
               </div>

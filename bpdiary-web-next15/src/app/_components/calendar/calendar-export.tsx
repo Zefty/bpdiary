@@ -20,11 +20,7 @@ export default function CalendarExport({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          disabled
-          className={cn("mobile:hidden gap-2", className)}
-          {...props}
-        >
+        <Button disabled className={cn("hidden gap-2", className)} {...props}>
           <Download width="1.5em" height="1.5em" />
           <span className="xs:flex hidden">Export</span>
         </Button>

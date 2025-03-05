@@ -4,7 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@custom-variant mobile {
+/* @custom-variant mobile {
   @media screen and (orientation: portrait) {
     @slot
   }
@@ -14,12 +14,24 @@
   @media screen and (orientation: landscape) {
     @slot
   }
+}; */
+
+@custom-variant laptop {
+  @media screen and (orientation: landscape) and (min-width: 1024px) {
+    @slot
+  }
 };
+
+@custom-variant desktop {
+  @media screen and (orientation: landscape) and (min-width: 1800px) {
+    @slot
+  }
+}
 
 @theme {
   /* --breakpoint-*: initial; */
-  /* --breakpoint-laptop: 1024px; */
-  --breakpoint-desktop: 1800px;
+  /* --breakpoint-desktop: 1024px; */
+  /* --breakpoint-desktop: 1800px; */
 
   --font-sans:
     var(--font-poppins), ui-sans-serif, system-ui, sans-serif,

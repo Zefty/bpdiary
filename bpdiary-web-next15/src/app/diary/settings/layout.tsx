@@ -35,18 +35,18 @@ export default function SettingsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="desktop:px-20 desktop:pt-10 desktop:pb-16 flex h-full flex-col p-6">
-      <div className="desktop:flex-col desktop:items-start flex items-center">
+    <div className="laptop:px-20 laptop:pt-10 laptop:pb-16 flex h-full flex-col p-6">
+      <div className="laptop:flex-col laptop:items-start flex items-center">
         <SidebarTrigger
           className={cn(
-            "desktop:hidden mobile:flex mr-auto",
+            "laptop:hidden mr-auto flex",
             buttonVariants({ size: "circular", variant: "muted" }),
           )}
         />
-        <h2 className="desktop:text-start w-full text-center text-2xl font-bold">
+        <h2 className="laptop:text-start w-full text-center text-2xl font-bold">
           Settings
         </h2>
-        <p className="desktop:block text-muted-foreground hidden">
+        <p className="laptop:block text-muted-foreground hidden">
           Manage your account settings and set preferences.
         </p>
       </div>

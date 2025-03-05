@@ -67,11 +67,8 @@ export function ProfileForm({ user }: { user?: AdapterUser }) {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(submit)}
-        className="mobile:flex mobile:flex-col"
-      >
-        <div className="desktop:grid desktop:grid-cols-2 space-y-8">
+      <form onSubmit={form.handleSubmit(submit)} className="flex flex-col">
+        <div className="laptop:grid laptop:grid-cols-2 space-y-8">
           <FormField
             control={form.control}
             name="name"
@@ -227,7 +224,7 @@ export function ProfileForm({ user }: { user?: AdapterUser }) {
         <Button
           type="submit"
           disabled={isRunning}
-          className="mobile:mt-6 h-12 w-[12rem] rounded-full"
+          className="laptop:mt-0 mt-6 h-12 w-[12rem] rounded-full"
         >
           Update account
         </Button>
