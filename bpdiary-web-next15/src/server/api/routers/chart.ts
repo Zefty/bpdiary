@@ -10,65 +10,47 @@ import { bloodPressure } from "~/server/db/schema";
 import { getUserTimezone } from "./setting";
 import { endOfDay, startOfDay, subDays, startOfYear } from "date-fns";
 import { Timeframes } from "~/lib/types";
+import { TRPCError } from "@trpc/server";
 
 export const chartRouter = createTRPCRouter({
-  getPastSevenDaysData: protectedProcedure
-    .query(async ({ ctx }) => {
-      const toDate = endOfDay(new Date());
-      const fromLastWeek = startOfDay(subDays(toDate, 7));
-      return await getBloodPressureAdjustedByUserTimezone(
-        ctx, 
-        fromLastWeek,
-        toDate,
-      )
-    }),
+  getPastSevenDaysData: protectedProcedure.query(async ({ ctx }) => {
+    const toDate = endOfDay(new Date());
+    const fromLastWeek = startOfDay(subDays(toDate, 7));
+    return await getBloodPressureAdjustedByUserTimezone(
+      ctx,
+      fromLastWeek,
+      toDate,
+    );
+  }),
 
-  getStockChartData: protectedProcedure
-    .query(async ({ ctx }) => {
-      const toDate = endOfDay(new Date());
-      const fromLastWeek = startOfDay(subDays(toDate, 7));
-      const fromLastMonth = startOfDay(subDays(toDate, 30));
-      const fromLastYear = startOfDay(subDays(toDate, 365));
-      const fromStartOfYear = startOfYear(toDate);
-      const fromAll = new Date(0);
+  getStockChartData: protectedProcedure.query(async ({ ctx }) => {
+    const toDate = endOfDay(new Date());
+    const fromLastWeek = startOfDay(subDays(toDate, 7));
+    const fromLastMonth = startOfDay(subDays(toDate, 30));
+    const fromLastYear = startOfDay(subDays(toDate, 365));
+    const fromStartOfYear = startOfYear(toDate);
+    const fromAll = new Date(0);
 
-      const [week, month, year, ytd, all] = await Promise.all([
-        getBloodPressureAdjustedByUserTimezone(
-          ctx, 
-          fromLastWeek,
-          toDate,
-        ),
-        getBloodPressureAdjustedByUserTimezone(
-          ctx, 
-          fromLastMonth,
-          toDate,
-        ),
-        getBloodPressureAdjustedByUserTimezone(
-          ctx, 
-          fromLastYear,
-          toDate,
-        ),
-        getBloodPressureAdjustedByUserTimezone(
-          ctx, 
-          fromStartOfYear,
-          toDate,
-        ),
-        getBloodPressureAdjustedByUserTimezone(
-          ctx, 
-          fromAll,
-          toDate,
-        )
-      ])
+    const [week, month, year, ytd, all] = await Promise.all([
+      getBloodPressureAdjustedByUserTimezone(ctx, fromLastWeek, toDate),
+      getBloodPressureAdjustedByUserTimezone(ctx, fromLastMonth, toDate),
+      getBloodPressureAdjustedByUserTimezone(ctx, fromLastYear, toDate),
+      getBloodPressureAdjustedByUserTimezone(ctx, fromStartOfYear, toDate),
+      getBloodPressureAdjustedByUserTimezone(ctx, fromAll, toDate),
+    ]);
 
-      const allChartData = new Map<Timeframes, Awaited<ReturnType<typeof getBloodPressureAdjustedByUserTimezone>>>();
-      allChartData.set("W", week);
-      allChartData.set("M", month);
-      allChartData.set("YTD", ytd);
-      allChartData.set("Y", year);
-      allChartData.set("All", all);
+    const allChartData = new Map<
+      Timeframes,
+      Awaited<ReturnType<typeof getBloodPressureAdjustedByUserTimezone>>
+    >();
+    allChartData.set("W", week);
+    allChartData.set("M", month);
+    allChartData.set("YTD", ytd);
+    allChartData.set("Y", year);
+    allChartData.set("All", all);
 
-      return allChartData;
-    }),
+    return allChartData;
+  }),
 
   getDatesWithBpMeasurementsByMonth: protectedProcedure
     .input(z.object({ date: z.date() }).optional())
@@ -124,6 +106,9 @@ export const chartRouter = createTRPCRouter({
 
 const bloodPressureAdjustedByUserTimezoneCTE = async (ctx: TrpcContext) => {
   const tz = await getUserTimezone(ctx);
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
   return ctx.db.$with("tz_adjusted").as(
     ctx.db
       .select({

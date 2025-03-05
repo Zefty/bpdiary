@@ -55,9 +55,7 @@ export default function BpStockChart() {
   const [visibility, setVisibility] = useState(initialVisibility);
   const [timeframe, setTimeframe] = useState<Timeframes>("W");
 
-  
-  const allChartData = (api.chart.getStockChartData.useQuery()).data;
-
+  const allChartData = api.chart.getStockChartData.useQuery().data;
 
   const chartData = allChartData?.get(timeframe)?.map((entry) => ({
     date: entry.measuredAtDate.valueOf(),
@@ -67,7 +65,6 @@ export default function BpStockChart() {
   }));
 
   const numOfTicks = ["W", "M"].includes(timeframe) ? 5 : 10;
-
 
   const xAxisFormatter = (value: number | Date) => {
     const date = new Date(value);
@@ -81,7 +78,7 @@ export default function BpStockChart() {
   ]);
   const xAxisArgs = {
     domain: timeScale.domain().map((date) => date.valueOf()),
-    ticks: timeScale.ticks(numOfTicks),
+    ticks: timeScale.ticks(numOfTicks).map((date) => date.valueOf()),
     scale: timeScale,
     type: "number" as const,
   };
@@ -131,17 +128,13 @@ export default function BpStockChart() {
         </div>
       </CardHeader>
       <CardContent className="flex-1 px-0 py-6">
-        {chartData?.length === 0 &&
-          (
-            <div className="flex flex-col items-center justify-center w-full h-full text-muted-foreground gap-2">
-              <CalendarHeart className="size-8 stroke-[1.5]" />
-              <span className="line-clamp-1">
-                No data...
-              </span>
-            </div>
-          )
-        }
-        {(chartData && chartData?.length > 0) && (
+        {chartData?.length === 0 && (
+          <div className="text-muted-foreground flex h-full w-full flex-col items-center justify-center gap-2">
+            <CalendarHeart className="size-8 stroke-[1.5]" />
+            <span className="line-clamp-1">No data...</span>
+          </div>
+        )}
+        {chartData && chartData?.length > 0 && (
           <ChartContainer config={chartConfig} className="h-full w-full">
             <AreaChart
               accessibilityLayer
@@ -269,8 +262,7 @@ export default function BpStockChart() {
               />
             </AreaChart>
           </ChartContainer>
-        )
-        }
+        )}
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 p-0 text-sm">
         <div className="flex gap-2">

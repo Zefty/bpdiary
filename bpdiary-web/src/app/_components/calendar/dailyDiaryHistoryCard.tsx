@@ -34,20 +34,19 @@ export default function DailyDiaryHistoryCard() {
                 onClick={() => {
                   if (bpEntryContext) {
                     bpEntryContext.setBpEntryData(entry);
-                    bpEntryContext.setOpenSheet(
-                      !bpEntryContext.openSheet,
-                    );
+                    bpEntryContext.setOpenSheet(!bpEntryContext.openSheet);
                   }
                 }}
               >
                 <div className="flex flex-col justify-between gap-2">
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                     <span className="font-medium text-muted-foreground">{`${entry.createdAt.toDateString()}, ${entry.createdAt.toLocaleTimeString("en-us").toUpperCase()}`}</span>
-                    <Button variant="outline" className="h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100">
-                        <ChevronRight className="h-4 w-4" />
+                    <Button
+                      variant="outline"
+                      className="h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
+                    >
+                      <ChevronRight className="h-4 w-4" />
                     </Button>
-                    
-                    
                   </div>
                   <div className="mb-2 flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
@@ -63,7 +62,7 @@ export default function DailyDiaryHistoryCard() {
                   </div>
                 </div>
                 <div className="text-sm">
-                  <span className="font-medium underline underline-offset-2">
+                  <span className="font-medium text-muted-foreground underline underline-offset-2">
                     Notes:
                   </span>
                   <Note note={entry.notes} />
