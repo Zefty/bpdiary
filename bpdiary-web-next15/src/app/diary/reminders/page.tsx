@@ -1,22 +1,24 @@
 import RemindersForm from "~/app/_components/reminders/reminders-form";
-import { Button } from "~/app/_components/shadcn/button";
-import { Separator } from "~/app/_components/shadcn/separator";
+import { Button, buttonVariants } from "~/app/_components/shadcn/button";
 import { SidebarTrigger } from "~/app/_components/shadcn/sidebar";
+import { cn } from "~/lib/utils";
 import { api } from "~/trpc/server";
 
 export default async function Reminders() {
   const reminders = await api.reminder.getAllReminders();
   return (
-    <div className="laptop:px-20 laptop:pt-10 laptop:pb-16 flex h-full flex-col p-6">
-      <div className="laptop:flex-col laptop:items-start mb-6 flex items-center">
+    <div className="tablet:px-20 tablet:pt-10 tablet:pb-16 flex h-full flex-col p-6">
+      <div className="tablet:flex-col tablet:items-start mb-6 flex items-center">
         <SidebarTrigger
-          variant="muted"
-          className="laptop:hidden flex h-10 px-6 py-2"
+          className={cn(
+            "tablet:hidden flex",
+            buttonVariants({ size: "circular", variant: "muted" }),
+          )}
         />
-        <h2 className="laptop:text-start w-full text-center text-2xl font-bold">
+        <h2 className="tablet:text-start w-full text-center text-2xl font-bold">
           Reminders
         </h2>
-        <p className="laptop:block text-muted-foreground hidden">
+        <p className="tablet:block text-muted-foreground hidden">
           Setup reminders to help you stay on track. Note: This page is a work
           in progress and reminders are not yet fully functional.
         </p>

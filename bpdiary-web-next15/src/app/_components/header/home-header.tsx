@@ -15,11 +15,11 @@ export default async function HomeHeader() {
         <div className="flex w-full items-start justify-start gap-2">
           <SidebarTrigger
             className={cn(
-              "laptop:hidden mr-auto flex",
+              "tablet:hidden mr-auto flex",
               buttonVariants({ size: "circular", variant: "muted" }),
             )}
           />
-          <h1 className="laptop:block laptop:text-[2.5rem] mr-auto hidden align-middle text-3xl leading-none font-semibold tracking-tight">
+          <h1 className="tablet:block tablet:text-[2.5rem] mr-auto hidden align-middle text-3xl leading-none font-semibold tracking-tight">
             {Greeting()}, {session?.user?.name?.split(" ")[0]}!
           </h1>
           <LogBpFormTrigger variant="muted" size="circular" />
@@ -27,7 +27,7 @@ export default async function HomeHeader() {
             <Bell className="size-[1.5rem]" />
           </Button>
         </div>
-        <h1 className="laptop:hidden mr-auto pt-4 align-middle text-3xl text-[1.5rem] leading-none font-semibold tracking-tight">
+        <h1 className="tablet:hidden mr-auto pt-4 align-middle text-3xl text-[1.5rem] leading-none font-semibold tracking-tight">
           {Greeting()}, {session?.user?.name?.split(" ")[0]}!
         </h1>
         <span className="text-muted-foreground">{Reminders()}</span>

@@ -55,18 +55,18 @@ export default function MeasurementsChart() {
           <div className="text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-full bg-blue-100">
             <LineChart className="h-[1.5rem] w-[1.5rem] text-blue-500" />
           </div>
-          <CardTitle className="laptop:hidden block text-lg">Meas.</CardTitle>
-          <CardTitle className="laptop:block hidden text-lg">
+          <CardTitle className="tablet:hidden block text-lg">Meas.</CardTitle>
+          <CardTitle className="tablet:block hidden text-lg">
             Measurements
           </CardTitle>
         </div>
       </CardHeader>
       <CardContent className="flex h-full w-full p-4">
         <div className="mb-2 flex flex-col justify-center">
-          <span className="desktop:block text-md hidden font-semibold">
+          <span className="laptop:block text-md hidden font-semibold">
             {DateMonthLongFormat.format(currentDate)}
           </span>
-          <span className="text-muted-foreground desktop:block hidden text-sm">
+          <span className="text-muted-foreground laptop:block hidden text-sm">
             This Month
           </span>
         </div>

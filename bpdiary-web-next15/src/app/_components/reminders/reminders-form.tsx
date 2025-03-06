@@ -49,7 +49,7 @@ export default function RemindersForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(CreateOrUpdateReminders)}
-        className="laptop:grid laptop:grid-cols-2 flex w-full flex-1 flex-col gap-12"
+        className="tablet:grid tablet:grid-cols-2 flex w-full flex-1 flex-col gap-12"
         id="reminders"
       >
         <RemindersView

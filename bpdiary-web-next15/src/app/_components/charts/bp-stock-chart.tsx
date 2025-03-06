@@ -92,7 +92,7 @@ export default function BpStockChart() {
         <Popover>
           <PopoverTrigger
             className={cn(
-              "laptop:hidden bg-background flex size-10 items-center justify-center rounded-full border",
+              "tablet:hidden bg-background flex aspect-square size-12 items-center justify-center rounded-full border",
             )}
           >
             <ChevronDown className="size-4" />
@@ -112,7 +112,7 @@ export default function BpStockChart() {
             })}
           </PopoverContent>
         </Popover>
-        <div className="laptop:flex bg-background hidden gap-2 rounded-full p-2">
+        <div className="tablet:flex bg-background hidden gap-2 rounded-full p-2">
           {TIMEFRAMES.map((chart) => {
             return (
               <Button

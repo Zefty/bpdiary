@@ -41,10 +41,10 @@ export default function BpChart() {
           <div className="text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-full bg-red-100">
             <Activity className="text-primary h-[1.5rem] w-[1.5rem]" />
           </div>
-          <CardTitle className="laptop:hidden block text-lg">
+          <CardTitle className="tablet:hidden block text-lg">
             Blood P.
           </CardTitle>
-          <CardTitle className="laptop:block hidden text-lg">
+          <CardTitle className="tablet:block hidden text-lg">
             Blood Pressure
           </CardTitle>
         </div>

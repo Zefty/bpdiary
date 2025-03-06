@@ -16,8 +16,14 @@
   }
 }; */
 
-@custom-variant laptop {
+@custom-variant tablet {
   @media screen and (orientation: landscape) and (min-width: 1024px) {
+    @slot
+  }
+};
+
+@custom-variant laptop {
+  @media screen and (orientation: landscape) and (min-width: 1472px) {
     @slot
   }
 };

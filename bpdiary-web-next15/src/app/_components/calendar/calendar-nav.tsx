@@ -24,7 +24,7 @@ export default function CalendarNav(props: NavProps) {
         <LogBpFormProvider>
           <SidebarTrigger
             className={cn(
-              "laptop:hidden flex",
+              "tablet:hidden flex",
               buttonVariants({ size: "circular", variant: "muted" }),
             )}
           />
@@ -45,7 +45,7 @@ export default function CalendarNav(props: NavProps) {
               className="h-12 rounded-full"
             >
               <Calendar1 width="1.5em" height="1.5em" />
-              <span className="laptop:block hidden">Today</span>
+              <span className="tablet:block hidden">Today</span>
             </Button>
             <Button onClick={props.onNextClick} variant="muted" size="circular">
               <ChevronRight width="1.5em" height="1.5em" />

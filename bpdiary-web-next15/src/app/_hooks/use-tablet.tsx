@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const XLScreen_BREAKPOINT = 1280;
+const XLScreen_BREAKPOINT = 1472;
 
 export function useIsTablet() {
   const [isTablet, setIsTablet] = React.useState<boolean | undefined>(

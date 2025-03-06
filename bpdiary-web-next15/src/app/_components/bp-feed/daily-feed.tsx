@@ -18,7 +18,7 @@ export default function DailyFeed() {
   return (
     <ScrollArea className="h-full max-h-screen overflow-y-auto border-l-[0.15rem]">
       <div className="flex h-full flex-col items-center">
-        <BaseHeader className="laptop:flex my-10 hidden h-10 justify-center gap-3 border border-none shadow-none">
+        <BaseHeader className="tablet:flex my-10 hidden h-10 justify-center gap-3 border border-none shadow-none">
           <h1 className="text-2xl leading-none font-semibold tracking-tight">
             {format(calendarContext.selectedDate, "E, LLL d")}
           </h1>

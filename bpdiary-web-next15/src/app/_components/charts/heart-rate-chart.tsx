@@ -43,10 +43,10 @@ export default function HeartRateChart() {
           <div className="text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-full bg-teal-100">
             <HeartPulse className="h-[1.5rem] w-[1.5rem] text-teal-500" />
           </div>
-          <CardTitle className="laptop:hidden block text-lg">
+          <CardTitle className="tablet:hidden block text-lg">
             Heart R.
           </CardTitle>
-          <CardTitle className="laptop:block hidden text-lg">
+          <CardTitle className="tablet:block hidden text-lg">
             Heart Rate
           </CardTitle>
         </div>
