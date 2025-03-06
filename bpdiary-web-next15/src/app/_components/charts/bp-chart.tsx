@@ -44,7 +44,7 @@ export default function BpChart() {
           <CardTitle className="tablet:hidden block text-lg">
             Blood P.
           </CardTitle>
-          <CardTitle className="tablet:block hidden text-lg">
+          <CardTitle className="tablet:block hidden text-lg whitespace-nowrap">
             Blood Pressure
           </CardTitle>
         </div>

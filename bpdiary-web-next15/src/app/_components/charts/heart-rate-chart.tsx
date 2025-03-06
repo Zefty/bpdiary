@@ -46,7 +46,7 @@ export default function HeartRateChart() {
           <CardTitle className="tablet:hidden block text-lg">
             Heart R.
           </CardTitle>
-          <CardTitle className="tablet:block hidden text-lg">
+          <CardTitle className="tablet:block hidden text-lg whitespace-nowrap">
             Heart Rate
           </CardTitle>
         </div>
