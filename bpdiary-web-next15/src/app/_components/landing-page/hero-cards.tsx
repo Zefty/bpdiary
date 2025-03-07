@@ -42,9 +42,11 @@ export const HeroCards = async () => {
       <Card className="absolute top-4 right-[1.25rem] flex w-80 flex-col items-center justify-center rounded-3xl shadow-black/10 drop-shadow-xl dark:shadow-white/10">
         <CardHeader className="mt-8 flex items-center justify-center pb-2">
           <Image
-            src="https://images.aiscribbles.com/1d14b9ba76144261ba3bce1b22b3631a.png?v=e6c995"
+            src="https://images.aiscribbles.com/1d14b9ba76144261ba3bce1b22b3631a.png"
             alt="user avatar"
-            className="absolute -top-12 aspect-square h-24 w-24 rounded-full object-cover grayscale-[0%]"
+            className="absolute -top-12 aspect-square rounded-full object-cover grayscale-[0%]"
+            height={96}
+            width={96}
           />
           <CardTitle className="text-center">Contact</CardTitle>
           <CardDescription className="text-primary font-normal">
