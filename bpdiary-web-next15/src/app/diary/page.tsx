@@ -17,8 +17,8 @@ export default async function DiaryHomePage() {
         <div className="tablet:px-[2rem] desktop:px-[5rem] tablet:col-span-2 tablet:py-10 col-span-3 flex flex-col items-center gap-10 px-6 py-6">
           <HomeHeader />
           <div className="grid h-full w-full grid-rows-3 gap-8">
-            <div className="row-span-1">
-              <HomeMetrics className="tablet:grid tablet:grid-cols-3 tablet:grid-rows-1 tablet:w-full flex h-full max-w-[calc(100vw_-_3rem)] gap-6 pb-3" />
+            <div className="flex row-span-1">
+              <HomeMetrics className="flex h-full gap-6 pb-3" />
             </div>
             <div className="row-span-2">
               <BpStockChart />

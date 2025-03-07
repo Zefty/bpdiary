@@ -35,16 +35,13 @@ export default function BpChart() {
     pulse: Math.ceil(entry.avgPulse),
   }));
   return (
-    <Card className="bg-muted flex h-full w-full min-w-[10rem] flex-col rounded-3xl border-none shadow-none">
+    <Card className="bg-muted flex h-full w-full min-w-[14rem] flex-col rounded-3xl border-none shadow-none">
       <CardHeader className="items-start p-4 pb-0">
         <div className="flex items-center gap-3">
           <div className="text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-full bg-red-100">
             <Activity className="text-primary h-[1.5rem] w-[1.5rem]" />
           </div>
-          <CardTitle className="tablet:hidden block text-lg">
-            Blood P.
-          </CardTitle>
-          <CardTitle className="tablet:block hidden text-lg whitespace-nowrap">
+          <CardTitle className="text-lg whitespace-nowrap">
             Blood Pressure
           </CardTitle>
         </div>

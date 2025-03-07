@@ -49,24 +49,23 @@ export default function MeasurementsChart() {
     { month: currentMonth, measurements: data?.data?.length ?? 0 },
   ];
   return (
-    <Card className="bg-muted flex h-full w-full min-w-[10rem] flex-col rounded-3xl border-none shadow-none">
+    <Card className="bg-muted flex h-full w-full min-w-[14rem] flex-col rounded-3xl border-none shadow-none">
       <CardHeader className="items-start p-4 pb-0">
         <div className="flex items-center gap-3">
           <div className="text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-full bg-blue-100">
             <LineChart className="h-[1.5rem] w-[1.5rem] text-blue-500" />
           </div>
-          <CardTitle className="tablet:hidden block text-lg">Meas.</CardTitle>
-          <CardTitle className="tablet:block hidden text-lg">
+          <CardTitle className="text-lg">
             Measurements
           </CardTitle>
         </div>
       </CardHeader>
       <CardContent className="flex h-full w-full p-4">
-        <div className="mb-2 flex flex-col justify-center">
-          <span className="laptop:block text-md hidden font-semibold">
+        <div className="mb-2 mr-2 flex flex-col justify-center">
+          <span className="text-md font-semibold">
             {DateMonthLongFormat.format(currentDate)}
           </span>
-          <span className="text-muted-foreground laptop:block hidden text-sm">
+          <span className="text-muted-foreground text-sm">
             This Month
           </span>
         </div>
