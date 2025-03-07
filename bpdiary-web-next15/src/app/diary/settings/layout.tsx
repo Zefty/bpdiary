@@ -15,10 +15,10 @@ const sidebarNavItems = [
     title: "Profile",
     href: "/diary/settings/profile",
   },
-  {
-    title: "Notifications",
-    href: "/diary/settings/notifications",
-  },
+  // {
+  //   title: "Notifications",
+  //   href: "/diary/settings/notifications",
+  // },
   {
     title: "Appearance",
     href: "/diary/settings/appearance",
