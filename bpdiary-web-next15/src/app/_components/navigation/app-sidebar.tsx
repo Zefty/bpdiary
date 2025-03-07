@@ -138,7 +138,7 @@ export default async function AppSidebar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 side="top"
-                className="w-(--radix-popper-anchor-width) min-w-[230px] rounded-full"
+                className="w-(--radix-popper-anchor-width) min-w-[230px] rounded-full p-2"
                 align="start"
               >
                 <SidebarMenuButton
