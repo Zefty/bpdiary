@@ -4,7 +4,7 @@ import { Button } from "~/app/_components/shadcn/button";
 import { useRef } from "react";
 import { useBpEntryContext } from "~/app/_contexts/bpEntryContext";
 import { SheetDescription, SheetTitle } from "../shadcn/sheet";
-import { BaseBpForm, BpEntryBaseRefs } from "./base-bp-form";
+import { BaseBpForm, type BpEntryBaseRefs } from "./base-bp-form";
 
 export function LogBpForm() {
   const bpEntryBaseRef = useRef<BpEntryBaseRefs>(null);

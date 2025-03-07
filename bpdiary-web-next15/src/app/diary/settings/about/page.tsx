@@ -12,9 +12,9 @@ export default function AboutAndSupport() {
         keep tabs on your blood pressure without hassle.
         <br />
         <br />
-        Whether you're monitoring for health reasons or just staying informed,
-        this tool makes it easy to record your readings, view trends, and gain
-        insights into your cardiovascular health.
+        Whether you&apos;re monitoring for health reasons or just staying
+        informed, this tool makes it easy to record your readings, view trends,
+        and gain insights into your cardiovascular health.
         <br />
         <br />
         Stay on top of your wellness with effortless tracking and keep things in

@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, TrendingUp } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Bar,
   BarChart,
@@ -19,7 +19,7 @@ import {
   CardTitle,
 } from "~/app/_components/shadcn/card";
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
@@ -44,11 +44,11 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 function dayOfWeekAsString(dayIndex: number) {
-  return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][dayIndex] || "";
+  return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][dayIndex] ?? "";
 }
 
 export default function BpByDOW() {
-  const data = api.bloodPressure.getAverageBpPerDayOfWeek.useQuery();
+  const data = api.chart.getAverageBpPerDayOfWeek.useQuery();
   const chartData = data?.data?.map((entry) => ({
     dayOfWeek: entry.dayOfWeek,
     systolic: Math.ceil(entry.avgSystolic),

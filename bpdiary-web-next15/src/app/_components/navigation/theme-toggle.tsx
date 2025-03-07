@@ -3,7 +3,6 @@
 import { Moon, Sun } from "lucide-react";
 import { SidebarMenuButton } from "../shadcn/sidebar";
 import { useTheme } from "next-themes";
-import { api } from "~/trpc/react";
 import { cn } from "~/lib/utils";
 
 export default function ThemeToggle({ className }: { className?: string }) {

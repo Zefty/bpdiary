@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import { VariantProps, cva } from "class-variance-authority";
+import { type VariantProps, cva } from "class-variance-authority";
 import { Menu } from "lucide-react";
 
 import { useIsMobile } from "~/app/_hooks/use-mobile";
@@ -13,7 +13,6 @@ import { Input } from "~/app/_components/shadcn/input";
 import { Separator } from "~/app/_components/shadcn/separator";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetTitle,
@@ -40,27 +39,27 @@ const SIDEBAR_EXPAND_COLLAPSE_THRESHOLD = "8.75rem";
 const SIDEBAR_RESIZE_HANDLE_WIDTH = "0.5rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 
-const convertRemToPixels = (rem: string) => {
+export const convertRemToPixels = (rem: string) => {
   const r = Number(rem.replace("rem", ""));
   if (typeof getComputedStyle === "undefined") {
     return r * 16;
   }
   return r * parseFloat(getComputedStyle(document.documentElement).fontSize);
 };
-const convertPixelsToRem = (pixels: number) => {
+export const convertPixelsToRem = (pixels: number) => {
   if (typeof getComputedStyle === "undefined") {
     return `${pixels / 16}rem`;
   }
   return `${pixels / parseFloat(getComputedStyle(document.documentElement).fontSize)}rem`;
 };
-const convertViewportWidthToPixels = (vw: string) => {
+export const convertViewportWidthToPixels = (vw: string) => {
   const w = Number(vw.replace("vw", ""));
   if (typeof window === "undefined") {
     return 0;
   }
   return (w * window.innerWidth) / 100;
 };
-const convertPixelsToViewportWidth = (pixels: number) => {
+export const convertPixelsToViewportWidth = (pixels: number) => {
   if (typeof window === "undefined") {
     return "0vw";
   }
@@ -352,7 +351,7 @@ const Sidebar = React.forwardRef<
         window.removeEventListener("touchmove", handleTouchMove);
         window.removeEventListener("touchend", handleTrackStop);
       };
-    }, [track]);
+    }, [setOpen, setTrack, setWidth, track]);
 
     if (collapsible === "none") {
       return (

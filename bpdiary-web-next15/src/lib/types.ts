@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { RouterOutputs } from "~/trpc/react";
 
 export const ServerActionSuccess = "success";
 

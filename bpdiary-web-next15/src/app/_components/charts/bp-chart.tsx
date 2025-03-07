@@ -3,21 +3,19 @@
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "~/app/_components/shadcn/card";
 import { Area, AreaChart } from "recharts";
 
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "~/app/_components/shadcn/chart";
-import { Activity, CalendarHeart, Gauge } from "lucide-react";
+import { Activity, CalendarHeart } from "lucide-react";
 import { api } from "~/trpc/react";
-import { endOfDay, startOfDay, subDays } from "date-fns";
 
 const chartConfig = {
   systolic: {

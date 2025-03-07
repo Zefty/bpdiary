@@ -27,10 +27,10 @@ import {
   CommandItem,
   CommandList,
 } from "../shadcn/command";
-import { AdapterUser } from "next-auth";
+import { type AdapterUser } from "next-auth";
 import {
   profileFormSchema,
-  ProfileFormValues,
+  type ProfileFormValues,
   ServerActionSuccess,
 } from "~/lib/types";
 import { useServerAction } from "~/app/_hooks/use-server-action";

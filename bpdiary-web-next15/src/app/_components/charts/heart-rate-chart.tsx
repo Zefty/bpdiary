@@ -1,25 +1,21 @@
 "use client";
 
-import { DateMonthLongFormat } from "~/lib/utils";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "~/app/_components/shadcn/card";
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import { Area, AreaChart } from "recharts";
 
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "~/app/_components/shadcn/chart";
 import { CalendarHeart, HeartPulse } from "lucide-react";
 import { api } from "~/trpc/react";
-import { endOfDay, startOfDay, subDays } from "date-fns";
 
 const chartConfig = {
   pulse: {

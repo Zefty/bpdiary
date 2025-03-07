@@ -1,7 +1,6 @@
-import { Metadata } from "next";
+import { type Metadata } from "next";
 import SettingsNav from "~/app/_components/navigation/settings-nav";
 import { buttonVariants } from "~/app/_components/shadcn/button";
-import { Separator } from "~/app/_components/shadcn/separator";
 import { SidebarTrigger } from "~/app/_components/shadcn/sidebar";
 import { cn } from "~/lib/utils";
 

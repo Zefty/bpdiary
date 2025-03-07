@@ -1,18 +1,16 @@
 "use client";
 
 import { Button } from "~/app/_components/shadcn/button";
-import { CreateOrUpdateBpMeasurement } from "~/server/actions/server-actions";
-import { BaseBpForm, BpEntryBaseRefs } from "./base-bp-form";
+import { BaseBpForm, type BpEntryBaseRefs } from "./base-bp-form";
 import React, { useRef } from "react";
 import { useBpEntryContext } from "~/app/_contexts/bpEntryContext";
 import { DialogTitle } from "../shadcn/dialog";
 import { DialogDescription } from "@radix-ui/react-dialog";
-import { BpLogFormValues } from "~/lib/types";
 
 export function EditBpForm() {
   const bpEntryBaseRef = useRef<BpEntryBaseRefs>(null);
   const context = useBpEntryContext();
-  const bpFormData = context.bpFormData;
+  // const bpFormData = context.bpFormData;
 
   return (
     <BaseBpForm

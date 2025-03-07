@@ -1,5 +1,4 @@
 import { auth } from "~/server/auth";
-import { Button } from "../shadcn/button";
 import { HeroCards } from "./hero-cards";
 import SignIn from "../navigation/sign-in";
 

@@ -1,8 +1,8 @@
-import { FieldValues, useForm, UseFormProps } from "react-hook-form";
+import { type FieldValues, useForm, type UseFormProps } from "react-hook-form";
 
 export function useFormAction<
   TFieldValues extends FieldValues = FieldValues,
-  TContext = any,
+  TContext = unknown,
   TTransformedValues extends FieldValues | undefined = undefined,
 >(props?: UseFormProps<TFieldValues, TContext>) {
   const form = useForm<TFieldValues, TContext, TTransformedValues>(props);
@@ -11,7 +11,7 @@ export function useFormAction<
     if (form.formState.isValid) {
       return { action: () => onAction(form.getValues()) };
     }
-    return { onSubmit: form.handleSubmit(onAction as any) };
+    return { onSubmit: form.handleSubmit(onAction as never) };
   };
 
   return {

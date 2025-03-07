@@ -1,7 +1,6 @@
-import { z } from "zod";
 import { NotificationsForm } from "~/app/_components/settings/notifications-form";
 import { Separator } from "~/app/_components/shadcn/separator";
-import { notificationsFormSchema, notificationToggleTypes } from "~/lib/types";
+import { notificationsFormSchema } from "~/lib/types";
 import { api } from "~/trpc/server";
 
 export default async function Notifications() {

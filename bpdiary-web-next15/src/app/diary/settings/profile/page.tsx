@@ -1,4 +1,4 @@
-import { AdapterUser } from "next-auth";
+import { type AdapterUser } from "next-auth";
 import { ProfileForm } from "~/app/_components/settings/profile-form";
 import { Separator } from "~/app/_components/shadcn/separator";
 import { auth } from "~/server/auth";

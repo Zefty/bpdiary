@@ -1,9 +1,6 @@
 import { useBpEntryContext } from "~/app/_contexts/bpEntryContext";
-import { RouterOutputs } from "~/trpc/react";
-import { Fragment } from "react";
-import { Separator } from "../shadcn/separator";
-import { ChevronRight, Gauge, HeartPulse } from "lucide-react";
-import { Button } from "../shadcn/button";
+import { type RouterOutputs } from "~/trpc/react";
+import { Gauge, HeartPulse } from "lucide-react";
 import Note from "../custom-inputs/note";
 
 type BloodPressureDiary = RouterOutputs["feed"]["getInfiniteDiary"]["data"][0];

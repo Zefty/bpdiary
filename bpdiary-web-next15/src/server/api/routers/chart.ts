@@ -4,12 +4,12 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
-  TrpcContext,
+  type TrpcContext,
 } from "~/server/api/trpc";
 import { bloodPressure } from "~/server/db/schema";
 import { getUserTimezone } from "./setting";
 import { endOfDay, startOfDay, subDays, startOfYear } from "date-fns";
-import { Timeframes } from "~/lib/types";
+import { type Timeframes } from "~/lib/types";
 import { TRPCError } from "@trpc/server";
 
 export const chartRouter = createTRPCRouter({

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { api, RouterOutputs } from "~/trpc/react";
+import { useEffect, useRef } from "react";
+import { api } from "~/trpc/react";
 import { ScrollArea } from "../shadcn/scroll-area";
 import React from "react";
 import DisplayCard from "./display-card";
@@ -18,8 +18,8 @@ export default function InfiniteFeed() {
     data,
     fetchNextPage,
     isFetchingNextPage,
-    hasNextPage,
-    isPending,
+    // hasNextPage,
+    // isPending,
     isFetching,
   } = api.feed.getInfiniteDiary.useInfiniteQuery(
     {
@@ -33,23 +33,24 @@ export default function InfiniteFeed() {
   const flattenedData = data?.pages.flatMap((page) => page.data);
 
   useEffect(() => {
+    const bottomCurrent = bottom.current;
     const observer = new IntersectionObserver(
       (entries) => {
         console.log(entries);
         if (entries[0]?.isIntersecting) {
-          fetchNextPage();
+          void fetchNextPage();
         }
       },
       { threshold: 0 },
     );
-    if (bottom.current) observer.observe(bottom.current);
+    if (bottomCurrent) observer.observe(bottomCurrent);
 
     return () => {
-      if (bottom.current) {
-        observer.unobserve(bottom.current);
+      if (bottomCurrent) {
+        observer.unobserve(bottomCurrent);
       }
     };
-  }, [bottom]);
+  }, [bottom, fetchNextPage]);
 
   return (
     <ScrollArea

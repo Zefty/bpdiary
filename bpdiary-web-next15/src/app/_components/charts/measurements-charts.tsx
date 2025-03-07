@@ -7,23 +7,18 @@ import {
   CardTitle,
 } from "~/app/_components/shadcn/card";
 import {
-  Area,
-  AreaChart,
   Label,
   PolarAngleAxis,
-  PolarGrid,
   PolarRadiusAxis,
   RadialBar,
   RadialBarChart,
 } from "recharts";
 
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
 } from "~/app/_components/shadcn/chart";
-import { ChartBar, LineChart } from "lucide-react";
+import { LineChart } from "lucide-react";
 import { api } from "~/trpc/react";
 import { DateMonthLongFormat } from "~/lib/utils";
 
@@ -55,19 +50,15 @@ export default function MeasurementsChart() {
           <div className="text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-full bg-blue-100">
             <LineChart className="h-[1.5rem] w-[1.5rem] text-blue-500" />
           </div>
-          <CardTitle className="text-lg">
-            Measurements
-          </CardTitle>
+          <CardTitle className="text-lg">Measurements</CardTitle>
         </div>
       </CardHeader>
       <CardContent className="flex h-full w-full p-4">
-        <div className="mb-2 mr-2 flex flex-col justify-center">
+        <div className="mr-2 mb-2 flex flex-col justify-center">
           <span className="text-md font-semibold">
             {DateMonthLongFormat.format(currentDate)}
           </span>
-          <span className="text-muted-foreground text-sm">
-            This Month
-          </span>
+          <span className="text-muted-foreground text-sm">This Month</span>
         </div>
         <div className="flex-1">
           <ChartContainer config={chartConfig} className="h-[99%] w-full">

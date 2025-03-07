@@ -1,25 +1,19 @@
 "use client";
 
-import { BellPlus, PencilOff, Trash2 } from "lucide-react";
+import { BellPlus, Trash2 } from "lucide-react";
 import BaseHeader from "../header/base-header";
 import { Button } from "../shadcn/button";
 import { ScrollArea } from "../shadcn/scroll-area";
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "../shadcn/form";
+import { FormControl, FormField, FormItem } from "../shadcn/form";
 import { Switch } from "../shadcn/switch";
 import {
-  Control,
-  FieldArrayWithId,
-  UseFieldArrayAppend,
-  UseFieldArrayRemove,
+  type Control,
+  type FieldArrayWithId,
+  type UseFieldArrayAppend,
+  type UseFieldArrayRemove,
 } from "react-hook-form";
 import { useState } from "react";
-import { Reminder, RemindersFormValues } from "~/lib/types";
+import { type Reminder, type RemindersFormValues } from "~/lib/types";
 import { ToggleGroup, ToggleGroupItem } from "../shadcn/toggle-group";
 import { TimePicker } from "../custom-inputs/time-picker";
 

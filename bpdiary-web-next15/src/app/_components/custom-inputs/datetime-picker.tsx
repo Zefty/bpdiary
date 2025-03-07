@@ -1,11 +1,10 @@
 "use client";
 
 import { TimePicker } from "./time-picker";
-import { DatePicker, DatePickerRefs } from "./date-picker";
-import { forwardRef, useRef } from "react";
-import { Input } from "../shadcn/input";
+import { DatePicker, type DatePickerRefs } from "./date-picker";
+import { forwardRef } from "react";
 
-export interface DatetimePickerRefs extends DatePickerRefs {}
+export type DatetimePickerRefs = DatePickerRefs;
 
 export interface DatetimePickerProps {
   name?: string;
@@ -29,3 +28,4 @@ export const DatetimePicker = forwardRef<DatePickerRefs, DatetimePickerProps>(
     );
   },
 );
+DatetimePicker.displayName = "DatetimePicker";

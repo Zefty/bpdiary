@@ -1,13 +1,13 @@
 import NextAuth, {
-  AdapterUser,
-  DefaultSession,
-  NextAuthConfig,
+  type AdapterUser,
+  type DefaultSession,
+  type NextAuthConfig,
 } from "next-auth";
-import { AdapterUser as NextAuthAdapterUser } from "next-auth/adapters";
+import { type AdapterUser as NextAuthAdapterUser } from "next-auth/adapters";
 import GitHubProvider from "next-auth/providers/github";
 import { cache } from "react";
 import { env } from "~/env";
-import { NextRequest } from "next/server";
+import { type NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import { db } from "../db";
 import {

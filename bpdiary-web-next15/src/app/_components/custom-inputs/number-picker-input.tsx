@@ -58,11 +58,11 @@ const NumberPickerInput = React.forwardRef<
     useImperativeHandle(
       ref,
       () => ({
-        value: inputRef.current?.value || "",
+        value: inputRef.current?.value ?? "",
         reset: () => setNumber(0),
         focus: () => inputRef.current?.focus(),
       }),
-      [],
+      [setNumber],
     );
 
     const padValue = (value: string | undefined) => {
@@ -98,14 +98,14 @@ const NumberPickerInput = React.forwardRef<
     return (
       <Input
         ref={inputRef}
-        id={id || name}
+        id={id ?? name}
         name={name}
         className={cn(
           "focus:bg-accent focus:text-accent-foreground w-[6.5ch] text-center font-mono text-base tabular-nums caret-transparent [&::-webkit-inner-spin-button]:appearance-none",
           className,
         )}
         placeholder="000"
-        value={value || padValue(number?.toString())}
+        value={value ?? padValue(number?.toString())}
         onChange={(e) => {
           e.preventDefault();
           onChange?.(e);
@@ -121,7 +121,6 @@ const NumberPickerInput = React.forwardRef<
     );
   },
 );
-
 NumberPickerInput.displayName = "NumberPickerInput";
 
 export { NumberPickerInput };

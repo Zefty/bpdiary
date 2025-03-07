@@ -3,8 +3,8 @@ import { Input } from "~/app/_components/shadcn/input";
 import { cn } from "~/lib/utils";
 import React, { useImperativeHandle, useRef } from "react";
 import {
-  Period,
-  TimePickerType,
+  type Period,
+  type TimePickerType,
   getArrowByType,
   getDateByType,
   setDateByType,
@@ -78,7 +78,7 @@ const TimePickerInput = React.forwardRef<
         reset: () => setDate(new Date()),
         focus: () => inputRef.current?.focus(),
       }),
-      [],
+      [calculatedValue, setDate],
     );
 
     const calculateNewValue = (key: string) => {
@@ -120,13 +120,13 @@ const TimePickerInput = React.forwardRef<
     return (
       <Input
         ref={inputRef}
-        id={id || picker}
-        name={name || picker}
+        id={id ?? picker}
+        name={name ?? picker}
         className={cn(
           "focus:bg-accent focus:text-accent-foreground w-[3rem] text-center font-mono text-base tabular-nums caret-transparent [&::-webkit-inner-spin-button]:appearance-none",
           className,
         )}
-        value={value || calculatedValue}
+        value={value ?? calculatedValue}
         onChange={(e) => {
           e.preventDefault();
           onChange?.(e);
@@ -142,7 +142,6 @@ const TimePickerInput = React.forwardRef<
     );
   },
 );
-
 TimePickerInput.displayName = "TimePickerInput";
 
 export { TimePickerInput };
