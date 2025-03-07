@@ -1,0 +1,100 @@
+/* Heart beating animation */
+.beater {
+  position: relative;
+  width: 40px;
+  height: 60px;
+  animation: heartBeaterFrames 1.2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.beater:before,
+.beater:after {
+  content: "";
+  background: hsl(var(--primary));
+  width: 40px;
+  height: 60px;
+  border-radius: 50px 50px 0 0;
+  position: absolute;
+  left: 15;
+  bottom: 0;
+  transform: rotate(45deg);
+  transform-origin: 50% 68%;
+}
+.beater:after {
+  transform: rotate(-45deg);
+}
+@keyframes heartBeaterFrames {
+  0% {
+    transform: scale(0.95);
+  }
+  5% {
+    transform: scale(1.1);
+  }
+  39% {
+    transform: scale(0.85);
+  }
+  45% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(0.9);
+  }
+}
+
+/* Heart filling up animation */
+.heartFill {
+  width: 60px;
+  aspect-ratio: 1;
+  background: linear-gradient(hsl(var(--primary)) 0 0) bottom/100% 0% no-repeat
+    #ccc;
+  mask:
+    radial-gradient(circle at 60% 65%, #000 62%, #0000 65%) top left,
+    radial-gradient(circle at 40% 65%, #000 62%, #0000 65%) top right,
+    linear-gradient(to bottom left, #000 42%, #0000 43%) bottom left,
+    linear-gradient(to bottom right, #000 42%, #0000 43%) bottom right;
+  mask-size: 50% 50%;
+  mask-repeat: no-repeat;
+  animation: heartFillFrames 2s infinite linear;
+}
+@keyframes heartFillFrames {
+  90%,
+  100% {
+    background-size: 100% 100%;
+  }
+}
+
+/* Heart beat pulse animation */
+.pulse svg {
+  width: 100%; /* Makes the SVG scalable */
+  height: auto; /* Maintains aspect ratio */
+}
+
+.pulse svg polyline {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pulse svg polyline#back {
+  fill: none;
+  stroke: #ff4d5033;
+}
+
+.pulse svg polyline#front {
+  fill: none;
+  stroke: hsl(var(--primary));
+  stroke-dasharray: 48, 144;
+  stroke-dashoffset: 192;
+  animation: pulseFrames 1.4s linear infinite;
+}
+
+@keyframes pulseFrames {
+  72.5% {
+    opacity: 0;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}

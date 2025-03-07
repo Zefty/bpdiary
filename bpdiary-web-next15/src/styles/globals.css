@@ -1,0 +1,286 @@
+@import 'tailwindcss';
+
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+/* @custom-variant mobile {
+  @media screen and (orientation: portrait) {
+    @slot
+  }
+};
+
+@custom-variant desktop {
+  @media screen and (orientation: landscape) {
+    @slot
+  }
+}; */
+
+@custom-variant tablet {
+  @media screen and (orientation: landscape) and (min-width: 1024px) {
+    @slot
+  }
+};
+
+@custom-variant laptop {
+  @media screen and (orientation: landscape) and (min-width: 1472px) {
+    @slot
+  }
+};
+
+@custom-variant desktop {
+  @media screen and (orientation: landscape) and (min-width: 1800px) {
+    @slot
+  }
+}
+
+@theme {
+  /* --breakpoint-*: initial; */
+  /* --breakpoint-desktop: 1024px; */
+  /* --breakpoint-desktop: 1800px; */
+
+  --font-sans:
+    var(--font-poppins), ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 84.2% 60.2%;
+    --primary-foreground: 0 85.7% 97.3%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 96.1%;
+    --input: 0 0% 89.8%;
+    --ring: 0 72.2% 50.6%;
+    --radius: 0.5rem;
+    --chart-1: 0 72.2% 50.6%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --chart-bp: 0 84.2% 60.2%;
+    --chart-hr: 173.4 80.4% 40%;
+    --chart-m: 217.2 91.2% 59.8%;
+    --background: 0 0% 100%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 240 5.9% 10%;
+    --foreground: 240 4.8% 95.9%;
+    --card: 240 5.9% 10%;
+    --card-foreground: 240 4.8% 95.9%;
+    --popover: 240 5.9% 10%;
+    --popover-foreground: 240 4.8% 95.9%;
+    --primary: 0 72.2% 50.6%;
+    --primary-foreground: 0 85.7% 97.3%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 72.2% 50.6%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --chart-bp: var(--primary);
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+@layer base {
+  * {
+    @apply border-border;
+    @apply tracking-wide;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 500px) and (orientation: portrait) {
+  body,
+  html {
+    font-size: 1.7vh;
+  }
+} 
+@media screen and (min-width: 1920px) and (orientation: landscape) {
+  body,
+  html {
+    font-size: calc((100vw/1920)*16);
+  }
+}
+
+/*==== All-In-One (FHD, UHD, 2K, 4K, 8K) => {4:3, 16:9, 21:9, 5:3} Responsive Scaling ====*/
+ /* @media screen and (min-width: 1800px) {
+   body,
+   html {
+     font-size: 1.1vw;
+   }
+ } */
+/*==== FHD/UHD (6:9) Responsive Support ====*/
+/* @media screen and (min-width: 1800px) {
+  body,
+  html {
+    font-size: 2.5vh;
+  }
+} */
+/*==== FHD/2K (4:3) Responsive Support ====*/
+/* @media screen and (min-width: 1900px) and (min-height: 1400px) {
+  body,
+  html {
+    font-size: 1.5vh;
+  }
+} */
+/*==== FHD/2K (5:3) Responsive Support ====*/
+/* @media screen and (min-width: 1900px) and (min-height: 2000px) {
+  body,
+  html {
+    font-size: 1.25vh;
+  }
+} */
+/*==== 2K/4K (6:9) Responsive Support ====*/
+/* @media screen and (min-width: 1990px) {
+  body,
+  html {
+    font-size: 2vh;
+  }
+} */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* HeroCards background shadow */
+.shadow {
+  position: absolute;
+  background: hsl(var(--primary) / 0%);
+  border-radius: 1.5rem;
+  rotate: 35deg;
+  z-index: -1;
+  width: 16rem;
+  top: 20rem;
+  height: 25rem;
+  filter: blur(10rem);
+  will-change: transform;
+  animation: shadow-slide infinite 4s linear alternate;
+}
+
+@keyframes shadow-slide {
+  from {
+    background: hsl(var(--primary) / 20%);
+    right: 30rem;
+  }
+
+  to {
+    background: hsl(var(--primary) / 80%);
+    right: 20rem;
+  }
+}

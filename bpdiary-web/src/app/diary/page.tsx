@@ -1,3 +1,5 @@
+import { SidebarTrigger } from "../_components/shadcn/sidebar";
+
 export default async function DiaryHome() {
-  return <div></div>;
+  return <div><SidebarTrigger /></div>;
 }
