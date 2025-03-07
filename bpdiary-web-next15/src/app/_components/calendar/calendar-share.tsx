@@ -1,7 +1,6 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -11,7 +10,6 @@ import { Input } from "../shadcn/input";
 import { Label } from "../shadcn/label";
 import { Button } from "../shadcn/button";
 import { Send } from "lucide-react";
-import { DialogClose } from "@radix-ui/react-dialog";
 import { cn } from "~/lib/utils";
 
 export default function CalendarShare({

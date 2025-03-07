@@ -9,22 +9,21 @@ import {
   CardTitle,
 } from "~/app/_components/shadcn/card";
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "~/app/_components/shadcn/chart";
 import { cn, DateMonthShortFormat } from "~/lib/utils";
-import { api, RouterOutputs } from "~/trpc/react";
+import { api } from "~/trpc/react";
 import { Switch } from "../shadcn/switch";
 import { Label } from "../shadcn/label";
 import { useState } from "react";
-import { endOfDay, interval, startOfDay, startOfYear, subDays } from "date-fns";
-import { Button, buttonVariants } from "../shadcn/button";
+import { Button } from "../shadcn/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../shadcn/popover";
 import { CalendarHeart, ChevronDown } from "lucide-react";
-import { scaleTime, scaleUtc } from "d3-scale";
-import { Timeframes, TIMEFRAMES } from "~/lib/types";
+import { scaleUtc } from "d3-scale";
+import { type Timeframes, TIMEFRAMES } from "~/lib/types";
 
 export const description = "A linear line chart";
 

@@ -2,11 +2,16 @@
 
 import { Form } from "../shadcn/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "~/app/_hooks/use-toast";
 import { useFieldArray, useForm } from "react-hook-form";
 import RemindersView from "./reminders-view";
-import { remindersFormSchema, RemindersFormValues } from "~/lib/types";
+import {
+  remindersFormSchema,
+  ServerActionSuccess,
+  type RemindersFormValues,
+} from "~/lib/types";
 import { CreateOrUpdateReminders } from "~/server/actions/server-actions";
+import { useServerAction } from "~/app/_hooks/use-server-action";
+import { toast } from "~/app/_hooks/use-toast";
 
 export default function RemindersForm({
   reminders,
@@ -33,22 +38,22 @@ export default function RemindersForm({
     control: form.control,
     name: "med", // unique name for your Field Array
   });
+  const [action, isRunning] = useServerAction(CreateOrUpdateReminders);
+  console.log(isRunning);
 
-  function onSubmit(data: RemindersFormValues) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  async function submit(data: RemindersFormValues) {
+    const response = await action(data);
+    if (response === ServerActionSuccess) {
+      toast({
+        description: "Your profile has been updated.",
+      });
+    }
   }
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(CreateOrUpdateReminders)}
+        onSubmit={form.handleSubmit(submit)}
         className="tablet:grid tablet:grid-cols-2 flex w-full flex-1 flex-col gap-12"
         id="reminders"
       >

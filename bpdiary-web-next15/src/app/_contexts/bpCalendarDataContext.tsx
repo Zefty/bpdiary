@@ -3,7 +3,7 @@
 import { addMonths, isSameDay, startOfMonth, subMonths } from "date-fns";
 import React from "react";
 import { createContext } from "react";
-import { api, RouterOutputs } from "~/trpc/react";
+import { api, type RouterOutputs } from "~/trpc/react";
 import { useBpCalendarContext } from "./bpCaldendarContext";
 
 type BloodPressureDiary = RouterOutputs["calendar"]["getMonthlyDiary"];

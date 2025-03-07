@@ -1,11 +1,8 @@
 "use client";
 import { createContext, useContext, useState } from "react";
-import { RouterOutputs } from "~/trpc/react";
 import { EditBpForm } from "../_components/log-bp/edit-bp-form";
 import { LogBpForm } from "../_components/log-bp/log-bp-form";
-import { BpLogFormValues } from "~/lib/types";
-
-type BloodPressureDiary = RouterOutputs["feed"]["getInfiniteDiary"];
+import { type BpLogFormValues } from "~/lib/types";
 
 export interface BpEntryContext {
   open: boolean;

@@ -13,13 +13,13 @@ export default function SignIn({ children }: { children?: React.ReactNode }) {
       {!loading && (
         <Button
           onClick={() => {
-            signIn("github", undefined, { timezone: tz });
+            void signIn("github", undefined, { timezone: tz });
             setLoading(true);
           }}
           className="bg-primary hover:bg-primary/70 h-12 w-[15rem] rounded-full px-10 py-3 font-semibold text-white no-underline transition"
           disabled={loading}
         >
-          {children ? children : "Sign in"}
+          {children ?? "Sign in"}
         </Button>
       )}
       {loading && (

@@ -2,9 +2,8 @@
 
 import { Clock } from "lucide-react";
 import { Label } from "~/app/_components/shadcn/label";
-import { TimePickerInput, TimePickerInputRefs } from "./time-picker-input";
-import { useContext, useRef } from "react";
-import { DateContext } from "./date-picker";
+import { TimePickerInput, type TimePickerInputRefs } from "./time-picker-input";
+import { useRef } from "react";
 
 interface TimePickerProps {
   showSeconds?: boolean;
@@ -17,7 +16,7 @@ export function TimePicker({
   selectedDate,
   onDateChange,
 }: TimePickerProps) {
-  const dateContext = useContext(DateContext);
+  // const dateContext = useContext(DateContext);
   const minuteRef = useRef<TimePickerInputRefs>(null);
   const hourRef = useRef<TimePickerInputRefs>(null);
   const secondRef = useRef<TimePickerInputRefs>(null);

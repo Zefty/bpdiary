@@ -11,13 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/app/_components/shadcn/popover";
-import {
-  useState,
-  createContext,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
-import { Input } from "../shadcn/input";
+import { createContext, forwardRef, useImperativeHandle } from "react";
 
 export interface DatePickerRefs {
   value: Date | undefined;
@@ -47,8 +41,9 @@ export const DatePicker = forwardRef<DatePickerRefs, DatePickerProps>(
         value: selectedDate,
         reset: () => onDateChange?.(new Date()),
       }),
-      [],
+      [onDateChange, selectedDate],
     );
+    console.log(name);
 
     /**
      * carry over the current time when a user clicks a new day
@@ -98,3 +93,4 @@ export const DatePicker = forwardRef<DatePickerRefs, DatePickerProps>(
     );
   },
 );
+DatePicker.displayName = "DatePicker";

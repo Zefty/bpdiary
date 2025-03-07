@@ -1,4 +1,4 @@
-import { RouterOutputs } from "~/trpc/react";
+import { type RouterOutputs } from "~/trpc/react";
 import { Card, CardContent } from "../shadcn/card";
 import DisplayCardEntry from "./display-card-entry";
 import { EditBpFormProvider } from "~/app/_contexts/bpEntryContext";

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button, buttonVariants } from "../shadcn/button";
+import { Button } from "../shadcn/button";
 import { cn } from "~/lib/utils";
 import BaseHeader from "../header/base-header";
 
@@ -21,7 +21,7 @@ export default function SettingsNav({
   const pathname = usePathname();
 
   return (
-    <BaseHeader className="flex flex-wrap">
+    <BaseHeader className={cn("flex flex-col", className)} {...props}>
       {items.map((item) => (
         <Button
           key={item.href}

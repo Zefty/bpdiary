@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -13,17 +12,17 @@ import {
   FormMessage,
 } from "../shadcn/form";
 import { Button } from "../shadcn/button";
-import { toast } from "~/app/_hooks/use-toast";
 import { RadioGroup, RadioGroupItem } from "../shadcn/radio-group";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import {
-  AppearanceFormValues,
+  type AppearanceFormValues,
   ServerActionSuccess,
   appearanceFormSchema,
 } from "~/lib/types";
 import { useServerAction } from "~/app/_hooks/use-server-action";
 import { UpdateAppearance } from "~/server/actions/server-actions";
+import { toast } from "~/app/_hooks/use-toast";
 
 // This can come from your database or API.
 
@@ -38,6 +37,7 @@ export function AppearanceForm() {
     defaultValues,
   });
   const [action, isRunning] = useServerAction(UpdateAppearance);
+  console.log(isRunning);
 
   // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
@@ -51,6 +51,11 @@ export function AppearanceForm() {
   async function submit(data: AppearanceFormValues) {
     setTheme(data.theme);
     const response = await action(data);
+    if (response === ServerActionSuccess) {
+      toast({
+        description: "Your profile has been updated.",
+      });
+    }
   }
 
   return (

@@ -1,4 +1,4 @@
-import { Button, buttonVariants } from "../shadcn/button";
+import { buttonVariants } from "../shadcn/button";
 import {
   Card,
   CardHeader,
@@ -12,6 +12,7 @@ import { Check, Github, Linkedin } from "lucide-react";
 import { Badge } from "../shadcn/badge";
 import SignIn from "../navigation/sign-in";
 import { auth } from "~/server/auth";
+import Image from "next/image";
 
 export const HeroCards = async () => {
   const session = await auth();
@@ -32,15 +33,15 @@ export const HeroCards = async () => {
         </CardHeader>
 
         <CardContent className="text-muted-foreground text-sm">
-          "Simple, accurate, and easy to use—this app makes tracking blood
-          pressure effortless!"
+          &quot;Simple, accurate, and easy to use—this app makes tracking blood
+          pressure effortless!&quot;
         </CardContent>
       </Card>
 
       {/* Team */}
       <Card className="absolute top-4 right-[1.25rem] flex w-80 flex-col items-center justify-center rounded-3xl shadow-black/10 drop-shadow-xl dark:shadow-white/10">
         <CardHeader className="mt-8 flex items-center justify-center pb-2">
-          <img
+          <Image
             src="https://images.aiscribbles.com/1d14b9ba76144261ba3bce1b22b3631a.png?v=e6c995"
             alt="user avatar"
             className="absolute -top-12 aspect-square h-24 w-24 rounded-full object-cover grayscale-[0%]"

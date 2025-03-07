@@ -2,7 +2,7 @@
 
 import {
   DatetimePicker,
-  DatetimePickerRefs,
+  type DatetimePickerRefs,
 } from "../custom-inputs/datetime-picker";
 import { Textarea } from "../shadcn/textarea";
 import {
@@ -22,7 +22,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   bpLogFormSchema,
-  BpLogFormValues,
+  type BpLogFormValues,
   ServerActionSuccess,
 } from "~/lib/types";
 import {
@@ -37,7 +37,7 @@ import {
 import { toast } from "~/app/_hooks/use-toast";
 import {
   NumberPickerInput,
-  NumberPickerInputRefs,
+  type NumberPickerInputRefs,
 } from "../custom-inputs/number-picker-input";
 import { useServerAction } from "~/app/_hooks/use-server-action";
 import { CreateOrUpdateBpMeasurement } from "~/server/actions/server-actions";
@@ -71,14 +71,14 @@ export const BaseBpForm = forwardRef<BpEntryBaseRefs, BpEntryBaseProps>(
 
     useEffect(() => {
       form.reset(bpFormData);
-    }, [bpFormData]);
+    }, [bpFormData, form]);
 
     useImperativeHandle(
       ref,
       () => ({
         resetForm: () => form.reset(),
       }),
-      [],
+      [form],
     );
 
     async function submit(data: BpLogFormValues) {
@@ -228,3 +228,4 @@ export const BaseBpForm = forwardRef<BpEntryBaseRefs, BpEntryBaseProps>(
     );
   },
 );
+BaseBpForm.displayName = "BaseBpForm";

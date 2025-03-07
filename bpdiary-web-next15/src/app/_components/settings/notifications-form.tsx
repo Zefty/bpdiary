@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { toast } from "~/app/_hooks/use-toast";
 import {
   FormField,
@@ -21,7 +20,7 @@ import { useForm } from "react-hook-form";
 import { Label } from "../shadcn/label";
 import {
   notificationsFormSchema,
-  NotificationsFormValues,
+  type NotificationsFormValues,
   ServerActionSuccess,
 } from "~/lib/types";
 import { UpdateNotifications } from "~/server/actions/server-actions";

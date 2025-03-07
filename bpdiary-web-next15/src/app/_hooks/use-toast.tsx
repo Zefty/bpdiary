@@ -2,7 +2,10 @@
 
 // Inspired by react-hot-toast library
 import * as React from "react";
-import { ToastActionElement, ToastProps } from "../_components/shadcn/toast";
+import {
+  type ToastActionElement,
+  type ToastProps,
+} from "../_components/shadcn/toast";
 
 const TOAST_LIMIT = 1;
 const TOAST_REMOVE_DELAY = 1000000;
@@ -14,7 +17,7 @@ type ToasterToast = ToastProps & {
   action?: ToastActionElement;
 };
 
-const actionTypes = {
+export const actionTypes = {
   ADD_TOAST: "ADD_TOAST",
   UPDATE_TOAST: "UPDATE_TOAST",
   DISMISS_TOAST: "DISMISS_TOAST",

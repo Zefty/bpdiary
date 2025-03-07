@@ -4,13 +4,13 @@ import { cn } from "~/lib/utils";
 const useTruncatedElement = ({
   ref,
 }: {
-  ref: React.RefObject<HTMLParagraphElement>;
+  ref: React.RefObject<HTMLParagraphElement | null>;
 }) => {
   const [isTruncated, setIsTruncated] = useState(false);
   const [isShowingMore, setIsShowingMore] = useState(false);
 
   useLayoutEffect(() => {
-    const { offsetHeight, scrollHeight } = ref.current || {};
+    const { offsetHeight, scrollHeight } = ref.current ?? {};
 
     if (offsetHeight && scrollHeight && offsetHeight < scrollHeight) {
       setIsTruncated(true);
@@ -35,7 +35,7 @@ export default function Note({
   note?: string | null;
   className?: string;
 }) {
-  const ref = useRef(null);
+  const ref = useRef<HTMLParagraphElement>(null);
   const { isTruncated, isShowingMore, toggleIsShowingMore } =
     useTruncatedElement({
       ref,
@@ -52,11 +52,11 @@ export default function Note({
       >
         {note}
       </div>
-      {/* {isTruncated && (
+      {false && isTruncated && (
         <button onClick={toggleIsShowingMore}>
           {isShowingMore ? "Show less" : "Show more"}
         </button>
-      )} */}
+      )}
     </div>
   );
 }

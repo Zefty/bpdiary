@@ -7,10 +7,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../shadcn/dialog";
-import { Input } from "../shadcn/input";
 import { Label } from "../shadcn/label";
 import { Button } from "../shadcn/button";
-import { Download, Send } from "lucide-react";
+import { Download } from "lucide-react";
 import { cn } from "~/lib/utils";
 
 export default function CalendarExport({

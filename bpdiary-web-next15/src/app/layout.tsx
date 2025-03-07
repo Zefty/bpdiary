@@ -4,9 +4,8 @@ import { Poppins } from "next/font/google";
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 
-import { RouterOutputs, TRPCReactProvider } from "~/trpc/react";
+import { type RouterOutputs, TRPCReactProvider } from "~/trpc/react";
 import { ThemeProvider } from "./_contexts/themeProvider";
-import { api } from "~/trpc/server";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -27,7 +26,7 @@ type Theme = RouterOutputs["setting"]["retrieveSetting"][0];
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  let theme = { settingValue: "light" } as Theme;
+  const theme = { settingValue: "light" } as Theme;
   // try {
   //   const ret = (
   //     await api.setting.retrieveSetting({ settingName: "theme" })

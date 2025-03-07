@@ -1,6 +1,15 @@
 import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { env } from "./env";
+import { type RouterOutputs } from "./trpc/react";
+
+type ValidateSession = {
+  result: {
+    data: {
+      json: RouterOutputs["session"]["validate"];
+    };
+  };
+};
 
 const protectedRoutes = ["/diary"];
 const publicRoutes = ["/login", "/signup", "/"];
@@ -29,7 +38,8 @@ export default async function middleware(req: NextRequest) {
 
   let validSession = false;
   if (res.ok) {
-    validSession = (await res.json()).result.data.json;
+    const ret = (await res.json()) as ValidateSession;
+    validSession = ret.result.data.json;
   }
 
   if (isProtectedRoute && !validSession) {

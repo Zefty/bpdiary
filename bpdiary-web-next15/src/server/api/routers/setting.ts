@@ -3,11 +3,10 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
-  TrpcContext,
+  type TrpcContext,
 } from "~/server/api/trpc";
 import { setting } from "~/server/db/schema";
-import { and, eq, isNull, or } from "drizzle-orm";
-import { AdapterUser } from "next-auth";
+import { and, eq } from "drizzle-orm";
 
 export const getUserTimezone = async (ctx: TrpcContext) => {
   const defaultTz = "UTC";

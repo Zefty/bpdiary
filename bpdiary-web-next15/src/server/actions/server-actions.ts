@@ -3,11 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { api } from "~/trpc/server";
 import {
-  AppearanceFormValues,
-  BpLogFormValues,
-  NotificationsFormValues,
-  ProfileFormValues,
-  RemindersFormValues,
+  type AppearanceFormValues,
+  type BpLogFormValues,
+  type NotificationsFormValues,
+  type ProfileFormValues,
+  type RemindersFormValues,
   ServerActionFailed,
   ServerActionSuccess,
 } from "~/lib/types";

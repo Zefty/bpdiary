@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 import "../../../styles/heart-loaders.css";
 
 const Switch = ({
@@ -13,8 +13,11 @@ const Switch = ({
   if (Array.isArray(children)) {
     return (
       <div className={className}>
-        {children.find((child) => {
-          return child.props["data-value"] === value;
+        {children.find((child: React.ReactElement) => {
+          const props = child.props as {
+            "data-value": boolean | string | number;
+          };
+          return props["data-value"] === value;
         })}
       </div>
     );
