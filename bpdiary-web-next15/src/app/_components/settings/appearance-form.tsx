@@ -37,7 +37,6 @@ export function AppearanceForm() {
     defaultValues,
   });
   const [action, isRunning] = useServerAction(UpdateAppearance);
-  console.log(isRunning);
 
   // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
@@ -132,7 +131,11 @@ export function AppearanceForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="h-12 rounded-full">
+        <Button
+          type="submit"
+          className="h-12 rounded-full"
+          disabled={isRunning}
+        >
           Update appearance
         </Button>
       </form>

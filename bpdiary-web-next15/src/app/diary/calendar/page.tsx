@@ -7,10 +7,9 @@ import DailyFeed from "~/app/_components/bp-feed/daily-feed";
 
 export default async function CalendarPage() {
   const today = new Date();
-  // today.setHours(0, 0, 0, 0);
   const som = startOfMonth(today);
 
-  await api.calendar.getRollingMonthlyDiary.prefetch({ date: som });
+  void api.calendar.getRollingMonthlyDiary.prefetch({ date: som });
   void api.calendar.getRollingMonthlyDiary.prefetch({
     date: subMonths(som, 1),
   });

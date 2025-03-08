@@ -21,7 +21,7 @@ export default function SettingsNav({
   const pathname = usePathname();
 
   return (
-    <BaseHeader className={cn("flex flex-col", className)} {...props}>
+    <BaseHeader className={cn("flex", className)} {...props}>
       {items.map((item) => (
         <Button
           key={item.href}

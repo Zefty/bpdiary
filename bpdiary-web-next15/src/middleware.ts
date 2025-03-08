@@ -29,7 +29,7 @@ export default async function middleware(req: NextRequest) {
     cookie: `__Secure-authjs.session-token=${sessionToken}`,
   });
 
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV !== "production" || baseUrl.includes("localhost")) {
     const sessionToken = cookieStore.get("authjs.session-token")?.value;
     headers = new Headers({
       cookie: `authjs.session-token=${sessionToken}`,

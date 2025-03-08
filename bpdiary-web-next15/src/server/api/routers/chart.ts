@@ -148,5 +148,9 @@ const getBloodPressureAdjustedByUserTimezone = async (
     .groupBy(tzAdjusted.measuredAtOffset)
     .orderBy(tzAdjusted.measuredAtOffset);
 
+  console.log(
+    `getBloodPressureAdjustedByUserTimezone: ${fromDate.toISOString()} - ${toDate.toISOString()}`,
+  );
+  console.log(data);
   return data;
 };

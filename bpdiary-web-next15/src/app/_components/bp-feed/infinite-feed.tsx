@@ -36,7 +36,6 @@ export default function InfiniteFeed() {
     const bottomCurrent = bottom.current;
     const observer = new IntersectionObserver(
       (entries) => {
-        console.log(entries);
         if (entries[0]?.isIntersecting) {
           void fetchNextPage();
         }

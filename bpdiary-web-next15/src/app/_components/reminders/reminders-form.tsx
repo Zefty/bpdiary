@@ -38,8 +38,7 @@ export default function RemindersForm({
     control: form.control,
     name: "med", // unique name for your Field Array
   });
-  const [action, isRunning] = useServerAction(CreateOrUpdateReminders);
-  console.log(isRunning);
+  const [action] = useServerAction(CreateOrUpdateReminders);
 
   async function submit(data: RemindersFormValues) {
     const response = await action(data);

@@ -113,7 +113,6 @@ export default function RemindersView({
                               field.value?.[index]?.reminderTime ?? new Date()
                             }
                             onDateChange={(value) => {
-                              console.log(value);
                               const newFields = field.value
                                 ? [...field.value]
                                 : [];

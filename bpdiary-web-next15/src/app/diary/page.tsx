@@ -5,12 +5,10 @@ import HomeHeader from "../_components/header/home-header";
 import HomeMetrics from "../_components/charts/home-metrics";
 
 export default async function DiaryHomePage() {
-  await Promise.all([
-    api.chart.getPastSevenDaysData.prefetch(),
-    api.chart.getStockChartData.prefetch(),
-    api.chart.getDatesWithBpMeasurementsByMonth.prefetch(),
-    api.feed.getInfiniteDiary.prefetchInfinite({ limit: 10 }),
-  ]);
+  void api.chart.getPastSevenDaysData.prefetch();
+  void api.chart.getStockChartData.prefetch();
+  void api.chart.getDatesWithBpMeasurementsByMonth.prefetch();
+  void api.feed.getInfiniteDiary.prefetchInfinite({ limit: 10 });
 
   return (
     <HydrateClient>
