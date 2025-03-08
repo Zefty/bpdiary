@@ -56,9 +56,6 @@ export default function BpStockChart() {
 
   const allChartData = api.chart.getStockChartData.useQuery().data;
 
-  console.log("BpStockChart");
-  console.log(allChartData);
-
   const chartData = allChartData?.get(timeframe)?.map((entry) => ({
     date: entry.measuredAtDate.valueOf(),
     systolic: Math.ceil(entry.avgSystolic),

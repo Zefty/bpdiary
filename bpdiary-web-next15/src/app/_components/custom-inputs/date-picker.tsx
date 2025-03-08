@@ -43,7 +43,6 @@ export const DatePicker = forwardRef<DatePickerRefs, DatePickerProps>(
       }),
       [onDateChange, selectedDate],
     );
-    console.log(name);
 
     /**
      * carry over the current time when a user clicks a new day
@@ -62,7 +61,7 @@ export const DatePicker = forwardRef<DatePickerRefs, DatePickerProps>(
     };
 
     return (
-      <Popover>
+      <Popover data-name={name}>
         <PopoverTrigger asChild>
           <Button
             variant={"outline"}

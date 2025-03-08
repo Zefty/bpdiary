@@ -5,10 +5,14 @@ import HomeHeader from "../_components/header/home-header";
 import HomeMetrics from "../_components/charts/home-metrics";
 
 export default async function DiaryHomePage() {
-  void api.chart.getPastSevenDaysData.prefetch();
-  void api.chart.getStockChartData.prefetch();
-  void api.chart.getDatesWithBpMeasurementsByMonth.prefetch();
-  void api.feed.getInfiniteDiary.prefetchInfinite({ limit: 10 });
+  // TODO: Been doing prefetching wrong, causing hydration errors
+  //       Probably need to make HomeMetrics a server function that calls data apis then pass as props to client components
+  //       Wrap HomeMetrics in a suspense boundary -> Do this to all other prefetching cases
+
+  // void api.chart.getPastSevenDaysData.prefetch();
+  // void api.chart.getStockChartData.prefetch();
+  // void api.chart.getDatesWithBpMeasurementsByMonth.prefetch();
+  // void api.feed.getInfiniteDiary.prefetchInfinite({ limit: 10 });
 
   return (
     <HydrateClient>

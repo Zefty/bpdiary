@@ -8,8 +8,7 @@ import { cn } from "~/lib/utils";
 export default function CalendarDay(props: DayProps) {
   const calendarContext = useBpCalendarContext();
   const dataContext = useBpCalendarDataContext();
-  const { day, modifiers, ...tdProps } = props;
-  console.log(modifiers);
+  const { day, ...tdProps } = props;
   const cellData = dataContext?.data?.find((ele) =>
     isSameDay(ele.measuredAt, day.date),
   );

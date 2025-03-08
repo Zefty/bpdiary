@@ -1,3 +1,5 @@
+"use client";
+
 import { type RouterOutputs } from "~/trpc/react";
 import { Card, CardContent } from "../shadcn/card";
 import DisplayCardEntry from "./display-card-entry";
