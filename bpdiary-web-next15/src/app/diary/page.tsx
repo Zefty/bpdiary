@@ -8,6 +8,7 @@ export default async function DiaryHomePage() {
   await Promise.all([
     api.chart.getPastSevenDaysData.prefetch(),
     api.chart.getStockChartData.prefetch(),
+    api.chart.getDatesWithBpMeasurementsByMonth.prefetch(),
     api.feed.getInfiniteDiary.prefetchInfinite({ limit: 10 }),
   ]);
 
@@ -17,7 +18,7 @@ export default async function DiaryHomePage() {
         <div className="tablet:px-[2rem] desktop:px-[5rem] tablet:col-span-2 tablet:py-10 col-span-3 flex flex-col items-center gap-10 px-6 py-6">
           <HomeHeader />
           <div className="grid h-full w-full grid-rows-3 gap-8">
-            <div className="flex row-span-1">
+            <div className="row-span-1 flex">
               <HomeMetrics className="flex h-full gap-6 pb-3" />
             </div>
             <div className="row-span-2">

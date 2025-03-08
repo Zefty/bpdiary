@@ -6,8 +6,8 @@ import { reset, seed } from "drizzle-seed";
 import { bloodPressure, users } from "./schema";
 import { startOfYear } from "date-fns";
 
-console.log(env.DATABASE_URL);
-const conn = postgres(env.DATABASE_URL);
+console.log(env.DATABASE_URL_DB_BUILD);
+const conn = postgres(env.DATABASE_URL_DB_BUILD);
 const db = drizzle(conn);
 
 const userIds = (await db.select().from(users)).map((user) => user.id);
