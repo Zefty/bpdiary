@@ -24,14 +24,21 @@ export default async function middleware(req: NextRequest) {
   const isPublicRoute = publicRoutes.includes(path);
 
   const cookieStore = await cookies();
-  const csfrToken = cookieStore.get("authjs.csfr-token")?.value;
-  const sessionToken = cookieStore.get("authjs.session-token")?.value;
+  const sessionToken = cookieStore.get("__Secure-authjs.session-token")?.value;
+  let headers = new Headers({
+    cookie: `__Secure-authjs.session-token=${sessionToken}`,
+  });
+
+  if (process.env.NODE_ENV !== "production") {
+    const sessionToken = cookieStore.get("authjs.session-token")?.value;
+    headers = new Headers({
+      cookie: `authjs.session-token=${sessionToken}`,
+    });
+  }
 
   const url = encodeURI(`${baseUrl}/api/trpc/session.validate`);
   const res = await fetch(url, {
-    headers: new Headers({
-      cookie: `authjs.csfr-token=${csfrToken}; authjs.session-token=${sessionToken}`,
-    }),
+    headers: headers,
     body: null,
     method: "GET",
   });
