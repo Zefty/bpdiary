@@ -7,16 +7,16 @@ import DailyFeed from "~/app/_components/bp-feed/daily-feed";
 
 export default async function CalendarPage() {
   const today = new Date();
-  const som = startOfMonth(today);
+  // const som = startOfMonth(today);
 
-  void api.calendar.getRollingMonthlyDiary.prefetch({ date: som });
-  void api.calendar.getRollingMonthlyDiary.prefetch({
-    date: subMonths(som, 1),
-  });
+  // void api.calendar.getRollingMonthlyDiary.prefetch({ date: som });
+  // void api.calendar.getRollingMonthlyDiary.prefetch({
+  //   date: subMonths(som, 1),
+  // });
 
-  void api.calendar.getRollingMonthlyDiary.prefetch({
-    date: addMonths(som, 1),
-  });
+  // void api.calendar.getRollingMonthlyDiary.prefetch({
+  //   date: addMonths(som, 1),
+  // });
 
   return (
     <HydrateClient>
