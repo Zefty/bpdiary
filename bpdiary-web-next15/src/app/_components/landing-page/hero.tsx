@@ -5,7 +5,7 @@ import SignIn from "../navigation/sign-in";
 export const Hero = async () => {
   const session = await auth();
   return (
-    <section className="desktop:py-32 container grid place-items-center gap-10 py-35 lg:grid-cols-2">
+    <section className="tablet:py-16 container grid place-items-center gap-10 lg:grid-cols-2">
       <div className="space-y-6 text-center lg:text-start">
         <main className="text-5xl font-bold md:text-6xl">
           <h1 className="inline">
