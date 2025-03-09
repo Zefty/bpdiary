@@ -1,6 +1,5 @@
 "use client";
 
-import { startOfMonth } from "date-fns";
 import React from "react";
 import { createContext } from "react";
 
@@ -36,8 +35,7 @@ export const BpCalendarContextProvider: React.FC<
   BpCalendarContextProviderProps
 > = ({ children, initialDate }) => {
   const [selectedDate, setSelectedDate] = React.useState<Date>(initialDate);
-  const som = startOfMonth(selectedDate);
-  const [selectedMonth, setSelectedMonth] = React.useState<Date>(som);
+  const [selectedMonth, setSelectedMonth] = React.useState<Date>(initialDate);
 
   return (
     <BpCalendarContext.Provider
