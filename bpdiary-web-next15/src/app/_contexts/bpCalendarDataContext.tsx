@@ -38,10 +38,11 @@ export const BpCalendarDataContextProvider: React.FC<
   // void api.calendar.getRollingMonthlyDiary.useQuery({
   //   date: addMonths(som, 1),
   // });
-  console.log(calendarContext?.selectedMonth);
+
+  const date = calendarContext?.selectedMonth ?? new Date();
 
   const dataMonthly = api.calendar.getRollingMonthlyDiary.useQuery({
-    date: calendarContext?.selectedMonth ?? new Date(),
+    datetime: date.toDateString() + " " + date.toLocaleTimeString(),
   });
 
   console.log(dataMonthly.data);

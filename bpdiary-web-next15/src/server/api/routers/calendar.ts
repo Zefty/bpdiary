@@ -29,12 +29,12 @@ export const calendarRouter = createTRPCRouter({
   getRollingMonthlyDiary: protectedProcedure
     .input(
       z.object({
-        date: z.date(),
+        datetime: z.string(),
       }),
     )
     .query(async ({ ctx, input }) => {
-      console.log(input.date);
-      const som = startOfMonth(input.date);
+      console.log(input.datetime);
+      const som = startOfMonth(input.datetime);
       const eom = endOfMonth(som);
 
       console.log(som, eom);
