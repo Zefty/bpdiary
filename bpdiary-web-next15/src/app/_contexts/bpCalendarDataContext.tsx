@@ -45,8 +45,6 @@ export const BpCalendarDataContextProvider: React.FC<
     datetime: date.toDateString() + " " + date.toLocaleTimeString(),
   });
 
-  console.log(dataMonthly.data);
-
   return (
     <BpCalendarDataContext.Provider
       value={{

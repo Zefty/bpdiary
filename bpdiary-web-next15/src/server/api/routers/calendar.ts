@@ -33,16 +33,11 @@ export const calendarRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      console.log(input.datetime);
       const som = startOfMonth(input.datetime);
       const eom = endOfMonth(som);
 
-      console.log(som, eom);
-
       const start = subDays(som, som.getDay());
       const end = addDays(eom, 6 - eom.getDay());
-
-      console.log(start, end);
 
       const data = await ctx.db
         .select()
@@ -56,7 +51,6 @@ export const calendarRouter = createTRPCRouter({
         )
         .orderBy(desc(bloodPressure.measuredAt));
 
-      console.log(data);
       return data;
     }),
 });
