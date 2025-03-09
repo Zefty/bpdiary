@@ -29,18 +29,18 @@ export const BpCalendarDataContextProvider: React.FC<
 > = ({ children }) => {
   const calendarContext = useBpCalendarContext();
 
-  const som = startOfMonth(calendarContext?.selectedMonth ?? new Date());
+  // const som = startOfMonth(calendarContext?.selectedMonth ?? new Date());
 
-  void api.calendar.getRollingMonthlyDiary.useQuery({
-    date: subMonths(som, 1),
-  });
+  // void api.calendar.getRollingMonthlyDiary.useQuery({
+  //   date: subMonths(som, 1),
+  // });
 
-  void api.calendar.getRollingMonthlyDiary.useQuery({
-    date: addMonths(som, 1),
-  });
+  // void api.calendar.getRollingMonthlyDiary.useQuery({
+  //   date: addMonths(som, 1),
+  // });
 
   const dataMonthly = api.calendar.getRollingMonthlyDiary.useQuery({
-    date: som,
+    date: calendarContext?.selectedMonth ?? new Date(),
   });
 
   console.log(dataMonthly.data);
