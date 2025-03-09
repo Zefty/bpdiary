@@ -12,6 +12,7 @@ export default function CalendarDay(props: DayProps) {
   const cellData = dataContext?.data?.find((ele) =>
     isSameDay(ele.measuredAt, day.date),
   );
+
   return (
     <td
       {...tdProps}

@@ -39,7 +39,7 @@ export const calendarRouter = createTRPCRouter({
       const start = subDays(som, som.getDay());
       const end = addDays(eom, 6 - eom.getDay());
 
-      return await ctx.db
+      const data = await ctx.db
         .select()
         .from(bloodPressure)
         .where(
@@ -50,5 +50,8 @@ export const calendarRouter = createTRPCRouter({
           ),
         )
         .orderBy(desc(bloodPressure.measuredAt));
+
+      console.log(data);
+      return data;
     }),
 });

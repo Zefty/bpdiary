@@ -128,9 +128,6 @@ const getBloodPressureAdjustedByUserTimezone = async (
   fromDate: Date,
   toDate: Date,
 ) => {
-  console.log(
-    `getBloodPressureAdjustedByUserTimezone: ${fromDate.toISOString()} - ${toDate.toISOString()}`,
-  );
   const tz = await getUserTimezone(ctx);
   const tzAdjusted = await bloodPressureAdjustedByUserTimezoneCTE(ctx);
   const query = ctx.db
@@ -152,8 +149,6 @@ const getBloodPressureAdjustedByUserTimezone = async (
     .groupBy(tzAdjusted.measuredAtOffset)
     .orderBy(tzAdjusted.measuredAtOffset);
 
-  console.log(query.toSQL());
   const data = await query;
-  console.log(data);
   return data;
 };
