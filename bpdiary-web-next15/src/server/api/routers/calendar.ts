@@ -33,11 +33,16 @@ export const calendarRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
+      console.log(input.date);
       const som = startOfMonth(input.date);
       const eom = endOfMonth(som);
 
+      console.log(som, eom);
+
       const start = subDays(som, som.getDay());
       const end = addDays(eom, 6 - eom.getDay());
+
+      console.log(start, end);
 
       const data = await ctx.db
         .select()

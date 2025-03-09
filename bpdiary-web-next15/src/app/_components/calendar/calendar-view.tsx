@@ -43,6 +43,7 @@ export default function CalendarView() {
       }}
       month={calendarContext.selectedMonth}
       onMonthChange={(month) => {
+        console.log(month);
         calendarContext.setSelectedDate(month);
         calendarContext.setSelectedMonth(month);
       }}
