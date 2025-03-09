@@ -10,12 +10,12 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../shadcn/avatar";
 import { Check, Github, Linkedin } from "lucide-react";
 import { Badge } from "../shadcn/badge";
-import SignIn from "../navigation/sign-in";
-import { auth } from "~/server/auth";
 import Image from "next/image";
+import { Suspense } from "react";
+import SignIn from "../navigation/sign-in";
+import LoadingButton from "../loading-states/loading-button";
 
 export const HeroCards = async () => {
-  const session = await auth();
   return (
     <div className="tablet:relative tablet:h-[31.25rem] tablet:w-[43.75rem] tablet:flex-wrap tablet:flex-row flex flex-col gap-8">
       {/* Testimonial */}
@@ -114,7 +114,13 @@ export const HeroCards = async () => {
           </CardDescription>
         </CardHeader>
 
-        <CardContent>{!session && <SignIn>Sign up</SignIn>}</CardContent>
+        <CardContent>
+          <Suspense fallback={<LoadingButton />}>
+            <SignIn>
+              Sign Up
+            </SignIn>
+          </Suspense>
+        </CardContent>
 
         <hr className="m-auto mb-4 w-4/5" />
 

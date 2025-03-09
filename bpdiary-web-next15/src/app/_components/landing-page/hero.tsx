@@ -1,6 +1,8 @@
 import { auth } from "~/server/auth";
 import { HeroCards } from "./hero-cards";
+import { Suspense } from "react";
 import SignIn from "../navigation/sign-in";
+import LoadingButton from "../loading-states/loading-button";
 
 export const Hero = async () => {
   const session = await auth();
@@ -28,7 +30,11 @@ export const Hero = async () => {
           keep tabs on your blood pressure without hassle.
         </p>
 
-        <div className="mb-10 md:space-x-4">{!session && <SignIn />}</div>
+        <div className="mb-10 md:space-x-4">
+          <Suspense fallback={<LoadingButton />}>
+            <SignIn />
+          </Suspense>
+        </div>
       </div>
 
       {/* Hero cards sections */}
