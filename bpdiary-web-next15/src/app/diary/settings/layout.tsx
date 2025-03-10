@@ -28,7 +28,7 @@ const sidebarNavItems = [
   },
 ];
 
-export default function SettingsLayout({
+export default async function SettingsLayout({
   children,
 }: {
   children: React.ReactNode;
