@@ -1,11 +1,9 @@
-import { auth } from "~/server/auth";
 import { HeroCards } from "./hero-cards";
 import { Suspense } from "react";
 import SignIn from "../navigation/sign-in";
 import LoadingButton from "../loading-states/loading-button";
 
 export const Hero = async () => {
-  const session = await auth();
   return (
     <section className="tablet:py-16 container grid place-items-center gap-10 tablet:grid-cols-2">
       <div className="space-y-6 text-center tablet:text-start col-span-1">
