@@ -23,8 +23,6 @@ export default async function middleware(req: NextRequest) {
   );
   const isPublicRoute = publicRoutes.includes(path);
 
-  if (isPublicRoute) NextResponse.next();
-
   const cookieStore = await cookies();
   const sessionToken = cookieStore.get("__Secure-authjs.session-token")?.value;
   let headers = new Headers({
