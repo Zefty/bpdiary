@@ -7,8 +7,8 @@ import LoadingButton from "../loading-states/loading-button";
 export const Hero = async () => {
   const session = await auth();
   return (
-    <section className="tablet:py-16 container grid place-items-center gap-10 lg:grid-cols-2">
-      <div className="space-y-6 text-center lg:text-start">
+    <section className="tablet:py-16 container grid place-items-center gap-10 tablet:grid-cols-2">
+      <div className="space-y-6 text-center tablet:text-start col-span-1">
         <main className="text-5xl font-bold md:text-6xl">
           <h1 className="inline">
             <span className="inline bg-gradient-to-r from-[#F596D3] to-[#D247BF] bg-clip-text text-transparent">
@@ -37,13 +37,15 @@ export const Hero = async () => {
         </div>
       </div>
 
-      {/* Hero cards sections */}
-      <div className="z-10">
-        <HeroCards />
-      </div>
+      <div className="col-span-1">
+        {/* Hero cards sections */}
+        <div>
+          <HeroCards />
+        </div>
 
-      {/* Shadow effect */}
-      <div className="shadow"></div>
+        {/* Shadow effect */}
+        <div className="shadow"></div>
+      </div>
     </section>
   );
 };

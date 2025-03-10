@@ -9,8 +9,14 @@ export default function SignInButton({ children }: { children?: React.ReactNode 
   const [loading, setLoading] = useState(false);
   const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
   return (
-    <div className="flex-col">
-      {!loading && (
+    loading ?
+      (
+      <div className="fixed w-dvw h-dvh top-0 left-0 bg-muted z-[998]">
+        <HeartLoader variant="pulse" className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 z-[999]" />
+      </div>
+      )
+      :
+      (
         <Button
           onClick={() => {
             void signIn("github", undefined, { timezone: tz });
@@ -21,10 +27,6 @@ export default function SignInButton({ children }: { children?: React.ReactNode 
         >
           {children ?? "Sign In"}
         </Button>
-      )}
-      {loading && (
-        <HeartLoader variant="pulse" className="flex w-24 justify-center" />
-      )}
-    </div>
+      )
   );
 }
