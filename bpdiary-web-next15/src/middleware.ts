@@ -12,7 +12,7 @@ type ValidateSession = {
 };
 
 const protectedRoutes = ["/diary"];
-const publicRoutes = ["/login", "/signup", "/"];
+const publicRoutes = ["/login", "/signup", "/", "/favicon.ico"];
 
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;

@@ -1,5 +1,4 @@
 import {
-  User2,
   ChevronUp,
   Home,
   Calendar,
@@ -7,6 +6,7 @@ import {
   LogOut,
   Droplet,
   AlarmClockPlus,
+  User2,
 } from "lucide-react";
 import {
   Sidebar,
@@ -25,11 +25,12 @@ import {
   DropdownMenuTrigger,
 } from "../shadcn/dropdown-menu";
 import Link from "next/link";
-import { auth } from "~/server/auth";
 import { cn } from "~/lib/utils";
+import SidebarUser from "./sidebar-user";
+import { Suspense } from "react";
+import LoadingSidebarUser from "../loading-states/loading-sidebar-user";
 
 export default async function AppSidebar() {
-  const session = await auth();
   return (
     <Sidebar
       collapsible="icon"
@@ -130,9 +131,9 @@ export default async function AppSidebar() {
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton className="group-data-[collapsible=icon]: h-16 gap-6 rounded-full px-8 text-xl font-medium group-data-[collapsible=icon]:size-12! group-data-[collapsible=icon]:pl-[0.75rem]! [&>svg]:size-6">
                   <User2 className="stroke-[2.75]" />
-                  <span className="font-semibold whitespace-nowrap group-data-[collapsible=icon]:hidden">
-                    {session?.user?.name}
-                  </span>
+                  <Suspense fallback={<LoadingSidebarUser/>}>
+                    <SidebarUser />
+                  </Suspense>
                   <ChevronUp className="ml-auto stroke-[2.75] group-data-[collapsible=icon]:hidden" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
