@@ -1,5 +1,5 @@
-import { Skeleton } from "./_components/shadcn/skeleton";
+import LoadingPage from "./_components/loading-states/loading-page";
 
 export default function Loading() {
-  return <Skeleton className="h-4 w-[250px]" />;
+  return <LoadingPage />;
 }
