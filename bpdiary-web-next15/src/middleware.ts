@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 import { env } from "./env";
 import { type RouterOutputs } from "./trpc/react";
+import { api } from "./trpc/server";
 
 type ValidateSession = {
   result: {
@@ -15,26 +16,44 @@ const protectedRoutes = ["/diary"];
 const publicRoutes = ["/login", "/signup", "/", "/favicon.ico"];
 
 export default async function middleware(req: NextRequest) {
-  // const path = req.nextUrl.pathname;
-  // const baseUrl = env.BASE_URL;
+  const path = req.nextUrl.pathname;
+  const baseUrl = env.BASE_URL;
 
-  // const isProtectedRoute = protectedRoutes.some((route) =>
-  //   path.startsWith(route),
-  // );
-  // const isPublicRoute = publicRoutes.includes(path);
+  const isProtectedRoute = protectedRoutes.some((route) =>
+    path.startsWith(route),
+  );
+  const isPublicRoute = publicRoutes.includes(path);
 
-  // const cookieStore = await cookies();
-  // const sessionToken = cookieStore.get("__Secure-authjs.session-token")?.value;
+  const cookieStore = await cookies();
+  let sessionToken = cookieStore.get("__Secure-authjs.session-token")?.value;
   // let headers = new Headers({
   //   cookie: `__Secure-authjs.session-token=${sessionToken}`,
   // });
 
-  // if (process.env.NODE_ENV !== "production" || baseUrl.includes("localhost")) {
-  //   const sessionToken = cookieStore.get("authjs.session-token")?.value;
-  //   headers = new Headers({
-  //     cookie: `authjs.session-token=${sessionToken}`,
-  //   });
-  // }
+  if (process.env.NODE_ENV !== "production" || baseUrl.includes("localhost")) {
+    sessionToken = cookieStore.get("authjs.session-token")?.value;
+    // headers = new Headers({
+    //   cookie: `authjs.session-token=${sessionToken}`,
+    // });
+  }
+
+  if (isProtectedRoute && !sessionToken) {
+    return NextResponse.redirect(new URL("/", req.nextUrl));
+  }
+
+  // const sessionFromDb = (
+  //   await db
+  //     .select({ expires: sessions.expires })
+  //     .from(sessions)
+  //     .where(eq(sessions.sessionToken, sessionToken))
+  // )[0];
+
+  // const ret = new Date(sessionFromDb?.expires) >= new Date();
+
+  let validSession = false;
+  if (sessionToken) {
+    validSession = await api.session.validateSessionToken({ sessionToken });
+  }
 
   // const url = encodeURI(`${baseUrl}/api/trpc/session.validate`);
   // const res = await fetch(url, {
@@ -49,17 +68,17 @@ export default async function middleware(req: NextRequest) {
   //   validSession = ret.result.data.json;
   // }
 
-  // if (isProtectedRoute && !validSession) {
-  //   return NextResponse.redirect(new URL("/", req.nextUrl));
-  // }
+  if (isProtectedRoute && !validSession) {
+    return NextResponse.redirect(new URL("/", req.nextUrl));
+  }
 
-  // if (
-  //   isPublicRoute &&
-  //   validSession &&
-  //   !req.nextUrl.pathname.startsWith("/diary")
-  // ) {
-  //   return NextResponse.redirect(new URL("/diary", req.nextUrl));
-  // }
+  if (
+    isPublicRoute &&
+    validSession &&
+    !req.nextUrl.pathname.startsWith("/diary")
+  ) {
+    return NextResponse.redirect(new URL("/diary", req.nextUrl));
+  }
 
   // if (validSession && req.nextUrl.pathname === "/diary/settings") {
   //   const lastVisitedSetting = cookieStore.get(
@@ -90,4 +109,5 @@ export default async function middleware(req: NextRequest) {
 // Routes Middleware should not run on
 export const config = {
   matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
+  runtime: "nodejs",
 };
