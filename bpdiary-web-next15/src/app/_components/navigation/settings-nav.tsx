@@ -23,16 +23,17 @@ export default function SettingsNav({
   return (
     <BaseHeader className={cn("flex", className)} {...props}>
       {items.map((item) => (
-        <Button
-          key={item.href}
-          variant="ghost"
-          className={cn(
-            "h-12 rounded-full",
-            pathname === item.href && "bg-muted",
-          )}
-        >
-          <Link href={item.href}>{item.title}</Link>
-        </Button>
+        <Link key={item.href} href={item.href}>
+          <Button
+            variant="ghost"
+            className={cn(
+              "h-12 rounded-full",
+              pathname === item.href && "bg-muted",
+            )}
+          >
+            {item.title}
+          </Button>
+        </Link>
       ))}
     </BaseHeader>
   );
