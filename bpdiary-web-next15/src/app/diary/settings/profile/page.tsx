@@ -1,10 +1,9 @@
-import { type AdapterUser } from "next-auth";
-import { ProfileForm } from "~/app/_components/settings/profile-form";
+import { Suspense } from "react";
+import LoadingProfile from "~/app/_components/loading-states/loading-profile";
+import ProfileSC from "~/app/_components/settings/profile-sc";
 import { Separator } from "~/app/_components/shadcn/separator";
-import { auth } from "~/server/auth";
 
 export default async function Profile() {
-  const session = await auth();
   return (
     <div className="w-full space-y-6">
       <div>
@@ -14,7 +13,9 @@ export default async function Profile() {
         </p>
       </div>
       <Separator className="desktop:w-[35rem] h-[0.125rem]" />
-      <ProfileForm user={session?.user as AdapterUser} />
+      <Suspense fallback={<LoadingProfile />}>
+        <ProfileSC />
+      </Suspense>
     </div>
   );
 }
