@@ -1,16 +1,7 @@
 import { cookies } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 import { env } from "./env";
-import { type RouterOutputs } from "./trpc/react";
 import { api } from "./trpc/server";
-
-type ValidateSession = {
-  result: {
-    data: {
-      json: RouterOutputs["session"]["validate"];
-    };
-  };
-};
 
 const protectedRoutes = ["/diary"];
 const publicRoutes = ["/login", "/signup", "/", "/favicon.ico"];
@@ -26,47 +17,18 @@ export default async function middleware(req: NextRequest) {
 
   const cookieStore = await cookies();
   let sessionToken = cookieStore.get("__Secure-authjs.session-token")?.value;
-  // let headers = new Headers({
-  //   cookie: `__Secure-authjs.session-token=${sessionToken}`,
-  // });
-
   if (process.env.NODE_ENV !== "production" || baseUrl.includes("localhost")) {
     sessionToken = cookieStore.get("authjs.session-token")?.value;
-    // headers = new Headers({
-    //   cookie: `authjs.session-token=${sessionToken}`,
-    // });
   }
 
   if (isProtectedRoute && !sessionToken) {
     return NextResponse.redirect(new URL("/", req.nextUrl));
   }
 
-  // const sessionFromDb = (
-  //   await db
-  //     .select({ expires: sessions.expires })
-  //     .from(sessions)
-  //     .where(eq(sessions.sessionToken, sessionToken))
-  // )[0];
-
-  // const ret = new Date(sessionFromDb?.expires) >= new Date();
-
   let validSession = false;
   if (sessionToken) {
     validSession = await api.session.validateSessionToken({ sessionToken });
   }
-
-  // const url = encodeURI(`${baseUrl}/api/trpc/session.validate`);
-  // const res = await fetch(url, {
-  //   headers: headers,
-  //   body: null,
-  //   method: "GET",
-  // });
-
-  // let validSession = false;
-  // if (res.ok) {
-  //   const ret = (await res.json()) as ValidateSession;
-  //   validSession = ret.result.data.json;
-  // }
 
   if (isProtectedRoute && !validSession) {
     return NextResponse.redirect(new URL("/", req.nextUrl));
@@ -80,28 +42,11 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/diary", req.nextUrl));
   }
 
-  // if (validSession && req.nextUrl.pathname === "/diary/settings") {
-  //   const lastVisitedSetting = cookieStore.get(
-  //     "bpdiary.settings-last-visited",
-  //   )?.value;
-  //   if (lastVisitedSetting) {
-  //     return NextResponse.redirect(
-  //       new URL(`/diary/settings/${lastVisitedSetting}`, req.nextUrl),
-  //     );
-  //   }
-
-  //   return NextResponse.redirect(
-  //     new URL(`/diary/settings/profile`, req.nextUrl),
-  //   );
-  // }
-
-  // if (validSession && req.nextUrl.pathname.startsWith("/diary/settings")) {
-  //   const lastVisitedSetting = req.nextUrl.pathname.replace(
-  //     "/diary/settings/",
-  //     "",
-  //   );
-  //   cookieStore.set("bpdiary.settings-last-visited", lastVisitedSetting);
-  // }
+  if (validSession && req.nextUrl.pathname === "/diary/settings") {
+    return NextResponse.redirect(
+      new URL(`/diary/settings/profile`, req.nextUrl),
+    );
+  }
 
   return NextResponse.next();
 }
