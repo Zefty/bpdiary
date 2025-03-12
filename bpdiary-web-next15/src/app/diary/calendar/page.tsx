@@ -26,8 +26,8 @@ export default async function CalendarPage() {
 
   return (
     <HydrateClient>
-      <Suspense fallback={<LoadingCalendar />}>
-        <BpCalendarContextProvider initialDate={today}>
+      <BpCalendarContextProvider initialDate={today}>
+        <Suspense fallback={<LoadingCalendar />}>
           <BpCalendarDataContextProvider>
             <div className="tablet:grid-cols-3 tablet:grid-rows-1 tablet:items-center tablet:gap-0 grid h-full w-full grid-cols-1 grid-rows-3 gap-2.5">
               <div className="tablet:col-span-2 col-span-1 row-span-2 h-full flex-1">
@@ -40,8 +40,8 @@ export default async function CalendarPage() {
               </div>
             </div>
           </BpCalendarDataContextProvider>
-        </BpCalendarContextProvider>
-      </Suspense>
+        </Suspense>
+      </BpCalendarContextProvider>
     </HydrateClient>
   );
 }
