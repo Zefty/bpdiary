@@ -20,15 +20,14 @@ export default async function CalendarPage() {
   void api.calendar.getRollingMonthlyDiary.prefetch({
     datetime: getDatetimeString(lastMonth),
   });
-
   void api.calendar.getRollingMonthlyDiary.prefetch({
     datetime: getDatetimeString(nextMonth),
   });
 
   return (
     <HydrateClient>
-      <BpCalendarContextProvider initialDate={today}>
-        <Suspense fallback={<LoadingCalendar />}>
+      <Suspense fallback={<LoadingCalendar />}>
+        <BpCalendarContextProvider initialDate={today}>
           <BpCalendarDataContextProvider>
             <div className="tablet:grid-cols-3 tablet:grid-rows-1 tablet:items-center tablet:gap-0 grid h-full w-full grid-cols-1 grid-rows-3 gap-2.5">
               <div className="tablet:col-span-2 col-span-1 row-span-2 h-full flex-1">
@@ -41,8 +40,10 @@ export default async function CalendarPage() {
               </div>
             </div>
           </BpCalendarDataContextProvider>
-        </Suspense>
-      </BpCalendarContextProvider>
+        </BpCalendarContextProvider>
+      </Suspense>
     </HydrateClient>
   );
 }
+
+export const dynamic = "force-dynamic";

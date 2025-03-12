@@ -6,7 +6,7 @@ import { Skeleton } from "../shadcn/skeleton";
 import { SidebarTrigger } from "../shadcn/sidebar";
 import { cn } from "~/lib/utils";
 
-export default async function LoadingHeader() {
+export default function LoadingHeader() {
   return (
     <BaseHeader className="flex-col items-start p-0">
       <div className="flex w-full items-start justify-start gap-2">

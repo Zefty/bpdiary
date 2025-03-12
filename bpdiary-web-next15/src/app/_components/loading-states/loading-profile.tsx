@@ -1,6 +1,6 @@
 import { Skeleton } from "../shadcn/skeleton";
 
-export default async function LoadingProfile() {
+export default function LoadingProfile() {
   return (
     <>
       <div className="tablet:grid tablet:grid-cols-2 flex flex-col space-y-8">

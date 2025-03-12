@@ -46,3 +46,5 @@ export default async function DiaryHomePage() {
     </HydrateClient>
   );
 }
+
+export const dynamic = "force-dynamic";
