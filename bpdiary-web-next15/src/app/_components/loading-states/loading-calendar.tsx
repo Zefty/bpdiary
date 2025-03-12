@@ -5,9 +5,10 @@ import { tw } from "~/lib/utils";
 import CalendarNav from "../calendar/calendar-nav";
 import LoadingCalendarDay from "./loading-calendar-day";
 import LoadingCalendarFeed from "./loading-calendar-feed";
+import { useBpCalendarContext } from "~/app/_contexts/bpCaldendarContext";
 
 export default function LoadingCalendar() {
-  const now = new Date();
+  const calendarContext = useBpCalendarContext();
   return (
     <div className="tablet:grid-cols-3 tablet:grid-rows-1 tablet:items-center tablet:gap-0 grid h-full w-full grid-cols-1 grid-rows-3 gap-2.5">
       <div className="tablet:col-span-2 col-span-1 row-span-2 h-full flex-1">
@@ -15,7 +16,8 @@ export default function LoadingCalendar() {
           mode="single"
           required
           showOutsideDays
-          selected={now}
+          selected={calendarContext.selectedDate}
+          onSelect={calendarContext.setSelectedDate}
           classNames={{
             [UI.Root]: tw`desktop:border-b-0 h-full border-b-[0.15rem]`,
 
@@ -40,7 +42,11 @@ export default function LoadingCalendar() {
             [DayFlag.disabled]: tw`text-muted-foreground opacity-50`,
             [DayFlag.hidden]: tw`invisible`,
           }}
-          month={now}
+          month={calendarContext.selectedMonth}
+          onMonthChange={(month) => {
+            calendarContext.setSelectedDate(month);
+            calendarContext.setSelectedMonth(month);
+          }}
           components={{
             Nav: CalendarNav,
             Day: LoadingCalendarDay,
