@@ -1,3 +1,5 @@
+"use client";
+
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { useBpCalendarContext } from "~/app/_contexts/bpCaldendarContext";
 import BaseHeader from "../header/base-header";
