@@ -1,3 +1,5 @@
+"use client";
+
 import { isSameDay } from "date-fns";
 import { Gauge, HeartPulse } from "lucide-react";
 import { type DayProps } from "react-day-picker";
