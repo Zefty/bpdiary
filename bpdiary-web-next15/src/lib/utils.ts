@@ -10,6 +10,10 @@ export function tw(strings: TemplateStringsArray, ...values: unknown[]) {
   return String.raw({ raw: strings }, ...values);
 }
 
+export function getDatetimeString(date: Date) {
+  return date.toDateString() + " " + date.toLocaleTimeString();
+}
+
 export const DateMonthShortFormat = new Intl.DateTimeFormat("us", {
   month: "short",
 });

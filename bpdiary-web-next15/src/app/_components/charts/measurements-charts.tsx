@@ -30,7 +30,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function MeasurementsChart() {
-  const data = api.chart.getDatesWithBpMeasurementsByMonth.useQuery();
+  const [data] = api.chart.getDatesWithBpMeasurementsByMonth.useSuspenseQuery();
 
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth();
@@ -40,9 +40,7 @@ export default function MeasurementsChart() {
     0,
   ).getDate();
 
-  const chartData = [
-    { month: currentMonth, measurements: data?.data?.length ?? 0 },
-  ];
+  const chartData = [{ month: currentMonth, measurements: data?.length ?? 0 }];
   return (
     <Card className="bg-muted flex h-full w-full min-w-[14rem] flex-col rounded-3xl border-none shadow-none">
       <CardHeader className="items-start p-4 pb-0">

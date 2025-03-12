@@ -1,3 +1,5 @@
+"use client";
+
 import { type NavProps } from "react-day-picker";
 import { Button, buttonVariants } from "../shadcn/button";
 import { Calendar1, ChevronLeft, ChevronRight } from "lucide-react";

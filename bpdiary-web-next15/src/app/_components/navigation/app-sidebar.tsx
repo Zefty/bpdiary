@@ -42,7 +42,7 @@ export default async function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem className="flex flex-row items-center gap-4 p-[1.75rem] duration-200 ease-linear group-data-[collapsible=icon]:justify-normal group-data-[collapsible=icon]:px-0">
             <div className="bg-primary text-sidebar-primary-foreground flex aspect-square size-12 items-center justify-center rounded-lg">
-              <Droplet className="size-[1.75rem] fill-white stroke-[2.25]" />
+              <Droplet className="size-[1.75rem] fill-white stroke-[0]" />
             </div>
             <span className="text-3xl font-bold whitespace-nowrap group-data-[collapsible=icon]:hidden">
               BP Diary
@@ -131,7 +131,7 @@ export default async function AppSidebar() {
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton className="group-data-[collapsible=icon]: h-16 gap-6 rounded-full px-8 text-xl font-medium group-data-[collapsible=icon]:size-12! group-data-[collapsible=icon]:pl-[0.75rem]! [&>svg]:size-6">
                   <User2 className="stroke-[2.75]" />
-                  <Suspense fallback={<LoadingSidebarUser/>}>
+                  <Suspense fallback={<LoadingSidebarUser />}>
                     <SidebarUser />
                   </Suspense>
                   <ChevronUp className="ml-auto stroke-[2.75] group-data-[collapsible=icon]:hidden" />

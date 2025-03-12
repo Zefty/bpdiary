@@ -54,7 +54,7 @@ export default function BpStockChart() {
   const [visibility, setVisibility] = useState(initialVisibility);
   const [timeframe, setTimeframe] = useState<Timeframes>("W");
 
-  const allChartData = api.chart.getStockChartData.useQuery().data;
+  const [allChartData] = api.chart.getStockChartData.useSuspenseQuery();
 
   const chartData = allChartData?.get(timeframe)?.map((entry) => ({
     date: entry.measuredAtDate.valueOf(),

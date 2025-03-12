@@ -5,6 +5,7 @@ import React from "react";
 import { createContext } from "react";
 import { api, type RouterOutputs } from "~/trpc/react";
 import { useBpCalendarContext } from "./bpCaldendarContext";
+import { getDatetimeString } from "~/lib/utils";
 
 type BloodPressureDiary = RouterOutputs["calendar"]["getMonthlyDiary"];
 
@@ -29,28 +30,26 @@ export const BpCalendarDataContextProvider: React.FC<
 > = ({ children }) => {
   const calendarContext = useBpCalendarContext();
 
-  // const som = startOfMonth(calendarContext?.selectedMonth ?? new Date());
+  const som = startOfMonth(calendarContext?.selectedMonth ?? new Date());
 
-  // void api.calendar.getRollingMonthlyDiary.useQuery({
-  //   date: subMonths(som, 1),
-  // });
+  void api.calendar.getRollingMonthlyDiary.useSuspenseQuery({
+    datetime: getDatetimeString(subMonths(som, 1)),
+  });
 
-  // void api.calendar.getRollingMonthlyDiary.useQuery({
-  //   date: addMonths(som, 1),
-  // });
+  void api.calendar.getRollingMonthlyDiary.useSuspenseQuery({
+    datetime: getDatetimeString(addMonths(som, 1)),
+  });
 
-  const date = calendarContext?.selectedMonth ?? new Date();
-
-  const dataMonthly = api.calendar.getRollingMonthlyDiary.useQuery({
-    datetime: date.toDateString() + " " + date.toLocaleTimeString(),
+  const [data] = api.calendar.getRollingMonthlyDiary.useSuspenseQuery({
+    datetime: getDatetimeString(som),
   });
 
   return (
     <BpCalendarDataContext.Provider
       value={{
-        data: dataMonthly.data ?? [],
+        data: data ?? [],
         dataFilteredBySelectedDate:
-          dataMonthly.data?.filter((entry) =>
+          data?.filter((entry) =>
             isSameDay(entry.measuredAt, calendarContext?.selectedDate ?? 0),
           ) ?? [],
       }}

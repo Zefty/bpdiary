@@ -5,16 +5,15 @@ import HomeHeader from "../_components/header/home-header";
 import HomeMetrics from "../_components/charts/home-metrics";
 import { Suspense } from "react";
 import LoadingHeader from "../_components/loading-states/loading-header";
+import LoadingHomeMetrics from "../_components/loading-states/loading-home-metrics";
+import LoadingBpStockChart from "../_components/loading-states/loading-bp-stock-chart";
+import LoadingInfiniteFeed from "../_components/loading-states/loading-infinite-feed";
 
 export default async function DiaryHomePage() {
-  // TODO: Been doing prefetching wrong, causing hydration errors
-  //       Probably need to make HomeMetrics a server function that calls data apis then pass as props to client components
-  //       Wrap HomeMetrics in a suspense boundary -> Do this to all other prefetching cases
-
-  // void api.chart.getPastSevenDaysData.prefetch();
-  // void api.chart.getStockChartData.prefetch();
-  // void api.chart.getDatesWithBpMeasurementsByMonth.prefetch();
-  // void api.feed.getInfiniteDiary.prefetchInfinite({ limit: 10 });
+  void api.chart.getPastSevenDaysData.prefetch();
+  void api.chart.getDatesWithBpMeasurementsByMonth.prefetch();
+  void api.chart.getStockChartData.prefetch();
+  void api.feed.getInfiniteDiary.prefetchInfinite({ limit: 10 });
 
   return (
     <HydrateClient>
@@ -25,19 +24,27 @@ export default async function DiaryHomePage() {
           </Suspense>
           <div className="grid h-full w-full grid-rows-3 gap-8">
             <div className="row-span-1 flex">
-              <HomeMetrics className="flex h-full gap-6 pb-3" />
+              <Suspense fallback={<LoadingHomeMetrics />}>
+                <HomeMetrics />
+              </Suspense>
             </div>
             <div className="row-span-2">
-              <BpStockChart />
+              <Suspense fallback={<LoadingBpStockChart />}>
+                <BpStockChart />
+              </Suspense>
             </div>
           </div>
         </div>
         <div className="relative w-full">
           <div className="absolute top-0 right-0 bottom-0 left-0">
-            <InfiniteFeed />
+            <Suspense fallback={<LoadingInfiniteFeed />}>
+              <InfiniteFeed />
+            </Suspense>
           </div>
         </div>
       </div>
     </HydrateClient>
   );
 }
+
+export const dynamic = "force-dynamic";
