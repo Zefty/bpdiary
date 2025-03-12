@@ -14,14 +14,14 @@ export default function InfiniteFeed() {
   const viewPortRef = useRef<HTMLDivElement>(null);
   const bottom = useRef<HTMLDivElement>(null);
 
-  const {
-    data,
-    fetchNextPage,
-    isFetchingNextPage,
+  const [
+    { pages },
+    query,
+    // isFetchingNextPage,
     // hasNextPage,
     // isPending,
-    isFetching,
-  } = api.feed.getInfiniteDiary.useInfiniteQuery(
+    // isFetching,
+  ] = api.feed.getInfiniteDiary.useSuspenseInfiniteQuery(
     {
       limit: 10,
     },
@@ -29,8 +29,9 @@ export default function InfiniteFeed() {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
     },
   );
+  const { isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } = query;
 
-  const flattenedData = data?.pages.flatMap((page) => page.data);
+  const flattenedData = pages.flatMap((page) => page.data);
 
   useEffect(() => {
     const bottomCurrent = bottom.current;

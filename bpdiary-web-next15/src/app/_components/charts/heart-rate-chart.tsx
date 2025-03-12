@@ -25,8 +25,8 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function HeartRateChart() {
-  const dataPastSevenDays = api.chart.getPastSevenDaysData.useQuery();
-  const chartData = dataPastSevenDays.data?.map((entry) => ({
+  const [dataPastSevenDays] = api.chart.getPastSevenDaysData.useSuspenseQuery();
+  const chartData = dataPastSevenDays?.map((entry) => ({
     date: entry.measuredAtDate,
     systolic: Math.ceil(entry.avgSystolic),
     diastolic: Math.ceil(entry.avgDiastolic),
