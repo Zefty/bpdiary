@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { format } from "date-fns";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 
@@ -11,7 +12,7 @@ export function tw(strings: TemplateStringsArray, ...values: unknown[]) {
 }
 
 export function getDatetimeString(date: Date) {
-  return date.toDateString() + " " + date.toLocaleTimeString();
+  return format(date, "yyyy-MM-dd'T'HH:mm:ss");
 }
 
 export const DateMonthShortFormat = new Intl.DateTimeFormat("us", {

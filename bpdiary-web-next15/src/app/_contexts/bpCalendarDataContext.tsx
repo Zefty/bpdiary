@@ -32,11 +32,11 @@ export const BpCalendarDataContextProvider: React.FC<
 
   const som = startOfMonth(calendarContext?.selectedMonth ?? new Date());
 
-  void api.calendar.getRollingMonthlyDiary.useSuspenseQuery({
+  void api.calendar.getRollingMonthlyDiary.useQuery({
     datetime: getDatetimeString(subMonths(som, 1)),
   });
 
-  void api.calendar.getRollingMonthlyDiary.useSuspenseQuery({
+  void api.calendar.getRollingMonthlyDiary.useQuery({
     datetime: getDatetimeString(addMonths(som, 1)),
   });
 

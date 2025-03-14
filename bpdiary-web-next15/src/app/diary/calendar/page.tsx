@@ -11,17 +11,9 @@ import LoadingCalendar from "~/app/_components/loading-states/loading-calendar";
 export default async function CalendarPage() {
   const today = new Date();
   const som = startOfMonth(today);
-  const lastMonth = subMonths(som, 1);
-  const nextMonth = addMonths(som, 1);
 
   void api.calendar.getRollingMonthlyDiary.prefetch({
     datetime: getDatetimeString(som),
-  });
-  void api.calendar.getRollingMonthlyDiary.prefetch({
-    datetime: getDatetimeString(lastMonth),
-  });
-  void api.calendar.getRollingMonthlyDiary.prefetch({
-    datetime: getDatetimeString(nextMonth),
   });
 
   return (
