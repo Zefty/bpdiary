@@ -19,7 +19,7 @@ export const HeroCards = async () => {
   return (
     <div className="tablet:relative tablet:h-[31.25rem] tablet:w-[43.75rem] tablet:flex-wrap tablet:flex-row flex flex-col gap-8">
       {/* Testimonial */}
-      <Card className="tablet:absolute tablet:w-[21.25rem] -top-[1.5rem] w-full rounded-3xl shadow-black/10 shadow-xl dark:shadow-white/10">
+      <Card className="tablet:absolute tablet:w-[21.25rem] -top-[1.5rem] w-full rounded-3xl shadow-xl shadow-black/10 dark:shadow-white/10">
         <CardHeader className="flex flex-row items-center gap-4 pb-2">
           <Avatar>
             <AvatarImage alt="" src="https://github.com/shadcn.png" />
@@ -39,12 +39,12 @@ export const HeroCards = async () => {
       </Card>
 
       {/* Team */}
-      <Card className="tablet:absolute tablet:w-80 tablet:mt-0 top-4 right-[1.25rem] mt-10 flex w-full flex-col items-center justify-center rounded-3xl shadow-black/10 shadow-xl dark:shadow-white/10">
-        <CardHeader className="mt-8 flex items-center justify-center pb-2">
+      <Card className="tablet:absolute tablet:w-80 tablet:mt-0 top-4 right-[1.25rem] mt-10 flex w-full flex-col items-center justify-center rounded-3xl shadow-xl shadow-black/10 dark:shadow-white/10">
+        <CardHeader className="relative mt-8 flex items-center justify-center pb-2">
           <Image
             src="https://images.aiscribbles.com/1d14b9ba76144261ba3bce1b22b3631a.png"
             alt="user avatar"
-            className="absolute -top-12 aspect-square rounded-full object-cover grayscale-[0%]"
+            className="absolute -top-20 aspect-square rounded-full object-cover grayscale-[0%]"
             height={96}
             width={96}
           />
@@ -93,7 +93,7 @@ export const HeroCards = async () => {
       </Card>
 
       {/* Pricing */}
-      <Card className="tablet:absolute tablet:w-72 top-[9.375rem] left-[3.125rem] w-full rounded-3xl shadow-black/10 shadow-xl dark:shadow-white/10">
+      <Card className="tablet:absolute tablet:w-72 top-[9.375rem] left-[3.125rem] w-full rounded-3xl shadow-xl shadow-black/10 dark:shadow-white/10">
         <CardHeader>
           <CardTitle className="item-center flex justify-between">
             Free
@@ -116,9 +116,7 @@ export const HeroCards = async () => {
 
         <CardContent>
           <Suspense fallback={<LoadingButton />}>
-            <SignIn>
-              Sign Up
-            </SignIn>
+            <SignIn>Sign Up</SignIn>
           </Suspense>
         </CardContent>
 
@@ -139,7 +137,7 @@ export const HeroCards = async () => {
       </Card>
 
       {/* Service */}
-      <Card className="tablet:absolute tablet:w-[21.875rem] -right-[0.625rem] bottom-[2.5rem] w-full rounded-3xl shadow-black/10 shadow-xl dark:shadow-white/10">
+      <Card className="tablet:absolute tablet:w-[21.875rem] -right-[0.625rem] bottom-[2.5rem] w-full rounded-3xl shadow-xl shadow-black/10 dark:shadow-white/10">
         <CardHeader className="flex items-start justify-start gap-4 space-y-1 md:flex-row">
           <div>
             <CardTitle>Responsive & Optimised!</CardTitle>

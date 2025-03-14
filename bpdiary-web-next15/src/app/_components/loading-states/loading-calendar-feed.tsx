@@ -17,7 +17,7 @@ export default function LoadingCalendarFeed() {
             {format(calendarContext.selectedDate, "E, LLL d")}
           </h1>
         </BaseHeader>
-        <HeartLoader variant="pulse" className="flex w-12" />
+        <HeartLoader variant="pulse" className="absolute top-[40%] flex w-12" />
       </div>
     </ScrollArea>
   );
