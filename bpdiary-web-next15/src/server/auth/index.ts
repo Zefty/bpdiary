@@ -67,11 +67,9 @@ const {
   signIn,
   signOut,
 } = NextAuth(async (req: NextRequest | undefined) => {
-  console.log(req?.url);
   if (req?.url.startsWith(`${env.BASE_URL}/api/auth/signin`)) {
     const cookieStore = await cookies();
     const tz = cookieStore.get("timezone");
-    console.log(cookieStore);
     if (!tz) {
       cookieStore.set(
         "timezone",
