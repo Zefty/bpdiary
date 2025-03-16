@@ -5,7 +5,7 @@ import NextAuth, {
 } from "next-auth";
 import { type AdapterUser as NextAuthAdapterUser } from "next-auth/adapters";
 import GitHubProvider from "next-auth/providers/github";
-import DiscordProvider from "next-auth/providers/discord";
+import DiscordProvider, { DiscordProfile } from "next-auth/providers/discord";
 import { cache } from "react";
 import { env } from "~/env";
 import { type NextRequest } from "next/server";
@@ -95,13 +95,23 @@ const {
       DiscordProvider({
         clientId: process.env.DISCORD_CLIENT_ID,
         clientSecret: process.env.DISCORD_CLIENT_SECRET,
-        profile(profile) {
+        profile(profile: DiscordProfile) {
           const now = new Date();
+          if (profile.avatar === null) {
+            const defaultAvatarNumber =
+              profile.discriminator === "0"
+                ? Number(BigInt(profile.id) >> BigInt(22)) % 6
+                : parseInt(profile.discriminator) % 5;
+            profile.image_url = `https://cdn.discordapp.com/embed/avatars/${defaultAvatarNumber}.png`;
+          } else {
+            const format = profile.avatar.startsWith("a_") ? "gif" : "png";
+            profile.image_url = `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.${format}`;
+          }
           return {
             id: profile.id.toString(),
-            name: profile.name,
+            name: profile.global_name ?? profile.username,
             email: profile.email,
-            image: profile.avatar_url,
+            image: profile.image_url,
             createdAt: now,
             updatedAt: now,
           };
