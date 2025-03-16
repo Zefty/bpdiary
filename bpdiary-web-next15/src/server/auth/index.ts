@@ -70,12 +70,15 @@ const {
     const tz = cookieStore.get("timezone");
     console.log(cookieStore);
     if (!tz) {
-      cookieStore.set({
-        name: "timezone",
-        value: req?.nextUrl.searchParams.get("timezone") ?? "UTC",
-        httpOnly: true,
-        sameSite: "lax",
-      });
+      cookieStore.set(
+        "timezone",
+        req?.nextUrl.searchParams.get("timezone") ?? "UTC",
+        {
+          httpOnly: true,
+          sameSite: "lax",
+          path: "/",
+        },
+      );
     }
   }
   const authConfig = {
