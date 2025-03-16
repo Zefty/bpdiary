@@ -5,6 +5,7 @@ import NextAuth, {
 } from "next-auth";
 import { type AdapterUser as NextAuthAdapterUser } from "next-auth/adapters";
 import GitHubProvider from "next-auth/providers/github";
+import DiscordProvider from "next-auth/providers/discord";
 import { cache } from "react";
 import { env } from "~/env";
 import { type NextRequest } from "next/server";
@@ -66,16 +67,34 @@ const {
 } = NextAuth(async (req: NextRequest | undefined) => {
   if (req?.url.startsWith(`${env.BASE_URL}/api/auth/signin`)) {
     const cookieStore = await cookies();
-    cookieStore.set(
-      "timezone",
-      req?.nextUrl.searchParams.get("timezone") ?? "localtime",
-    );
+    const tz = cookieStore.get("timezone");
+    if (!tz) {
+      cookieStore.set(
+        "timezone",
+        req?.nextUrl.searchParams.get("timezone") ?? "UTC",
+      );
+    }
   }
   const authConfig = {
     providers: [
       GitHubProvider({
         clientId: process.env.GITHUB_CLIENT_ID,
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
+        profile(profile) {
+          const now = new Date();
+          return {
+            id: profile.id.toString(),
+            name: profile.name,
+            email: profile.email,
+            image: profile.avatar_url,
+            createdAt: now,
+            updatedAt: now,
+          };
+        },
+      }),
+      DiscordProvider({
+        clientId: process.env.DISCORD_CLIENT_ID,
+        clientSecret: process.env.DISCORD_CLIENT_SECRET,
         profile(profile) {
           const now = new Date();
           return {
@@ -103,7 +122,7 @@ const {
       createUser: async (profile: AdapterUser) => {
         const cookieStore = await cookies();
         const tz = cookieStore.get("timezone");
-        profile.timezone = tz?.value ?? "localtime";
+        profile.timezone = tz?.value;
         const createdUser = await DbAdapter.createUser!(profile);
 
         if (createdUser) {
