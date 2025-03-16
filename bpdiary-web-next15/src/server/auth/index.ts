@@ -68,11 +68,14 @@ const {
   if (req?.url.startsWith(`${env.BASE_URL}/api/auth/signin`)) {
     const cookieStore = await cookies();
     const tz = cookieStore.get("timezone");
+    console.log(cookieStore);
     if (!tz) {
-      cookieStore.set(
-        "timezone",
-        req?.nextUrl.searchParams.get("timezone") ?? "UTC",
-      );
+      cookieStore.set({
+        name: "timezone",
+        value: req?.nextUrl.searchParams.get("timezone") ?? "UTC",
+        httpOnly: true,
+        sameSite: "lax",
+      });
     }
   }
   const authConfig = {
