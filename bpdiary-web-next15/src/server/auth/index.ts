@@ -5,7 +5,9 @@ import NextAuth, {
 } from "next-auth";
 import { type AdapterUser as NextAuthAdapterUser } from "next-auth/adapters";
 import GitHubProvider from "next-auth/providers/github";
-import DiscordProvider, { DiscordProfile } from "next-auth/providers/discord";
+import DiscordProvider, {
+  type DiscordProfile,
+} from "next-auth/providers/discord";
 import { cache } from "react";
 import { env } from "~/env";
 import { type NextRequest } from "next/server";
@@ -77,6 +79,7 @@ const {
           httpOnly: true,
           sameSite: "lax",
           path: "/",
+          secure: env.NODE_ENV === "production",
         },
       );
     }

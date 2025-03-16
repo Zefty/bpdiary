@@ -16,6 +16,7 @@ export default async function middleware(req: NextRequest) {
   const isPublicRoute = publicRoutes.includes(path);
 
   const cookieStore = await cookies();
+  console.log(cookieStore);
   let sessionToken = cookieStore.get("__Secure-authjs.session-token")?.value;
   if (process.env.NODE_ENV !== "production" || baseUrl.includes("localhost")) {
     sessionToken = cookieStore.get("authjs.session-token")?.value;
