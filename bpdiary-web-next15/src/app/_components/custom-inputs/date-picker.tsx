@@ -12,6 +12,8 @@ import {
   PopoverTrigger,
 } from "~/app/_components/shadcn/popover";
 import { createContext, forwardRef, useImperativeHandle } from "react";
+import CalendarDropdown from "../calendar/calendar-dropdown";
+import { UI } from "react-day-picker";
 
 export interface DatePickerRefs {
   value: Date | undefined;
@@ -83,8 +85,17 @@ export const DatePicker = forwardRef<DatePickerRefs, DatePickerProps>(
             mode="single"
             selected={selectedDate}
             month={selectedDate}
+            onMonthChange={(d) => handleSelect(d)}
             onSelect={(d) => handleSelect(d)}
             autoFocus
+            captionLayout="dropdown"
+            classNames={{
+              [UI.CaptionLabel]: "hidden",
+              [UI.Dropdowns]: "flex w-full px-10 justify-center gap-2",
+            }}
+            components={{
+              Dropdown: CalendarDropdown,
+            }}
           />
           {children}
         </PopoverContent>

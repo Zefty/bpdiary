@@ -5,9 +5,11 @@ import { Gauge, HeartPulse } from "lucide-react";
 import { type DayProps } from "react-day-picker";
 import { useBpCalendarContext } from "~/app/_contexts/bpCaldendarContext";
 import { useBpCalendarDataContext } from "~/app/_contexts/bpCalendarDataContext";
+import { useBpEntryContext } from "~/app/_contexts/bpEntryContext";
 import { cn } from "~/lib/utils";
 
 export default function CalendarDay(props: DayProps) {
+  const context = useBpEntryContext();
   const calendarContext = useBpCalendarContext();
   const dataContext = useBpCalendarDataContext();
   const { day, ...tdProps } = props;
@@ -22,9 +24,20 @@ export default function CalendarDay(props: DayProps) {
         tdProps.className,
         "hover:bg-accent flex flex-col items-center",
       )}
-      onClick={(_e) => {
-        calendarContext.setSelectedDate(day.date);
+      onClick={(e) => {
+        switch (e.detail) {
+          case 1:
+            calendarContext.setSelectedDate(day.date);
+            break;
+          case 2:
+            console.log("open");
+            context.setOpen(!context.open);
+            break;
+        }
       }}
+      // onDoubleClick={(_e) => {
+      //   context.setOpen(!context.open);
+      // }}
     >
       <div className="mt-2">{props.day.date.getDate()}</div>
       {cellData && (

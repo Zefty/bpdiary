@@ -20,7 +20,12 @@ import { Switch } from "../shadcn/switch";
 import { Label } from "../shadcn/label";
 import { useState } from "react";
 import { Button } from "../shadcn/button";
-import { Popover, PopoverContent, PopoverTrigger } from "../shadcn/popover";
+import {
+  Popover,
+  PopoverClose,
+  PopoverContent,
+  PopoverTrigger,
+} from "../shadcn/popover";
 import { CalendarHeart, ChevronDown } from "lucide-react";
 import { scaleUtc } from "d3-scale";
 import { type Timeframes, TIMEFRAMES } from "~/lib/types";
@@ -99,14 +104,17 @@ export default function BpStockChart() {
           <PopoverContent className="w-full rounded-full p-2" align="end">
             {TIMEFRAMES.map((chart) => {
               return (
-                <Button
-                  key={chart}
-                  data-active={timeframe === chart}
-                  className="hover:bg-muted data-[active=true]:bg-muted size-10 flex-col justify-center rounded-full bg-transparent text-center"
-                  onClick={() => setTimeframe(chart)}
-                >
-                  <span className="text-muted-foreground text-xs">{chart}</span>
-                </Button>
+                <PopoverClose asChild key={chart}>
+                  <Button
+                    data-active={timeframe === chart}
+                    className="hover:bg-muted data-[active=true]:bg-muted size-10 flex-col justify-center rounded-full bg-transparent text-center"
+                    onClick={() => setTimeframe(chart)}
+                  >
+                    <span className="text-muted-foreground text-xs">
+                      {chart}
+                    </span>
+                  </Button>
+                </PopoverClose>
               );
             })}
           </PopoverContent>

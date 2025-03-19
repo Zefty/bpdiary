@@ -36,6 +36,7 @@ import {
 import { useServerAction } from "~/app/_hooks/use-server-action";
 import { UpdateProfile } from "~/server/actions/server-actions";
 import { UI } from "react-day-picker";
+import CalendarDropdown from "../calendar/calendar-dropdown";
 
 const timezones = Intl.supportedValuesOf("timeZone").map((timezone) => ({
   label: timezone,
@@ -139,12 +140,17 @@ export function ProfileForm({ user }: { user?: AdapterUser }) {
                       captionLayout="dropdown"
                       classNames={{
                         [UI.CaptionLabel]: "hidden",
+                        [UI.Dropdowns]:
+                          "flex w-full px-10 justify-center gap-2",
                       }}
                       selected={field.value}
                       onSelect={field.onChange}
                       disabled={(date) =>
                         date > new Date() || date < new Date("1900-01-01")
                       }
+                      components={{
+                        Dropdown: CalendarDropdown,
+                      }}
                     />
                   </PopoverContent>
                 </Popover>
