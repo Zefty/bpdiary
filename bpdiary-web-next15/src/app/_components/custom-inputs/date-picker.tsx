@@ -91,7 +91,7 @@ export const DatePicker = forwardRef<DatePickerRefs, DatePickerProps>(
             captionLayout="dropdown"
             classNames={{
               [UI.CaptionLabel]: "hidden",
-              [UI.Dropdowns]: "flex w-full px-10 justify-center gap-2",
+              [UI.Dropdowns]: "flex w-full px-10 justify-center gap-4",
             }}
             components={{
               Dropdown: CalendarDropdown,

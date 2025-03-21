@@ -141,7 +141,7 @@ export function ProfileForm({ user }: { user?: AdapterUser }) {
                       classNames={{
                         [UI.CaptionLabel]: "hidden",
                         [UI.Dropdowns]:
-                          "flex w-full px-10 justify-center gap-2",
+                          "flex w-full px-10 justify-center gap-4",
                       }}
                       selected={field.value}
                       onSelect={field.onChange}
