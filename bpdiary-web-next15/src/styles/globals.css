@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @plugin 'tailwindcss-animate';
 
@@ -18,19 +18,25 @@
 
 @custom-variant tablet {
   @media screen and (orientation: landscape) and (min-width: 1024px) {
-    @slot
+    @slot;
   }
-};
+}
 
 @custom-variant laptop {
   @media screen and (orientation: landscape) and (min-width: 1472px) {
-    @slot
+    @slot;
   }
-};
+}
 
 @custom-variant desktop {
   @media screen and (orientation: landscape) and (min-width: 1800px) {
-    @slot
+    @slot;
+  }
+}
+
+@custom-variant calendarLaptop {
+  @media screen and (orientation: landscape) and (max-height: 800px) {
+    @slot;
   }
 }
 
@@ -41,7 +47,7 @@
 
   --font-sans:
     var(--font-poppins), ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -205,16 +211,16 @@
   html {
     font-size: 1.7vh;
   }
-} 
+}
 @media screen and (min-width: 1920px) and (orientation: landscape) {
   body,
   html {
-    font-size: calc((100vw/1920)*16);
+    font-size: calc((100vw / 1920) * 16);
   }
 }
 
 /*==== All-In-One (FHD, UHD, 2K, 4K, 8K) => {4:3, 16:9, 21:9, 5:3} Responsive Scaling ====*/
- /* @media screen and (min-width: 1800px) {
+/* @media screen and (min-width: 1800px) {
    body,
    html {
      font-size: 1.1vw;
