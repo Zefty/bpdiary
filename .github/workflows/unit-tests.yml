@@ -1,0 +1,23 @@
+name: Unit Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  unit-test:
+    name: Unit Tests
+    runs-on: ubuntu-slim
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+      - name: Install Dependencies
+        run: pnpm ci
+      - name: Run Unit Tests
+        run: pnpm run test:unit
