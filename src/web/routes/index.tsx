@@ -32,6 +32,7 @@ function LandingPage() {
 						nativeButton={false}
 						render={<Link to={session ? "/diary" : "/login"} />}
 						variant="outline"
+						size="lg"
 					>
 						{session ? "Open diary" : "Sign in"}
 					</Button>
@@ -52,6 +53,7 @@ function LandingPage() {
 						<Button
 							nativeButton={false}
 							render={<Link to={session ? "/diary" : "/login"} />}
+							size="lg"
 							className="h-12 px-6"
 						>
 							{session ? "Go to your diary" : "Start your diary"}
@@ -61,6 +63,7 @@ function LandingPage() {
 							nativeButton={false}
 							render={<a href="#features" />}
 							variant="outline"
+							size="lg"
 							className="h-12 px-6"
 						>
 							See how it works

@@ -2,10 +2,9 @@ import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import {
 	ArrowLeft,
 	CircleAlert,
-	Code2,
 	LoaderCircle,
 	LockKeyhole,
-	MessageCircle,
+	LogIn,
 } from "lucide-react";
 import { useState } from "react";
 import { z } from "zod";
@@ -62,8 +61,8 @@ function LoginPage() {
 				redirectTo,
 			);
 	};
-	const socialSignIn = (provider: "github" | "discord") =>
-		authClient.signIn.social({ provider, callbackURL: redirectTo });
+	const googleSignIn = () =>
+		authClient.signIn.social({ provider: "google", callbackURL: redirectTo });
 
 	return (
 		<main className="grid min-h-dvh bg-secondary/35 lg:grid-cols-2">
@@ -94,28 +93,16 @@ function LoginPage() {
 							: "No clutter, no public profile — just a calmer way to keep track."}
 					</p>
 					<form className="mt-8 space-y-5" onSubmit={submit}>
-						{(providers.github || providers.discord) && (
+						{providers.google && (
 							<>
-								<div className="grid gap-3 sm:grid-cols-2">
-									{providers.github && (
-										<Button
-											type="button"
-											variant="outline"
-											onClick={() => socialSignIn("github")}
-										>
-											<Code2 className="size-4" /> GitHub
-										</Button>
-									)}
-									{providers.discord && (
-										<Button
-											type="button"
-											variant="outline"
-											onClick={() => socialSignIn("discord")}
-										>
-											<MessageCircle className="size-4" /> Discord
-										</Button>
-									)}
-								</div>
+								<Button
+									type="button"
+									variant="outline"
+									size="lg"
+									onClick={googleSignIn}
+								>
+									<LogIn className="size-4" /> Continue with Google
+								</Button>
 								<FieldSeparator>or use email</FieldSeparator>
 							</>
 						)}
@@ -163,7 +150,12 @@ function LoginPage() {
 								placeholder="At least 8 characters"
 							/>
 						</Field>
-						<Button type="submit" className="h-12 w-full" disabled={isPending}>
+						<Button
+							type="submit"
+							size="lg"
+							className="h-12 w-full"
+							disabled={isPending}
+						>
 							{isPending && <LoaderCircle className="size-4 animate-spin" />}
 							{mode === "sign-in" ? "Sign in" : "Create account"}
 						</Button>
@@ -175,6 +167,7 @@ function LoginPage() {
 						<Button
 							type="button"
 							variant="link"
+							size="lg"
 							className="h-auto p-0 font-semibold"
 							onClick={() =>
 								setMode(mode === "sign-in" ? "sign-up" : "sign-in")

@@ -315,6 +315,7 @@ function EmptyMeasurements({ onAdd }: { onAdd: () => void }) {
 			<Button
 				type="button"
 				variant="outline"
+				size="lg"
 				className="mt-4 rounded-2xl"
 				onClick={onAdd}
 			>

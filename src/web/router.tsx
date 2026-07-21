@@ -50,12 +50,13 @@ export const getRouter = async () => {
 							<div className="mt-6 flex justify-center gap-3">
 								<Button
 									type="button"
+									size="lg"
 									onClick={() => props.reset()}
 									variant="outline"
 								>
 									Try again
 								</Button>
-								<Button nativeButton={false} render={<Link to="/" />}>
+								<Button nativeButton={false} render={<Link to="/" />} size="lg">
 									Go Home
 								</Button>
 							</div>
@@ -76,6 +77,7 @@ export const getRouter = async () => {
 					<Button
 						nativeButton={false}
 						render={<Link to="/" />}
+						size="lg"
 						className="mt-6"
 					>
 						Return home

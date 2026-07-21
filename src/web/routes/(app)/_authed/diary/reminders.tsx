@@ -92,7 +92,7 @@ function RemindersPage() {
 						Plan consistent times for measurements and medication.
 					</p>
 				</div>
-				<Button type="button" onClick={() => setShowForm(true)}>
+				<Button type="button" size="lg" onClick={() => setShowForm(true)}>
 					<Plus className="size-4" /> New reminder
 				</Button>
 			</header>
@@ -231,11 +231,12 @@ function RemindersPage() {
 							<Button
 								type="button"
 								variant="outline"
+								size="lg"
 								onClick={() => setShowForm(false)}
 							>
 								Cancel
 							</Button>
-							<Button type="submit" disabled={save.isPending}>
+							<Button type="submit" size="lg" disabled={save.isPending}>
 								{save.isPending ? (
 									<LoaderCircle className="size-4 animate-spin" />
 								) : (

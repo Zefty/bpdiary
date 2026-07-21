@@ -19,19 +19,11 @@ export const auth = betterAuth({
 		enabled: true,
 	},
 	socialProviders: {
-		...(serverEnv.GITHUB_CLIENT_ID && serverEnv.GITHUB_CLIENT_SECRET
+		...(serverEnv.GOOGLE_CLIENT_ID && serverEnv.GOOGLE_CLIENT_SECRET
 			? {
-					github: {
-						clientId: serverEnv.GITHUB_CLIENT_ID,
-						clientSecret: serverEnv.GITHUB_CLIENT_SECRET,
-					},
-				}
-			: {}),
-		...(serverEnv.DISCORD_CLIENT_ID && serverEnv.DISCORD_CLIENT_SECRET
-			? {
-					discord: {
-						clientId: serverEnv.DISCORD_CLIENT_ID,
-						clientSecret: serverEnv.DISCORD_CLIENT_SECRET,
+					google: {
+						clientId: serverEnv.GOOGLE_CLIENT_ID,
+						clientSecret: serverEnv.GOOGLE_CLIENT_SECRET,
 					},
 				}
 			: {}),
@@ -46,6 +38,10 @@ export const auth = betterAuth({
 	account: {
 		storeStateStrategy: "cookie",
 		storeAccountCookie: true, // Store account data after OAuth flow in a cookie (useful for database-less flows)
+		accountLinking: {
+			enabled: true,
+			requireLocalEmailVerified: false,
+		},
 	},
 });
 

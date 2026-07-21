@@ -6,7 +6,7 @@ The modern TanStack Start rewrite of BP Diary. This sibling application is desig
 
 - TanStack Start and file-based TanStack Router routes
 - TanStack Query SSR integration
-- Better Auth with email/password and optional GitHub/Discord OAuth
+- Better Auth with email/password and optional Google OAuth
 - Drizzle ORM with deployment-specific PostgreSQL schemas
 - Blood pressure measurement create, edit, delete, history, trend chart, and CSV export
 - Measurement and medication reminders

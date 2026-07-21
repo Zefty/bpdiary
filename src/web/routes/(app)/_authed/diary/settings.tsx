@@ -4,19 +4,13 @@ import {
 	useSuspenseQuery,
 } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { Check, LoaderCircle, Mail, Monitor, Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Check, LoaderCircle, Mail, Moon, Sun } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/client/components/shadcn/button";
 import { Card, CardContent } from "@/client/components/shadcn/card";
 import { Field, FieldLabel } from "@/client/components/shadcn/field";
 import { Input } from "@/client/components/shadcn/input";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/client/components/shadcn/select";
+import { useTheme } from "@/client/contexts/ThemeContext";
 import { updateProfile } from "@/server/profile/profile";
 import { diary } from "@/web/data/diary";
 
@@ -26,20 +20,11 @@ export const Route = createFileRoute("/(app)/_authed/diary/settings")({
 	component: SettingsPage,
 });
 
-function applyTheme(theme: "light" | "dark" | "system") {
-	const dark =
-		theme === "dark" ||
-		(theme === "system" &&
-			window.matchMedia("(prefers-color-scheme: dark)").matches);
-	document.documentElement.classList.toggle("dark", dark);
-}
-
 function SettingsPage() {
 	const { data: profile } = useSuspenseQuery(diary.queries.profile());
 	const queryClient = useQueryClient();
 	const [saved, setSaved] = useState(false);
-	const [theme, setTheme] = useState(profile.theme);
-	const [timezone, setTimezone] = useState(profile.timezone);
+	const { theme, setTheme } = useTheme();
 	const mutation = useMutation({
 		mutationFn: updateProfile,
 		onSuccess: async () => {
@@ -48,7 +33,6 @@ function SettingsPage() {
 			setTimeout(() => setSaved(false), 2200);
 		},
 	});
-	useEffect(() => applyTheme(theme), [theme]);
 	const submit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const form = new FormData(event.currentTarget);
@@ -56,8 +40,6 @@ function SettingsPage() {
 			data: {
 				name: String(form.get("name")),
 				dateOfBirth: String(form.get("dateOfBirth") || "") || null,
-				timezone,
-				theme,
 			},
 		});
 	};
@@ -68,7 +50,7 @@ function SettingsPage() {
 				<p className="eyebrow">Preferences</p>
 				<h1 className="page-title mt-2">Settings</h1>
 				<p className="mt-2 text-muted-foreground">
-					Manage how your diary looks and understands your local time.
+					Manage your profile and how your diary looks.
 				</p>
 			</header>
 			<form className="mt-8 space-y-6" onSubmit={submit}>
@@ -108,35 +90,6 @@ function SettingsPage() {
 										defaultValue={profile.dateOfBirth ?? ""}
 									/>
 								</Field>
-								<Field>
-									<FieldLabel>Timezone</FieldLabel>
-									<Select
-										value={timezone}
-										onValueChange={(value) =>
-											setTimezone(value ?? profile.timezone)
-										}
-									>
-										<SelectTrigger>
-											<SelectValue />
-										</SelectTrigger>
-										<SelectContent>
-											{[
-												"Australia/Melbourne",
-												"Australia/Sydney",
-												"Australia/Brisbane",
-												"Australia/Perth",
-												"Pacific/Auckland",
-												"UTC",
-												"America/New_York",
-												"Europe/London",
-											].map((zone) => (
-												<SelectItem key={zone} value={zone}>
-													{zone}
-												</SelectItem>
-											))}
-										</SelectContent>
-									</Select>
-								</Field>
 							</div>
 						</div>
 					</CardContent>
@@ -150,10 +103,11 @@ function SettingsPage() {
 									Choose a comfortable theme for checking in at any time of day.
 								</p>
 							</div>
-							<div className="grid gap-3 sm:grid-cols-3">
-								{(["light", "dark", "system"] as const).map((option) => (
+							<div className="grid gap-3 sm:grid-cols-2">
+								{(["light", "dark"] as const).map((option) => (
 									<Button
 										type="button"
+										size="lg"
 										key={option}
 										onClick={() => setTheme(option)}
 										aria-pressed={theme === option}
@@ -161,13 +115,7 @@ function SettingsPage() {
 										className={`theme-choice h-auto ${theme === option ? "theme-choice-selected" : ""}`}
 									>
 										<span className="theme-icon">
-											{option === "light" ? (
-												<Sun />
-											) : option === "dark" ? (
-												<Moon />
-											) : (
-												<Monitor />
-											)}
+											{option === "light" ? <Sun /> : <Moon />}
 										</span>
 										<span className="capitalize">{option}</span>
 										<Check
@@ -209,7 +157,8 @@ function SettingsPage() {
 				<div className="flex justify-end">
 					<Button
 						type="submit"
-						className="min-w-40 shadow-lg"
+						size="lg"
+						className="min-w-40"
 						disabled={mutation.isPending}
 					>
 						{mutation.isPending ? (
