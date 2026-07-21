@@ -16,8 +16,6 @@ export const getProfile = createServerFn({ method: "GET" })
 			name: context.user.name,
 			email: context.user.email,
 			dateOfBirth: stored?.dateOfBirth ?? null,
-			timezone: stored?.timezone ?? "UTC",
-			theme: stored?.theme ?? "system",
 		};
 	});
 
@@ -35,15 +33,11 @@ export const updateProfile = createServerFn({ method: "POST" })
 				.values({
 					userId: context.user.id,
 					dateOfBirth: data.dateOfBirth || null,
-					timezone: data.timezone,
-					theme: data.theme,
 				})
 				.onConflictDoUpdate({
 					target: profile.userId,
 					set: {
 						dateOfBirth: data.dateOfBirth || null,
-						timezone: data.timezone,
-						theme: data.theme,
 						updatedAt: new Date(),
 					},
 				});

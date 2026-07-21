@@ -1,0 +1,1 @@
+ALTER TABLE "bpdiary_staging"."bpdiary_profile" DROP COLUMN "theme";

@@ -105,11 +105,12 @@ function HistoryPage() {
 					</p>
 				</div>
 				<div className="flex gap-3">
-					<Button type="button" onClick={exportCsv} variant="outline">
+					<Button type="button" size="lg" onClick={exportCsv} variant="outline">
 						<Download className="size-4" /> Export CSV
 					</Button>
 					<Button
 						type="button"
+						size="lg"
 						onClick={() => {
 							setEditing(null);
 							setDialogOpen(true);
@@ -216,6 +217,7 @@ function HistoryPage() {
 								<Button
 									type="button"
 									variant="link"
+									size="lg"
 									className="px-0"
 									onClick={() => setSelectedDay(null)}
 								>

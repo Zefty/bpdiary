@@ -1,6 +1,6 @@
 import type { QueryClient } from "@tanstack/react-query";
 import { createIsomorphicFn } from "@tanstack/react-start";
-import { getRequestHeaders } from "@tanstack/react-start/server";
+import { getRequestHeaders } from "@tanstack/start-server-core/request-response";
 import { authClient } from "@/client/lib/authClient";
 import { auth } from "@/server/auth";
 

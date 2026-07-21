@@ -54,11 +54,6 @@ export const profile = createTable("profile", {
 		.primaryKey()
 		.references(() => user.id, { onDelete: "cascade" }),
 	dateOfBirth: text("date_of_birth"),
-	timezone: text("timezone").default("UTC").notNull(),
-	theme: text("theme")
-		.$type<"light" | "dark" | "system">()
-		.default("system")
-		.notNull(),
 	updatedAt: timestamp("updated_at", { withTimezone: true })
 		.defaultNow()
 		.$onUpdate(() => new Date())

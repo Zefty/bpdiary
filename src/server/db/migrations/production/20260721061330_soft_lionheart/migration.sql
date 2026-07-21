@@ -1,0 +1,1 @@
+ALTER TABLE "bpdiary_production"."bpdiary_profile" DROP COLUMN "timezone";

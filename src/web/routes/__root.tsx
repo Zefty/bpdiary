@@ -3,17 +3,24 @@ import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
 import {
 	createRootRouteWithContext,
 	HeadContent,
+	Outlet,
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TooltipProvider } from "@/client/components/shadcn/tooltip";
+import { ThemeProvider } from "@/client/contexts/ThemeContext";
 import { getAuthSession } from "@/core/lib/getAuthSession";
+import { getTheme } from "@/server/theme/theme";
 import type { RouterContext } from "../router";
 import appCss from "./styles.css?url";
 
 export const Route = createRootRouteWithContext<RouterContext>()({
 	beforeLoad: async ({ context }) => {
-		return await getAuthSession(context.queryClient);
+		const [authSession, theme] = await Promise.all([
+			getAuthSession(context.queryClient),
+			getTheme(),
+		]);
+		return { ...authSession, theme };
 	},
 	head: () => ({
 		meta: [
@@ -49,17 +56,22 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 			},
 		],
 	}),
-	shellComponent: RootDocument,
+	component: RootDocument,
 });
 
-function RootDocument({ children }: { children: React.ReactNode }) {
+function RootDocument() {
+	const { theme } = Route.useRouteContext();
 	return (
-		<html lang="en">
+		<html lang="en" className={theme}>
 			<head>
 				<HeadContent />
 			</head>
 			<body>
-				<TooltipProvider delay={300}>{children}</TooltipProvider>
+				<ThemeProvider theme={theme}>
+					<TooltipProvider delay={300}>
+						<Outlet />
+					</TooltipProvider>
+				</ThemeProvider>
 				{import.meta.env.DEV && (
 					<TanStackDevtools
 						config={{
