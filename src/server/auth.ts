@@ -8,7 +8,8 @@ import * as schema from "./db/schema/index";
 
 export const auth = betterAuth({
 	baseURL: {
-		allowedHosts: [getBaseUrl(), "*.vercel.app"],
+		allowedHosts: [getBaseUrl(), "172.16.11.219:3000", "*.vercel.app"],
+		protocol: "auto",
 	},
 	plugins: [tanstackStartCookies()],
 	database: drizzleAdapter(db, {

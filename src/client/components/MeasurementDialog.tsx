@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LoaderCircle, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { MeasurementPhotoCapture } from "@/client/components/MeasurementPhotoCapture";
 import { Button } from "@/client/components/shadcn/button";
 import {
 	Dialog,
@@ -17,6 +19,7 @@ import {
 import { Input } from "@/client/components/shadcn/input";
 import { ScrollArea } from "@/client/components/shadcn/scroll-area";
 import { Textarea } from "@/client/components/shadcn/textarea";
+import type { ExtractedReading } from "@/core/measurements/extractedReading";
 import type { MeasurementRecord } from "@/server/db/schema";
 import { saveMeasurement } from "@/server/measurements/measurements";
 
@@ -37,6 +40,47 @@ export function MeasurementDialog({
 	measurement,
 }: MeasurementDialogProps) {
 	const queryClient = useQueryClient();
+	const [reading, setReading] = useState({
+		systolic: "120",
+		diastolic: "80",
+		pulse: "",
+	});
+	const [scanWarnings, setScanWarnings] = useState<string[]>([]);
+	const dirtyFields = useRef(new Set<keyof typeof reading>());
+
+	useEffect(() => {
+		if (!open) return;
+		setReading({
+			systolic: String(measurement?.systolic ?? 120),
+			diastolic: String(measurement?.diastolic ?? 80),
+			pulse: measurement?.pulse ? String(measurement.pulse) : "",
+		});
+		setScanWarnings([]);
+		dirtyFields.current.clear();
+	}, [open, measurement]);
+
+	const updateReading = (field: keyof typeof reading, value: string) => {
+		dirtyFields.current.add(field);
+		setReading((current) => ({ ...current, [field]: value }));
+	};
+
+	const applyExtractedReading = (extracted: ExtractedReading) => {
+		setReading((current) => ({
+			systolic:
+				extracted.systolic !== null && !dirtyFields.current.has("systolic")
+					? String(extracted.systolic)
+					: current.systolic,
+			diastolic:
+				extracted.diastolic !== null && !dirtyFields.current.has("diastolic")
+					? String(extracted.diastolic)
+					: current.diastolic,
+			pulse:
+				extracted.pulse !== null && !dirtyFields.current.has("pulse")
+					? String(extracted.pulse)
+					: current.pulse,
+		}));
+		setScanWarnings(extracted.warnings);
+	};
 	const mutation = useMutation({
 		mutationFn: saveMeasurement,
 		onSuccess: async () => {
@@ -63,7 +107,7 @@ export function MeasurementDialog({
 	return (
 		<Dialog open={open} onOpenChange={(nextOpen) => !nextOpen && onClose()}>
 			<DialogContent
-				className="flex h-[min(94dvh,42rem)] flex-col overflow-hidden rounded-[2rem] p-6 sm:max-w-xl sm:p-8"
+				className="flex h-[min(94dvh,42rem)] flex-col overflow-hidden p-6 sm:max-w-xl sm:p-8"
 				showCloseButton={false}
 			>
 				<DialogHeader className="relative pr-12 text-left">
@@ -89,23 +133,28 @@ export function MeasurementDialog({
 				</DialogHeader>
 				<form
 					key={measurement?.id ?? "new"}
-					className="mt-3 flex min-h-0 flex-1 flex-col overflow-hidden"
+					className="flex min-h-0 flex-1 flex-col overflow-hidden"
 					onSubmit={handleSubmit}
 				>
 					<ScrollArea className="h-full min-h-0 flex-1">
-						<div className="space-y-5 py-4 pr-4 pl-1">
+						<div className="space-y-5 py-4 pr-4">
+							{!measurement && (
+								<MeasurementPhotoCapture onExtracted={applyExtractedReading} />
+							)}
 							<Field>
 								<FieldLabel htmlFor="measuredAt">Measured at</FieldLabel>
-								<Input
-									id="measuredAt"
-									name="measuredAt"
-									type="datetime-local"
-									className="h-11 rounded-2xl"
-									required
-									defaultValue={toLocalInputValue(
-										measurement?.measuredAt ?? new Date(),
-									)}
-								/>
+								<div className="min-w-0 max-w-full overflow-hidden rounded-2xl">
+									<Input
+										id="measuredAt"
+										name="measuredAt"
+										type="datetime-local"
+										className="h-11 max-w-full rounded-2xl focus-visible:ring-inset"
+										required
+										defaultValue={toLocalInputValue(
+											measurement?.measuredAt ?? new Date(),
+										)}
+									/>
+								</div>
 							</Field>
 							<div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
 								<Field>
@@ -118,8 +167,11 @@ export function MeasurementDialog({
 											min="50"
 											max="300"
 											required
-											className="h-11 rounded-2xl pr-14"
-											defaultValue={measurement?.systolic ?? 120}
+											className="h-11 rounded-2xl pr-14 focus-visible:ring-inset"
+											value={reading.systolic}
+											onChange={(event) =>
+												updateReading("systolic", event.target.value)
+											}
 										/>
 										<small>mmHg</small>
 									</div>
@@ -134,8 +186,11 @@ export function MeasurementDialog({
 											min="30"
 											max="200"
 											required
-											className="h-11 rounded-2xl pr-14"
-											defaultValue={measurement?.diastolic ?? 80}
+											className="h-11 rounded-2xl pr-14 focus-visible:ring-inset"
+											value={reading.diastolic}
+											onChange={(event) =>
+												updateReading("diastolic", event.target.value)
+											}
 										/>
 										<small>mmHg</small>
 									</div>
@@ -151,8 +206,11 @@ export function MeasurementDialog({
 											type="number"
 											min="20"
 											max="250"
-											className="h-11 rounded-2xl pr-14"
-											defaultValue={measurement?.pulse ?? ""}
+											className="h-11 rounded-2xl pr-14 focus-visible:ring-inset"
+											value={reading.pulse}
+											onChange={(event) =>
+												updateReading("pulse", event.target.value)
+											}
 										/>
 										<small>bpm</small>
 									</div>
@@ -167,11 +225,24 @@ export function MeasurementDialog({
 									name="notes"
 									rows={3}
 									maxLength={500}
-									className="rounded-2xl"
+									className="rounded-2xl focus-visible:ring-inset"
 									placeholder="After waking, before medication…"
 									defaultValue={measurement?.notes ?? ""}
 								/>
 							</Field>
+							{scanWarnings.length > 0 && (
+								<div
+									role="status"
+									className="rounded-2xl bg-amber-500/10 px-4 py-3 text-sm text-amber-900 dark:text-amber-200"
+								>
+									<p className="font-medium">Check the scanned reading</p>
+									<ul className="mt-1 list-disc pl-5">
+										{scanWarnings.map((warning) => (
+											<li key={warning}>{warning}</li>
+										))}
+									</ul>
+								</div>
+							)}
 							<FieldError className="rounded-2xl bg-destructive/10 px-4 py-3">
 								{mutation.error?.message}
 							</FieldError>
