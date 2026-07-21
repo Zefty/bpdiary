@@ -1,0 +1,15 @@
+{
+  "short_name": "BP Diary",
+  "name": "BP Diary — Blood Pressure Tracking",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "48x48",
+      "type": "image/svg+xml"
+    }
+  ],
+  "start_url": "/diary",
+  "display": "standalone",
+  "theme_color": "#d9575c",
+  "background_color": "#faf8f4"
+}
