@@ -171,9 +171,7 @@ export async function extractReadingFromMonitorPhoto(
 		);
 		if (pulsePrediction) {
 			appendPredictionWarnings(warnings, "Pulse", pulsePrediction, pulse);
-			warnings.push(
-				"Pulse recognition is experimental because the published model was trained on blood-pressure rows. Check it carefully.",
-			);
+			warnings.push("Pulse recognition is experimental. Check it carefully.");
 		} else {
 			warnings.push(
 				"This monitor keeps pulse outside the detected BP display. Enter it manually if needed.",
