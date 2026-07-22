@@ -1,5 +1,20 @@
 # Blood Pressure Monitor Image Recognition Plan
 
+## Implementation Update
+
+The web implementation now uses the pretrained BPimageTranscribe model from
+Kulkarni et al. entirely in the browser. The original Keras H5 weights are
+converted to TensorFlow.js Layers format and shipped under
+`public/models/bp-reader/`. Image preprocessing and model inference live in
+`src/client/vision/`; selected photos are not uploaded.
+
+The published model was trained on systolic and diastolic rows. For monitors
+with one tall combined LCD, the app also isolates pulse and reuses the digit
+model experimentally with a lower confidence threshold and an explicit review
+warning.
+Pulse remains manual. The existing server provider and scan endpoint are kept
+as an unused extension point, rather than being part of the active photo flow.
+
 ## Objective
 
 Allow a signed-in user to take or select a photo of a blood pressure monitor, extract the systolic, diastolic, and pulse values, and review those values in the existing measurement form before saving.
@@ -10,9 +25,9 @@ Image recognition is an assisted data-entry feature. An extracted reading must n
 
 - Implement the first version in the responsive web application.
 - Use the device's rear camera when the browser supports it and retain ordinary image selection as a fallback.
-- Begin with a hosted vision provider capable of returning structured data.
-- Keep the provider behind an application interface so it can be replaced later.
-- Process images transiently and do not persist them in the first version.
+- Run the open-source BPimageTranscribe model locally with TensorFlow.js.
+- Keep browser vision code behind a client adapter so the model can be replaced.
+- Process images transiently on-device and never upload or persist them.
 - Reuse the existing measurement form, validation, and save path.
 - Consider a native mobile client later if on-device recognition, offline use, HealthKit or Health Connect, Bluetooth monitors, or more reliable notifications justify it.
 
@@ -31,8 +46,8 @@ Image recognition is an assisted data-entry feature. An extracted reading must n
    ```
 
 4. The application shows a photo preview and allows the user to retake or replace it.
-5. The client corrects image orientation, resizes the image, and uploads it to an authenticated endpoint.
-6. The vision provider returns candidate values and confidence information.
+5. The client corrects image orientation and reproduces the paper's image preprocessing pipeline.
+6. The local TensorFlow.js model returns candidate values and confidence information.
 7. The application prefills the existing measurement form.
 8. Fields with uncertain or invalid results are highlighted.
 9. The user compares the values with the photo, corrects them if necessary, and explicitly submits the existing form.
@@ -45,6 +60,9 @@ src/
 |   `-- extractedReading.ts
 |-- client/components/
 |   `-- MeasurementPhotoCapture.tsx
+|-- client/vision/
+|   |-- bpImagePreprocessing.ts
+|   `-- bpMonitorReader.ts
 |-- server/measurements/
 |   `-- extractMeasurement.ts
 |-- server/vision/
@@ -81,9 +99,13 @@ interface ExtractedReading {
 }
 ```
 
-### Server application use case
+### Legacy server extension point
 
-Add `src/server/measurements/extractMeasurement.ts` to:
+`src/server/measurements/extractMeasurement.ts` and the scan API remain as
+provider-neutral extension points, but the active browser flow does not call
+them or transmit image bytes.
+
+They can still:
 
 - Accept a validated image from the delivery adapter.
 - Call the configured monitor-reading provider.
@@ -92,24 +114,24 @@ Add `src/server/measurements/extractMeasurement.ts` to:
 - Run domain plausibility checks.
 - Return candidates and warnings without saving a measurement.
 
-### Vision provider adapter
+### Browser vision adapter
 
-Add the provider contract and initial hosted implementation under `src/server/vision`.
+The active implementation under `src/client/vision`:
 
-The provider request should instruct the model to:
+- Normalizes the selected photo to the paper's 480 by 640 working size.
+- Reproduces grayscale, bilateral filtering, gamma adjustment, adaptive
+  thresholding, erosion/inversion, LCD localization, and row extraction.
+- Loads the converted model lazily with TensorFlow.js.
+- Reads systolic and diastolic, and experimentally reads pulse from either a
+  tall combined LCD or a separate wide pulse display below the main BP screen.
+- Returns `null` rather than using a low-confidence or malformed prediction.
+- Maps the result back into the provider-neutral core schema.
 
-- Read only the currently displayed measurement.
-- Identify values by their labels or spatial relationship, not only by text order.
-- Return `null` rather than guessing a missing or unreadable digit.
-- Distinguish SYS, DIA, and PULSE.
-- Ignore dates, times, memory indexes, averages, and previous readings.
-- Return data conforming to a strict structured schema.
+### Optional web delivery adapter
 
-Provider credentials must remain server-side. Provider-specific response types must not escape the adapter.
-
-### Web delivery adapter
-
-Add a thin authenticated multipart endpoint at `src/web/routes/api/measurement-scan.ts`.
+The existing authenticated multipart endpoint at
+`src/web/routes/api/measurement-scan.ts` is not called by the local reader. It
+is retained only as an extension point for a future server-side provider.
 
 It should:
 
@@ -156,7 +178,7 @@ Perform safe client-side preparation where browser support permits:
 - Avoid repeatedly recompressing the image.
 - Show framing guidance so the monitor display fills most of the photo.
 
-Server-side safeguards:
+Safeguards for the optional server endpoint:
 
 - Limit encoded upload size.
 - Limit decoded dimensions and total pixels.
@@ -183,12 +205,12 @@ The existing `measurementInputSchema` remains the final validation boundary when
 
 Monitor photos and extracted readings are health-related data. The first version should minimize collection:
 
-- Do not store the uploaded image.
+- Do not store, upload, log, or analyze the selected image outside the local
+  browser reader.
 - Do not put image data in application logs, analytics, or error reports.
 - Do not log extracted values unless an explicitly approved operational need exists.
 - Authenticate and rate-limit the scan endpoint.
-- Keep provider credentials on the server.
-- Review the provider's data retention and training settings before production use.
+- Keep the local model assets versioned and document their source and license.
 - Document the image-processing behavior in the privacy policy before release.
 - Return generic client errors and keep provider internals out of responses.
 
@@ -255,25 +277,25 @@ Do not use real user photos for continuing evaluation without explicit consent a
 
 ## Delivery Phases
 
-### Phase 1: Technical spike
+### Phase 1: Technical spike (completed)
 
-- Select one hosted vision provider.
+- Evaluate and select the published BPimageTranscribe model.
 - Create the provider-neutral extraction schema.
 - Test a small, representative set of monitor photos outside the UI.
 - Confirm that structured output reliably distinguishes SYS, DIA, and PULSE.
 - Establish initial size, timeout, and confidence policies.
 
-Exit criterion: the provider demonstrates sufficient accuracy to justify product integration and fails safely on unreadable images.
+Exit criterion: the model demonstrates sufficient accuracy to justify product integration and fails safely on unreadable images.
 
 ### Phase 2: Web MVP
 
 - Implement the core extraction types and rules.
-- Implement the server use case and provider adapter.
-- Add the authenticated multipart endpoint.
+- Convert and bundle the published Keras model for TensorFlow.js.
+- Implement the local browser preprocessing and inference adapter.
 - Add camera/photo selection and preview.
 - Prefill the existing measurement dialog with mandatory review.
 - Add unit, integration, and client tests.
-- Confirm that uploaded images are not persisted or logged.
+- Confirm that selected images remain in the browser and are not persisted or logged.
 
 Exit criterion: a user can scan, review, correct, and save a reading on mobile web, with manual entry always available.
 
@@ -303,14 +325,14 @@ Keep domain rules and server use cases reusable. A native client should replace 
 ## Definition of Done for the Web MVP
 
 - A signed-in user can take or select a monitor photo on mobile web.
-- Invalid and oversized uploads are rejected safely.
-- The server returns a provider-neutral structured result.
+- Invalid and oversized selections are rejected safely.
+- The browser adapter returns a provider-neutral structured result.
 - Candidate values appear in the existing measurement form.
 - Missing or uncertain values require user attention.
 - The user can edit every extracted value.
 - No OCR result is automatically saved.
 - Saving uses the existing measurement schema and server use case.
-- Image bytes are discarded after processing.
+- Image bytes remain transient and are discarded after processing.
 - Automated tests cover domain parsing, endpoint boundaries, and client prefilling.
 - The flow is manually verified on iOS Safari, Android Chrome, and desktop.
-- Provider retention and privacy behavior are documented before production release.
+- Local model licensing and image privacy behavior are documented before production release.

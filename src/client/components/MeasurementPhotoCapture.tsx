@@ -1,16 +1,19 @@
 import { useMutation } from "@tanstack/react-query";
 import {
+	Bug,
 	Camera,
+	CheckCircle2,
 	ImagePlus,
 	LoaderCircle,
 	RotateCcw,
 	ScanLine,
+	ShieldCheck,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import {
-	type ExtractedReading,
-	extractedReadingSchema,
-} from "@/core/measurements/extractedReading";
+import { MeasurementPhotoDebug } from "@/client/components/MeasurementPhotoDebug";
+import { debugPreprocessMonitorImage } from "@/client/vision/bpImagePreprocessing";
+import { extractReadingFromMonitorPhoto } from "@/client/vision/bpMonitorReader";
+import type { ExtractedReading } from "@/core/measurements/extractedReading";
 import { Button } from "./shadcn/button";
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
@@ -21,31 +24,7 @@ interface MeasurementPhotoCaptureProps {
 }
 
 async function scanMonitorImage(image: File) {
-	const formData = new FormData();
-	formData.set("image", image);
-
-	const response = await fetch("/api/measurement-scan", {
-		method: "POST",
-		body: formData,
-	});
-	const body: unknown = await response.json().catch(() => null);
-
-	if (!response.ok) {
-		const message =
-			typeof body === "object" &&
-			body !== null &&
-			"message" in body &&
-			typeof body.message === "string"
-				? body.message
-				: "The monitor image could not be processed.";
-		throw new Error(message);
-	}
-
-	if (typeof body !== "object" || body === null || !("data" in body)) {
-		throw new Error("The scan returned an invalid response.");
-	}
-
-	return extractedReadingSchema.parse(body.data);
+	return extractReadingFromMonitorPhoto(image);
 }
 
 export function MeasurementPhotoCapture({
@@ -58,6 +37,9 @@ export function MeasurementPhotoCapture({
 	const mutation = useMutation({
 		mutationFn: scanMonitorImage,
 		onSuccess: onExtracted,
+	});
+	const debugMutation = useMutation({
+		mutationFn: debugPreprocessMonitorImage,
 	});
 
 	useEffect(() => {
@@ -73,6 +55,7 @@ export function MeasurementPhotoCapture({
 
 	const chooseImage = (selected: File | undefined) => {
 		mutation.reset();
+		debugMutation.reset();
 		setSelectionError(null);
 
 		if (!selected) return;
@@ -90,6 +73,7 @@ export function MeasurementPhotoCapture({
 
 	const clearImage = () => {
 		mutation.reset();
+		debugMutation.reset();
 		setSelectionError(null);
 		setImage(null);
 		if (inputRef.current) inputRef.current.value = "";
@@ -112,10 +96,14 @@ export function MeasurementPhotoCapture({
 				<p className="mt-1 text-xs text-muted-foreground">
 					Fill the photo with the screen and make every number easy to read.
 				</p>
+				<p className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-emerald-700 dark:text-emerald-300">
+					<ShieldCheck className="size-3.5" /> Processed privately on this
+					device
+				</p>
 			</div>
 
-			<div className="mx-auto max-w-sm rounded-[2rem] border border-border/80 bg-background p-3 shadow-[0_12px_30px_-22px_rgba(30,43,55,0.55)]">
-				<div className="flex aspect-[16/9] items-center justify-center overflow-hidden rounded-2xl border border-slate-950/20 bg-slate-900 shadow-inner dark:bg-slate-950">
+			<div className="mx-auto w-full max-w-40 rounded-4xl border border-border/80 bg-background p-3 shadow-[0_12px_30px_-22px_rgba(30,43,55,0.55)]">
+				<div className="flex aspect-3/4 items-center justify-center overflow-hidden rounded-2xl border border-slate-950/20 bg-slate-900 shadow-inner dark:bg-slate-950">
 					{image && previewUrl ? (
 						<img
 							src={previewUrl}
@@ -143,7 +131,9 @@ export function MeasurementPhotoCapture({
 				<div className="mt-3 space-y-3">
 					<div className="text-xs text-muted-foreground">
 						<p className="truncate">{image.name}</p>
-						<p className="mt-1">The complete photo will be scanned.</p>
+						<p className="mt-1">
+							The complete photo stays in your browser and is not uploaded.
+						</p>
 					</div>
 					<div className="flex flex-wrap gap-2">
 						<Button
@@ -180,7 +170,38 @@ export function MeasurementPhotoCapture({
 						>
 							Remove
 						</Button>
+						{import.meta.env.DEV && (
+							<Button
+								type="button"
+								variant="ghost"
+								size="sm"
+								className="rounded-xl"
+								disabled={mutation.isPending || debugMutation.isPending}
+								onClick={() => debugMutation.mutate(image)}
+							>
+								{debugMutation.isPending ? (
+									<LoaderCircle className="size-4 animate-spin" />
+								) : (
+									<Bug className="size-4" />
+								)}
+								{debugMutation.isPending ? "Debugging" : "Debug preprocessing"}
+							</Button>
+						)}
 					</div>
+					{mutation.isSuccess && (
+						<p className="flex items-center gap-1.5 text-sm font-medium text-emerald-700 dark:text-emerald-300">
+							<CheckCircle2 className="size-4" /> Values detected—compare them
+							with the photo above.
+						</p>
+					)}
+					{import.meta.env.DEV && debugMutation.error && (
+						<p role="alert" className="text-sm text-destructive">
+							Debug preprocessing failed: {debugMutation.error.message}
+						</p>
+					)}
+					{import.meta.env.DEV && debugMutation.data && (
+						<MeasurementPhotoDebug result={debugMutation.data} />
+					)}
 				</div>
 			) : (
 				<div className="mt-3 flex justify-center">
@@ -198,8 +219,8 @@ export function MeasurementPhotoCapture({
 
 			{(selectionError || mutation.error) && (
 				<p role="alert" className="mt-3 text-sm text-destructive">
-					{selectionError ?? mutation.error?.message} You can still enter the
-					reading manually.
+					{selectionError ?? mutation.error?.message}
+					{selectionError ? " You can still enter the reading manually." : ""}
 				</p>
 			)}
 		</section>
