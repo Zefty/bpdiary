@@ -25,6 +25,7 @@ export const auth = betterAuth({
 					google: {
 						clientId: serverEnv.GOOGLE_CLIENT_ID,
 						clientSecret: serverEnv.GOOGLE_CLIENT_SECRET,
+						accessType: "offline" as const,
 					},
 				}
 			: {}),
@@ -37,8 +38,8 @@ export const auth = betterAuth({
 		},
 	},
 	account: {
+		encryptOAuthTokens: true,
 		storeStateStrategy: "cookie",
-		storeAccountCookie: true, // Store account data after OAuth flow in a cookie (useful for database-less flows)
 		accountLinking: {
 			enabled: true,
 			requireLocalEmailVerified: false,

@@ -1,19 +1,31 @@
 import { createServerFn } from "@tanstack/react-start";
-import { and, asc, eq } from "drizzle-orm";
+import { and, asc, eq, getTableColumns } from "drizzle-orm";
 import {
 	reminderIdSchema,
 	reminderInputSchema,
 } from "@/core/reminders/reminder";
+import {
+	deleteReminderFromGoogleCalendar,
+	syncReminderToGoogleCalendar,
+} from "@/server/calendar/calendarSync";
 import { db } from "@/server/db";
-import { reminder } from "@/server/db/schema";
+import { reminder, reminderCalendarEvent } from "@/server/db/schema";
 import { authMiddleware } from "@/server/middlewares/auth";
 
 export const listReminders = createServerFn({ method: "GET" })
 	.middleware([authMiddleware])
 	.handler(async ({ context }) =>
 		db
-			.select()
+			.select({
+				...getTableColumns(reminder),
+				calendarSyncStatus: reminderCalendarEvent.syncStatus,
+				calendarSyncError: reminderCalendarEvent.lastError,
+			})
 			.from(reminder)
+			.leftJoin(
+				reminderCalendarEvent,
+				eq(reminderCalendarEvent.reminderId, reminder.id),
+			)
 			.where(eq(reminder.userId, context.user.id))
 			.orderBy(asc(reminder.time)),
 	);
@@ -37,6 +49,11 @@ export const saveReminder = createServerFn({ method: "POST" })
 				)
 				.returning();
 			if (!updated) throw new Error("Reminder not found");
+			await syncReminderToGoogleCalendar(
+				context.user.id,
+				updated,
+				context.requestHeaders,
+			);
 			return updated;
 		}
 
@@ -50,6 +67,11 @@ export const saveReminder = createServerFn({ method: "POST" })
 				active: data.active ? 1 : 0,
 			})
 			.returning();
+		await syncReminderToGoogleCalendar(
+			context.user.id,
+			created,
+			context.requestHeaders,
+		);
 		return created;
 	});
 
@@ -57,6 +79,20 @@ export const deleteReminder = createServerFn({ method: "POST" })
 	.validator(reminderIdSchema.parse)
 	.middleware([authMiddleware])
 	.handler(async ({ data, context }) => {
+		const [existing] = await db
+			.select({ id: reminder.id })
+			.from(reminder)
+			.where(
+				and(eq(reminder.id, data.id), eq(reminder.userId, context.user.id)),
+			)
+			.limit(1);
+		if (!existing) throw new Error("Reminder not found");
+
+		await deleteReminderFromGoogleCalendar(
+			context.user.id,
+			data.id,
+			context.requestHeaders,
+		);
 		const [deleted] = await db
 			.delete(reminder)
 			.where(

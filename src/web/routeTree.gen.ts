@@ -16,6 +16,7 @@ import { Route as appAuthedRouteRouteImport } from './routes/(app)/_authed/route
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
 import { Route as appAuthedDiaryRouteRouteImport } from './routes/(app)/_authed/diary/route'
 import { Route as appAuthedDiaryIndexRouteImport } from './routes/(app)/_authed/diary/index'
+import { Route as ApiCalendarGoogleCompleteRouteImport } from './routes/api/calendar/google/complete'
 import { Route as appAuthedDiarySettingsRouteImport } from './routes/(app)/_authed/diary/settings'
 import { Route as appAuthedDiaryRemindersRouteImport } from './routes/(app)/_authed/diary/reminders'
 import { Route as appAuthedDiaryCalendarRouteImport } from './routes/(app)/_authed/diary/calendar'
@@ -58,6 +59,12 @@ const appAuthedDiaryIndexRoute = appAuthedDiaryIndexRouteImport.update({
   path: '/',
   getParentRoute: () => appAuthedDiaryRouteRoute,
 } as any)
+const ApiCalendarGoogleCompleteRoute =
+  ApiCalendarGoogleCompleteRouteImport.update({
+    id: '/api/calendar/google/complete',
+    path: '/api/calendar/google/complete',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const appAuthedDiarySettingsRoute = appAuthedDiarySettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -107,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/diary/calendar': typeof appAuthedDiaryCalendarRoute
   '/diary/reminders': typeof appAuthedDiaryRemindersRoute
   '/diary/settings': typeof appAuthedDiarySettingsRouteWithChildren
+  '/api/calendar/google/complete': typeof ApiCalendarGoogleCompleteRoute
   '/diary/': typeof appAuthedDiaryIndexRoute
   '/diary/settings/about': typeof appAuthedDiarySettingsAboutRoute
   '/diary/settings/appearance': typeof appAuthedDiarySettingsAppearanceRoute
@@ -121,6 +129,7 @@ export interface FileRoutesByTo {
   '/diary/calendar': typeof appAuthedDiaryCalendarRoute
   '/diary/reminders': typeof appAuthedDiaryRemindersRoute
   '/diary/settings': typeof appAuthedDiarySettingsRouteWithChildren
+  '/api/calendar/google/complete': typeof ApiCalendarGoogleCompleteRoute
   '/diary': typeof appAuthedDiaryIndexRoute
   '/diary/settings/about': typeof appAuthedDiarySettingsAboutRoute
   '/diary/settings/appearance': typeof appAuthedDiarySettingsAppearanceRoute
@@ -138,6 +147,7 @@ export interface FileRoutesById {
   '/(app)/_authed/diary/calendar': typeof appAuthedDiaryCalendarRoute
   '/(app)/_authed/diary/reminders': typeof appAuthedDiaryRemindersRoute
   '/(app)/_authed/diary/settings': typeof appAuthedDiarySettingsRouteWithChildren
+  '/api/calendar/google/complete': typeof ApiCalendarGoogleCompleteRoute
   '/(app)/_authed/diary/': typeof appAuthedDiaryIndexRoute
   '/(app)/_authed/diary/settings/about': typeof appAuthedDiarySettingsAboutRoute
   '/(app)/_authed/diary/settings/appearance': typeof appAuthedDiarySettingsAppearanceRoute
@@ -155,6 +165,7 @@ export interface FileRouteTypes {
     | '/diary/calendar'
     | '/diary/reminders'
     | '/diary/settings'
+    | '/api/calendar/google/complete'
     | '/diary/'
     | '/diary/settings/about'
     | '/diary/settings/appearance'
@@ -169,6 +180,7 @@ export interface FileRouteTypes {
     | '/diary/calendar'
     | '/diary/reminders'
     | '/diary/settings'
+    | '/api/calendar/google/complete'
     | '/diary'
     | '/diary/settings/about'
     | '/diary/settings/appearance'
@@ -185,6 +197,7 @@ export interface FileRouteTypes {
     | '/(app)/_authed/diary/calendar'
     | '/(app)/_authed/diary/reminders'
     | '/(app)/_authed/diary/settings'
+    | '/api/calendar/google/complete'
     | '/(app)/_authed/diary/'
     | '/(app)/_authed/diary/settings/about'
     | '/(app)/_authed/diary/settings/appearance'
@@ -198,6 +211,7 @@ export interface RootRouteChildren {
   appLoginRoute: typeof appLoginRoute
   ApiMeasurementScanRoute: typeof ApiMeasurementScanRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiCalendarGoogleCompleteRoute: typeof ApiCalendarGoogleCompleteRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -250,6 +264,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/diary/'
       preLoaderRoute: typeof appAuthedDiaryIndexRouteImport
       parentRoute: typeof appAuthedDiaryRouteRoute
+    }
+    '/api/calendar/google/complete': {
+      id: '/api/calendar/google/complete'
+      path: '/api/calendar/google/complete'
+      fullPath: '/api/calendar/google/complete'
+      preLoaderRoute: typeof ApiCalendarGoogleCompleteRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/(app)/_authed/diary/settings': {
       id: '/(app)/_authed/diary/settings'
@@ -360,6 +381,7 @@ const rootRouteChildren: RootRouteChildren = {
   appLoginRoute: appLoginRoute,
   ApiMeasurementScanRoute: ApiMeasurementScanRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiCalendarGoogleCompleteRoute: ApiCalendarGoogleCompleteRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
