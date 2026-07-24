@@ -7,12 +7,18 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
-import type { MeasurementRecord } from "@/server/db/schema";
+
+type ChartMeasurement = {
+	measuredAt: Date;
+	systolic: number;
+	diastolic: number;
+	pulse: number | null;
+};
 
 export function MeasurementChart({
 	measurements,
 }: {
-	measurements: MeasurementRecord[];
+	measurements: ChartMeasurement[];
 }) {
 	const data = [...measurements.slice(0, 30)].reverse().map((entry) => ({
 		date: new Intl.DateTimeFormat("en-AU", {

@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SharedTokenRouteImport } from './routes/shared/$token'
 import { Route as ApiMeasurementScanRouteImport } from './routes/api/measurement-scan'
 import { Route as appLoginRouteImport } from './routes/(app)/login'
 import { Route as appAuthedRouteRouteImport } from './routes/(app)/_authed/route'
@@ -28,6 +29,11 @@ import { Route as appAuthedDiarySettingsAboutRouteImport } from './routes/(app)/
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SharedTokenRoute = SharedTokenRouteImport.update({
+  id: '/shared/$token',
+  path: '/shared/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiMeasurementScanRoute = ApiMeasurementScanRouteImport.update({
@@ -109,6 +115,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof appLoginRoute
   '/api/measurement-scan': typeof ApiMeasurementScanRoute
+  '/shared/$token': typeof SharedTokenRoute
   '/diary': typeof appAuthedDiaryRouteRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/diary/calendar': typeof appAuthedDiaryCalendarRoute
@@ -125,6 +132,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof appLoginRoute
   '/api/measurement-scan': typeof ApiMeasurementScanRoute
+  '/shared/$token': typeof SharedTokenRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/diary/calendar': typeof appAuthedDiaryCalendarRoute
   '/diary/reminders': typeof appAuthedDiaryRemindersRoute
@@ -142,6 +150,7 @@ export interface FileRoutesById {
   '/(app)/_authed': typeof appAuthedRouteRouteWithChildren
   '/(app)/login': typeof appLoginRoute
   '/api/measurement-scan': typeof ApiMeasurementScanRoute
+  '/shared/$token': typeof SharedTokenRoute
   '/(app)/_authed/diary': typeof appAuthedDiaryRouteRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/(app)/_authed/diary/calendar': typeof appAuthedDiaryCalendarRoute
@@ -160,6 +169,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/api/measurement-scan'
+    | '/shared/$token'
     | '/diary'
     | '/api/auth/$'
     | '/diary/calendar'
@@ -176,6 +186,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/api/measurement-scan'
+    | '/shared/$token'
     | '/api/auth/$'
     | '/diary/calendar'
     | '/diary/reminders'
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '/(app)/_authed'
     | '/(app)/login'
     | '/api/measurement-scan'
+    | '/shared/$token'
     | '/(app)/_authed/diary'
     | '/api/auth/$'
     | '/(app)/_authed/diary/calendar'
@@ -210,6 +222,7 @@ export interface RootRouteChildren {
   appAuthedRouteRoute: typeof appAuthedRouteRouteWithChildren
   appLoginRoute: typeof appLoginRoute
   ApiMeasurementScanRoute: typeof ApiMeasurementScanRoute
+  SharedTokenRoute: typeof SharedTokenRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiCalendarGoogleCompleteRoute: typeof ApiCalendarGoogleCompleteRoute
 }
@@ -221,6 +234,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shared/$token': {
+      id: '/shared/$token'
+      path: '/shared/$token'
+      fullPath: '/shared/$token'
+      preLoaderRoute: typeof SharedTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/measurement-scan': {
@@ -380,6 +400,7 @@ const rootRouteChildren: RootRouteChildren = {
   appAuthedRouteRoute: appAuthedRouteRouteWithChildren,
   appLoginRoute: appLoginRoute,
   ApiMeasurementScanRoute: ApiMeasurementScanRoute,
+  SharedTokenRoute: SharedTokenRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiCalendarGoogleCompleteRoute: ApiCalendarGoogleCompleteRoute,
 }
