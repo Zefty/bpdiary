@@ -20,6 +20,7 @@ export const authMiddleware = createMiddleware().server(
 			context: {
 				session: authSession.session,
 				user: authSession.user,
+				requestHeaders: request.headers,
 			},
 		});
 	},
