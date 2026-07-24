@@ -3,6 +3,7 @@ import { getGoogleCalendarConnection } from "@/server/calendar/calendarConnectio
 import { listMeasurements } from "@/server/measurements/measurements";
 import { getProfile } from "@/server/profile/profile";
 import { listReminders } from "@/server/reminders/reminders";
+import { getActiveDiaryShare } from "@/server/sharing/diaryShares";
 
 export const diary = {
 	queries: {
@@ -25,6 +26,11 @@ export const diary = {
 			queryOptions({
 				queryKey: ["profile"],
 				queryFn: () => getProfile(),
+			}),
+		activeShare: () =>
+			queryOptions({
+				queryKey: ["diary-share"],
+				queryFn: () => getActiveDiaryShare(),
 			}),
 	},
 };

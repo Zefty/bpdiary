@@ -1,4 +1,5 @@
 import {
+	boolean,
 	index,
 	integer,
 	serial,
@@ -32,6 +33,27 @@ export const measurement = createTable(
 	},
 	(table) => [
 		index("measurement_user_measured_idx").on(table.userId, table.measuredAt),
+	],
+);
+
+export const diaryShare = createTable(
+	"diary_share",
+	{
+		id: serial("id").primaryKey(),
+		userId: text("user_id")
+			.notNull()
+			.references(() => user.id, { onDelete: "cascade" }),
+		tokenHash: text("token_hash").notNull(),
+		includeNotes: boolean("include_notes").default(false).notNull(),
+		expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+		revokedAt: timestamp("revoked_at", { withTimezone: true }),
+		createdAt: timestamp("created_at", { withTimezone: true })
+			.defaultNow()
+			.notNull(),
+	},
+	(table) => [
+		index("diary_share_user_idx").on(table.userId),
+		uniqueIndex("diary_share_token_hash_idx").on(table.tokenHash),
 	],
 );
 
@@ -130,6 +152,7 @@ export const profile = createTable("profile", {
 });
 
 export type MeasurementRecord = typeof measurement.$inferSelect;
+export type DiaryShareRecord = typeof diaryShare.$inferSelect;
 export type ReminderRecord = typeof reminder.$inferSelect;
 export type CalendarConnectionRecord = typeof calendarConnection.$inferSelect;
 export type ReminderCalendarEventRecord =

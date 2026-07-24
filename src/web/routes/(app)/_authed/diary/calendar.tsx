@@ -16,6 +16,7 @@ import { useMemo, useState } from "react";
 import { MeasurementDialog } from "@/client/components/MeasurementDialog";
 import { Button } from "@/client/components/shadcn/button";
 import { Card, CardContent } from "@/client/components/shadcn/card";
+import { ScrollArea } from "@/client/components/shadcn/scroll-area";
 import {
 	Tooltip,
 	TooltipContent,
@@ -200,8 +201,8 @@ function HistoryPage() {
 						</p>
 					</CardContent>
 				</Card>
-				<Card>
-					<CardContent className="p-5 sm:p-7">
+				<Card className="min-h-0 xl:[contain:size]">
+					<CardContent className="p-5 sm:p-7 xl:flex xl:min-h-0 xl:flex-1 xl:flex-col">
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="eyebrow">
@@ -225,86 +226,88 @@ function HistoryPage() {
 								</Button>
 							)}
 						</div>
-						<div className="mt-5 space-y-3">
-							{shownEntries.map((entry) => (
-								<Card key={entry.id} className="history-card">
-									<div className="min-w-0 w-full">
-										<time className="block pr-20 text-xs font-medium text-muted-foreground">
-											{new Intl.DateTimeFormat("en-AU", {
-												weekday: "short",
-												day: "numeric",
-												month: "short",
-												hour: "numeric",
-												minute: "2-digit",
-											}).format(new Date(entry.measuredAt))}
-										</time>
-										<p className="mt-2 text-xl font-semibold tabular-nums">
-											{entry.systolic}
-											<span className="text-muted-foreground">
-												{" "}
-												/ {entry.diastolic}
-											</span>{" "}
-											<small className="text-xs font-normal text-muted-foreground">
-												mmHg
-											</small>
-										</p>
-										<p className="mt-1 text-sm text-muted-foreground">
-											Pulse{" "}
-											{entry.pulse ? `${entry.pulse} bpm` : "not recorded"}
-										</p>
-										{entry.notes && (
-											<Tooltip>
-												<TooltipTrigger
-													render={
-														<button
-															type="button"
-															className="mt-1 block w-full truncate rounded-sm text-left text-sm text-muted-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-														/>
-													}
-												>
-													{entry.notes}
-												</TooltipTrigger>
-												<TooltipContent className="w-80 max-w-[calc(100vw-2rem)] whitespace-pre-wrap [overflow-wrap:anywhere]">
-													{entry.notes}
-												</TooltipContent>
-											</Tooltip>
-										)}
+						<ScrollArea className="mt-4 xl:min-h-0 xl:flex-1">
+							<div className="space-y-3 p-1 pr-4">
+								{shownEntries.map((entry) => (
+									<Card key={entry.id} className="history-card">
+										<div className="min-w-0 w-full">
+											<time className="block pr-20 text-xs font-medium text-muted-foreground">
+												{new Intl.DateTimeFormat("en-AU", {
+													weekday: "short",
+													day: "numeric",
+													month: "short",
+													hour: "numeric",
+													minute: "2-digit",
+												}).format(new Date(entry.measuredAt))}
+											</time>
+											<p className="mt-2 text-xl font-semibold tabular-nums">
+												{entry.systolic}
+												<span className="text-muted-foreground">
+													{" "}
+													/ {entry.diastolic}
+												</span>{" "}
+												<small className="text-xs font-normal text-muted-foreground">
+													mmHg
+												</small>
+											</p>
+											<p className="mt-1 text-sm text-muted-foreground">
+												Pulse{" "}
+												{entry.pulse ? `${entry.pulse} bpm` : "not recorded"}
+											</p>
+											{entry.notes && (
+												<Tooltip>
+													<TooltipTrigger
+														render={
+															<button
+																type="button"
+																className="mt-1 block w-full truncate rounded-sm text-left text-sm text-muted-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+															/>
+														}
+													>
+														{entry.notes}
+													</TooltipTrigger>
+													<TooltipContent className="w-80 max-w-[calc(100vw-2rem)] whitespace-pre-wrap [overflow-wrap:anywhere]">
+														{entry.notes}
+													</TooltipContent>
+												</Tooltip>
+											)}
+										</div>
+										<div className="absolute top-3 right-3 flex gap-1 sm:top-4 sm:right-4">
+											<Button
+												type="button"
+												variant="ghost"
+												size="icon"
+												aria-label="Edit measurement"
+												onClick={() => {
+													setEditing(entry);
+													setDialogOpen(true);
+												}}
+											>
+												<Pencil className="size-4" />
+											</Button>
+											<Button
+												type="button"
+												variant="ghost"
+												size="icon"
+												className="text-destructive"
+												aria-label="Delete measurement"
+												onClick={() =>
+													window.confirm("Delete this measurement?") &&
+													remove.mutate({ data: { id: entry.id } })
+												}
+											>
+												<Trash2 className="size-4" />
+											</Button>
+										</div>
+									</Card>
+								))}
+								{shownEntries.length === 0 && (
+									<div className="rounded-3xl border border-dashed border-border p-10 text-center text-sm text-muted-foreground">
+										No measurements for this period.
 									</div>
-									<div className="absolute top-3 right-3 flex gap-1 sm:top-4 sm:right-4">
-										<Button
-											type="button"
-											variant="ghost"
-											size="icon"
-											aria-label="Edit measurement"
-											onClick={() => {
-												setEditing(entry);
-												setDialogOpen(true);
-											}}
-										>
-											<Pencil className="size-4" />
-										</Button>
-										<Button
-											type="button"
-											variant="ghost"
-											size="icon"
-											className="text-destructive"
-											aria-label="Delete measurement"
-											onClick={() =>
-												window.confirm("Delete this measurement?") &&
-												remove.mutate({ data: { id: entry.id } })
-											}
-										>
-											<Trash2 className="size-4" />
-										</Button>
-									</div>
-								</Card>
-							))}
-							{shownEntries.length === 0 && (
-								<div className="rounded-3xl border border-dashed border-border p-10 text-center text-sm text-muted-foreground">
-									No measurements for this period.
-								</div>
-							)}
-						</div>
+								)}
+							</div>
+						</ScrollArea>
 					</CardContent>
 				</Card>
 			</div>
